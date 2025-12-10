@@ -25,7 +25,7 @@ class SplashScreen extends StatelessWidget {
           for (int i = 0; i < 4; i++)
             Positioned(
               right: (i * 100.0) - 80, // Position from right side
-              top: -230, // Start higher up
+              top: -340, // Start higher up
               child: Transform.rotate(
                 angle: -math.pi / 5, // Rotate 30 degrees
                 child: Column(
@@ -69,6 +69,21 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Positioned(
+            left: -200, // Adjust to position partially off-screen if needed
+            bottom: -60, // Adjust to position at the bottom
+            child: Transform.rotate(
+              angle: 55 * (math.pi / 180), // Convert 50 degrees to radians
+              child: Container(
+                width: 350,
+                height: 350,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF31373A), // Hex color #31373A
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
