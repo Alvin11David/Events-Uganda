@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -148,38 +149,155 @@ class SplashScreen extends StatelessWidget {
                   Positioned(
                     left: screenWidth * 0.42, // adjust as needed
                     top: screenHeight * 0.01, // adjust as needed
-                    child: Image.asset(
-                      'assets/vectors/diamondrings.png',
-                      width: screenWidth * 0.32,
-                      height: screenHeight * 0.16,
-                      fit: BoxFit.contain,
+                    child: Transform.rotate(
+                      angle: math.pi /0.1,
+                      child: Image.asset(
+                        'assets/vectors/diamondrings.png',
+                        width: screenWidth * 0.32,
+                        height: screenHeight * 0.16,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                   Positioned(
                     left: screenWidth * 0.72, // adjust as needed
                     top: screenHeight * 0.06, // adjust as needed
-                    child: Image.asset(
-                      'assets/vectors/diamondrings1.png',
-                      width: screenWidth * 0.36,
-                      height: screenHeight * 0.19,
-                      fit: BoxFit.contain,
+                    child: Transform.rotate(
+                      angle: math.pi / 0.7,
+                      child: Image.asset(
+                        'assets/vectors/diamondrings1.png',
+                        width: screenWidth * 0.36,
+                        height: screenHeight * 0.19,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                   Positioned(
-                    left: screenWidth * 0.98, // adjust as needed
-                    top: screenHeight * 0.09, // adjust as needed
-                    child: Image.asset(
-                      'assets/vectors/goldenring.png',
-                      width: screenWidth * 0.55,
-                      height: screenHeight * 0.25,
-                      fit: BoxFit.contain,
+                    left: screenWidth * 0.99, // adjust as needed
+                    top: screenHeight * 0.1, // adjust as needed
+                    child: Transform.rotate(
+                      angle: math.pi / 0.6,
+                      child: Image.asset(
+                        'assets/vectors/goldenring.png',
+                        width: screenWidth * 0.55,
+                        height: screenHeight * 0.25,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
           ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.04,
+              ),
+              child: BouncingDotsLoader(),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class BouncingDotsLoader extends StatefulWidget {
+  final Duration duration;
+  const BouncingDotsLoader({
+    Key? key,
+    this.duration = const Duration(seconds: 5),
+  }) : super(key: key);
+
+  @override
+  _BouncingDotsLoaderState createState() => _BouncingDotsLoaderState();
+}
+
+class _BouncingDotsLoaderState extends State<BouncingDotsLoader>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  static const int dotCount = 4;
+  late Timer _timer;
+  double _progress = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    )..repeat();
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+
+    _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
+      setState(() {
+        _progress += 50 / widget.duration.inMilliseconds;
+        if (_progress >= 1.0) {
+          _progress = 1.0;
+          _timer.cancel();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final baseDotSize = screenWidth * 0.04;
+    final spacing = screenWidth * 0.03;
+
+    // Animate color and size in the last 2 seconds
+    final isFinishing = _progress > 0.6;
+    final finishPercent = isFinishing ? (_progress - 0.6) / 0.4 : 0.0;
+
+    return SizedBox(
+      height: baseDotSize * 2 * (1 + finishPercent * 0.5),
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(dotCount, (i) {
+              final t = (_animation.value + i / dotCount) % 1.0;
+              final bounce = (1 - (t - 0.5).abs() * 2).clamp(0.0, 1.0);
+              final dotSize = baseDotSize * (1 + finishPercent * 0.5);
+              final color = isFinishing
+                  ? Color.lerp(Colors.white, Colors.green, finishPercent)!
+                  : Colors.white;
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: spacing / 2),
+                child: Transform.translate(
+                  offset: Offset(0, -bounce * dotSize * 1.2),
+                  child: Container(
+                    width: dotSize,
+                    height: dotSize,
+                    decoration: BoxDecoration(
+                      color: color,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: color.withOpacity(0.4),
+                          blurRadius: 8,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
+          );
+        },
       ),
     );
   }
