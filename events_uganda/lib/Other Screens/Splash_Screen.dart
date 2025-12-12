@@ -15,8 +15,8 @@ class DiagonalLogoText extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          left: screenWidth * 0.0,
-          top: screenHeight * 0.35,
+          left: screenWidth * 0.01,
+          top: screenHeight * 0.41,
           child: Transform.rotate(
             angle: 0.95,
             child: Row(
@@ -32,8 +32,8 @@ class DiagonalLogoText extends StatelessWidget {
                 Text(
                   'Events Uganda',
                   style: TextStyle(
-                    fontFamily: 'Abril Fatface',
-                    fontSize: screenWidth * 0.1,
+                    fontFamily: 'Poppins',
+                    fontSize: screenWidth * 0.12,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -50,12 +50,12 @@ class DiagonalLogoText extends StatelessWidget {
 class SplashScreen extends StatelessWidget {
   // List of attractive colors
   final List<Color> _colors = [
-    Colors.cyanAccent,
+    const Color.fromARGB(255, 18, 180, 180),
     Colors.purpleAccent,
     Colors.orangeAccent,
-    Colors.pinkAccent,
-    Colors.greenAccent,
-    Colors.blueAccent,
+    const Color.fromARGB(255, 208, 44, 98),
+    const Color.fromARGB(255, 36, 192, 116),
+    const Color.fromARGB(255, 28, 89, 194),
     Colors.yellowAccent,
     Colors.redAccent,
     Colors.tealAccent,
@@ -77,21 +77,20 @@ class SplashScreen extends StatelessWidget {
           for (int i = 0; i < 4; i++)
             Positioned(
               right: (i * 100.0) - 80, // Position from right side
-              top: -330, // Start higher up
+              top: -410, // Start higher up
               child: Transform.rotate(
                 angle: -math.pi / 5, // Rotate 30 degrees
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Create 6 squares per column
-                    for (int j = 0; j < 7; j++)
+                    for (int j = 0; j < 8.5; j++)
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           vertical: 10.0,
                         ), // Gap between squares
                         child: Stack(
-                          clipBehavior:
-                              Clip.none, // Allow heart to show outside the box
+                          clipBehavior: Clip.none,
                           alignment: Alignment.center,
                           children: [
                             Container(
@@ -101,6 +100,16 @@ class SplashScreen extends StatelessWidget {
                                 // Cycle through colors based on position
                                 color: _colors[(i + j) % _colors.length],
                                 borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            // Black diamond (rotated square)
+                            Transform.rotate(
+                              angle: math.pi / 4, // 45 degrees
+                              child: Container(
+                                width: screenWidth * 0.045, // Responsive size
+                                height: screenWidth * 0.045,
+                                color: Colors.black.withOpacity(0.3),
+                                
                               ),
                             ),
                             Positioned(
@@ -150,7 +159,7 @@ class SplashScreen extends StatelessWidget {
                     left: screenWidth * 0.42, // adjust as needed
                     top: screenHeight * 0.01, // adjust as needed
                     child: Transform.rotate(
-                      angle: math.pi /0.1,
+                      angle: math.pi / 0.1,
                       child: Image.asset(
                         'assets/vectors/diamondrings.png',
                         width: screenWidth * 0.32,
@@ -161,7 +170,7 @@ class SplashScreen extends StatelessWidget {
                   ),
                   Positioned(
                     left: screenWidth * 0.72, // adjust as needed
-                    top: screenHeight * 0.06, // adjust as needed
+                    top: screenHeight * 0.02, // adjust as needed
                     child: Transform.rotate(
                       angle: math.pi / 0.7,
                       child: Image.asset(
@@ -193,7 +202,7 @@ class SplashScreen extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.04,
+                bottom: MediaQuery.of(context).size.height * 0.035,
               ),
               child: BouncingDotsLoader(),
             ),
