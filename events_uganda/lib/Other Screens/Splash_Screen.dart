@@ -15,6 +15,8 @@ class SplashScreen extends StatelessWidget {
     Colors.indigoAccent,
   ];
 
+   SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
