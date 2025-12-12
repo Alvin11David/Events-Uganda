@@ -1,5 +1,49 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+class DiagonalLogoText extends StatelessWidget {
+    @override
+    Widget build(BuildContext context) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      final screenHeight = MediaQuery.of(context).size.height;
+
+      final offset = 0.15 * screenHeight;
+
+      return Stack(
+        children: [
+          Positioned(
+            left: screenWidth * 0.0,
+            top: screenHeight * 0.35,
+            child: Transform.rotate(
+              angle: 0.95,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/vectors/logo.png',
+                    width: screenWidth * 0.18,
+                    height: screenWidth * 0.18,
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(width: screenWidth * 0.04),
+                  Text(
+                    'Events Uganda',
+                    style: TextStyle(
+                      fontFamily: 'Abril Fatface',
+                      fontSize: screenWidth * 0.1,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
 class SplashScreen extends StatelessWidget {
   // List of attractive colors
   final List<Color> _colors = [
@@ -23,11 +67,12 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
+          DiagonalLogoText(),
           // Create 4 diagonal columns
           for (int i = 0; i < 4; i++)
             Positioned(
               right: (i * 100.0) - 80, // Position from right side
-              top: -340, // Start higher up
+              top: -330, // Start higher up
               child: Transform.rotate(
                 angle: -math.pi / 5, // Rotate 30 degrees
                 child: Column(
@@ -57,7 +102,7 @@ class SplashScreen extends StatelessWidget {
                               child: Transform.rotate(
                                 angle: math.pi / 5, // Counter-rotate to keep the heart upright
                                 child: Image.asset(
-                                  'assets/images/heart.png',
+                                  'assets/vectors/heart.png',
                                   width: 30,
                                   height: 30,
                                   fit: BoxFit.contain,
@@ -72,13 +117,13 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-            left: -200, // Adjust to position partially off-screen if needed
+            left: -300, // Adjust to position partially off-screen if needed
             bottom: -60, // Adjust to position at the bottom
             child: Transform.rotate(
               angle: 55 * (math.pi / 180), // Convert 50 degrees to radians
               child: Container(
-                width: 350,
-                height: 350,
+                width: 470,
+                height: 470,
                 decoration: BoxDecoration(
                   color: const Color(0xFF31373A), // Hex color #31373A
                   borderRadius: BorderRadius.circular(20),
