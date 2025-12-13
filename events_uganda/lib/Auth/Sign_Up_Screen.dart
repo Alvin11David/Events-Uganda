@@ -254,19 +254,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                             stops: [0.0, 0.47],
-                            colors: [
-                              Color(0XFFE0E7FF),
-                              Color(0XFF8715C9),
-                            ],
+                            colors: [Color(0XFFE0E7FF), Color(0XFF8715C9)],
                           ),
                         ),
                         child: Material(
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(30),
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                             child: Center(
                               child: Text(
                                 'Sign Up',
@@ -277,9 +272,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontFamily: 'Montserrat',
                                 ),
                               ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.08,
+                        ),
+                        child: _OrDivider(
+                          fontSize: screenWidth * 0.04,
+                          horizontalPadding: screenWidth * 0.02,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              color: Color(0XFFCB9FE4),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                'assets/vectors/google.png',
+                                width: MediaQuery.of(context).size.width * 0.08,
+                                height:
+                                    MediaQuery.of(context).size.width * 0.08,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              color: Color(0XFFCB9FE4),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                'assets/vectors/apple.png',
+                                width: MediaQuery.of(context).size.width * 0.08,
+                                height: MediaQuery.of(context).size.width * 0.08,
+                                fit: BoxFit.contain,
                               )
+                            )
                           )
-                        )
+                        ],
                       ),
                     ],
                   ),
@@ -287,6 +336,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OrDivider extends StatelessWidget {
+  final double fontSize;
+  final double horizontalPadding;
+
+  const _OrDivider({required this.fontSize, required this.horizontalPadding});
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return SizedBox(
+      width: screenWidth * 0.8,
+      child: Row(
+        children: [
+          Expanded(child: Container(height: 1, color: Colors.grey)),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Text(
+              'Or Sign Up With',
+              style: TextStyle(
+                color: const Color.fromARGB(255, 36, 37, 38),
+                fontSize: fontSize,
+                fontFamily: 'Epunda Slab',
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          Expanded(child: Container(height: 1, color: Colors.grey)),
         ],
       ),
     );
