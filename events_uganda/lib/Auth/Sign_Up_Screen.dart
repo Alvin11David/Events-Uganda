@@ -246,6 +246,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: screenWidth * 0.13,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: const Color(0xFF8715C9),
+                            width: 1,
+                          ),
                           gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
@@ -267,9 +271,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: Text(
                                 'Sign Up',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: screenWidth * 0.045,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w800,
                                   fontFamily: 'Montserrat',
                                 ),
                               ),
