@@ -7,22 +7,35 @@ class SignUpScreen extends StatefulWidget {
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
-
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   // Focus nodes for field navigation
   final FocusNode _fullNameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _contactFocus = FocusNode();
+
+  final bool obscureText = true;
 
   @override
   void dispose() {
     _emailController.dispose();
+    _fullNameController.dispose();
+    _passwordController.dispose();
+    _phoneController.dispose();
+
+    _fullNameFocus.dispose();
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    _contactFocus.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -136,7 +149,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             bottom: 0,
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.75,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -151,53 +163,83 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   right: 0,
                   bottom: 0,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Sign Up",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: MediaQuery.of(context).size.width * 0.05,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Sign Up",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                    Text(
-                      'Please enter the details below to continue.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Abril Fatface',
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
                       ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
-                    _ResponsiveTextField(
-                      controller: _fullNameController,
-                      label: 'Full Names',
-                      hint: 'Enter Your Full Names',
-                      icon: Icons.person,
-                      focusNode: _fullNameFocus,
-                      nextFocusNode: _emailFocus,
-                      textInputAction: TextInputAction.next,
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
-                    _ResponsiveTextField(
-                      controller: _emailController,
-                      label: 'Email',
-                      hint: 'Enter Your Email',
-                      icon: Icons.mail,
-                      focusNode: _emailFocus,
-                      nextFocusNode: _passwordFocus,
-                      textInputAction: TextInputAction.next,
-                    ),
-                  ],
+                      Text(
+                        'Please enter the details below to continue.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Abril Fatface',
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          fontSize: MediaQuery.of(context).size.width * 0.035,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      _ResponsiveTextField(
+                        controller: _fullNameController,
+                        label: 'Full Names',
+                        hint: 'Enter Your Full Names',
+                        icon: Icons.person,
+                        focusNode: _fullNameFocus,
+                        nextFocusNode: _emailFocus,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      _ResponsiveTextField(
+                        controller: _emailController,
+                        label: 'Email',
+                        hint: 'Enter Your Email',
+                        icon: Icons.mail,
+                        focusNode: _emailFocus,
+                        nextFocusNode: _passwordFocus,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      _ResponsiveTextField(
+                        controller: _passwordController,
+                        label: 'Password',
+                        hint: 'Enter Your Password',
+                        icon: Icons.lock,
+                        focusNode: _passwordFocus,
+                        nextFocusNode: _contactFocus,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      _ResponsiveTextField(
+                        controller: _phoneController,
+                        label: 'Phone',
+                        hint: 'Enter Your Phone Contact',
+                        icon: Icons.phone,
+                        focusNode: _contactFocus,
+                        nextFocusNode: _contactFocus,
+                        textInputAction: TextInputAction.next,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -219,7 +261,6 @@ class _ResponsiveTextField extends StatelessWidget {
   final Color? iconColor;
   final double? fontSize;
 
-
   const _ResponsiveTextField({
     Key? key,
     required this.controller,
@@ -237,37 +278,41 @@ class _ResponsiveTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
-      width: screenWidth *0.85,
-      height: 40,
+      width: screenWidth * 0.8,
+      height: screenWidth * 0.13,
       child: TextField(
-      controller: controller,
-      focusNode: focusNode,
-      textInputAction: textInputAction,
-      style: TextStyle(
-        fontSize: fontSize ?? screenWidth * 0.045,
-        color: Colors.black,
+        controller: controller,
+        focusNode: focusNode,
+        textInputAction: textInputAction,
+        style: TextStyle(
+          fontSize: fontSize ?? screenWidth * 0.045,
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          prefixIcon: Icon(
+            icon,
+            color: iconColor ?? const Color.fromARGB(255, 0, 0, 0),
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: const Color(0xFF8715C9), width: 1),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: const Color(0xFF8715C9), width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: const Color(0xFF8715C9), width: 1),
+          ),
+        ),
+        onSubmitted: (_) {
+          FocusScope.of(context).requestFocus(nextFocusNode);
+        },
       ),
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: Icon(icon, color: iconColor ?? const Color.fromARGB(255, 0, 0, 0)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(color: const Color(0xFF8715C9), width: 1),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(color: const Color(0xFF8715C9), width: 2),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(color: const Color(0xFF8715C9), width: 1),
-        ),
-      ),
-      onSubmitted: (_) {
-        FocusScope.of(context).requestFocus(nextFocusNode);
-      },
-    ),
     );
   }
 }
