@@ -1,4 +1,4 @@
-import 'package:events_uganda/Other%20Screens/Splash_Screen.dart';
+import 'package:events_uganda/Auth/Sign_Up_Screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: SplashScreen(),
+      home: SignUpScreen(),
     );
   }
 }

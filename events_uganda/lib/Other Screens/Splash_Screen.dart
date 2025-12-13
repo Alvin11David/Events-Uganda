@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'dart:math' as math;
 
 class DiagonalLogoText extends StatelessWidget {
@@ -47,8 +48,14 @@ class DiagonalLogoText extends StatelessWidget {
   }
 }
 
-class SplashScreen extends StatelessWidget {
-  // List of attractive colors
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   final List<Color> _colors = [
     const Color.fromARGB(255, 18, 180, 180),
     Colors.purpleAccent,
@@ -62,81 +69,115 @@ class SplashScreen extends StatelessWidget {
     Colors.indigoAccent,
   ];
 
-  SplashScreen({super.key});
+  late List<AnimationController> _controllers;
+  late List<Animation<Offset>> _animations;
+
+  @override
+  void initState() {
+    super.initState();
+    int totalSquares = 4 * 9; // 4 columns, 8 squares each
+    _controllers = List.generate(
+      totalSquares,
+      (index) => AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 700),
+      ),
+    );
+    _animations = List.generate(
+      totalSquares,
+      (index) =>
+          Tween<Offset>(begin: const Offset(0.8, 0), end: Offset.zero).animate(
+            CurvedAnimation(
+              parent: _controllers[index],
+              curve: Curves.easeOutBack,
+            ),
+          ),
+    );
+
+    // Staggered animation
+    for (int i = 0; i < totalSquares; i++) {
+      Future.delayed(Duration(milliseconds: 120 * i), () {
+        if (mounted) _controllers[i].forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    for (var c in _controllers) {
+      c.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    int squareIndex = 0;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: [
           DiagonalLogoText(),
-          // Create 4 diagonal columns
+          // Animated squares with staggered slide-in
           for (int i = 0; i < 4; i++)
             Positioned(
-              right: (i * 100.0) - 80, // Position from right side
-              top: -410, // Start higher up
+              right: (i * 100.0) - 80,
+              top: -385,
               child: Transform.rotate(
-                angle: -math.pi / 5, // Rotate 30 degrees
+                angle: -math.pi / 5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Create 6 squares per column
-                    for (int j = 0; j < 8.5; j++)
+                    for (int j = 0; j < 8; j++)
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10.0,
-                        ), // Gap between squares
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: 80, // Reduced width
-                              height: 80, // Reduced height
-                              decoration: BoxDecoration(
-                                // Cycle through colors based on position
-                                color: _colors[(i + j) % _colors.length],
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            // Black diamond (rotated square)
-                            Transform.rotate(
-                              angle: math.pi / 4, // 45 degrees
-                              child: Container(
-                                width: screenWidth * 0.045, // Responsive size
-                                height: screenWidth * 0.045,
-                                color: Colors.black.withOpacity(0.3),
-                                
-                              ),
-                            ),
-                            Positioned(
-                              top: 74,
-                              left: 32,
-                              bottom:
-                                  -26, // Position the heart in the gap below the square
-                              child: Transform.rotate(
-                                angle:
-                                    math.pi /
-                                    5, // Counter-rotate to keep the heart upright
-                                child: Image.asset(
-                                  'assets/vectors/heart.png',
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.contain,
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: SlideTransition(
+                          position: _animations[squareIndex],
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: _colors[(i + j) % _colors.length],
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
-                            ),
-                          ],
+                              Transform.rotate(
+                                angle: math.pi / 4,
+                                child: Container(
+                                  width: screenWidth * 0.045,
+                                  height: screenWidth * 0.045,
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                              ),
+                              Positioned(
+                                top: 74,
+                                left: 32,
+                                bottom: -26,
+                                child: Transform.rotate(
+                                  angle: math.pi / 5,
+                                  child: Image.asset(
+                                    'assets/vectors/heart.png',
+                                    width: 30,
+                                    height: 30,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                      )..let((_) => squareIndex++),
                   ],
                 ),
               ),
             ),
-
           Positioned(
             right:
                 screenWidth *
@@ -216,9 +257,9 @@ class SplashScreen extends StatelessWidget {
 class BouncingDotsLoader extends StatefulWidget {
   final Duration duration;
   const BouncingDotsLoader({
-    Key? key,
+    super.key,
     this.duration = const Duration(seconds: 5),
-  }) : super(key: key);
+  });
 
   @override
   _BouncingDotsLoaderState createState() => _BouncingDotsLoaderState();
@@ -309,5 +350,13 @@ class _BouncingDotsLoaderState extends State<BouncingDotsLoader>
         },
       ),
     );
+  }
+}
+
+// Helper extension for incrementing squareIndex in a for loop
+extension Let<T> on T {
+  T let(void Function(T) op) {
+    op(this);
+    return this;
   }
 }
