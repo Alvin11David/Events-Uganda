@@ -34,8 +34,8 @@ class SignUpScreen extends StatelessWidget {
             top: MediaQuery.of(context).size.height * 0.04,
             left: MediaQuery.of(context).size.width * 0.04,
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.18,
-              height: MediaQuery.of(context).size.width * 0.18,
+              width: MediaQuery.of(context).size.width * 0.15,
+              height: MediaQuery.of(context).size.width * 0.15,
               decoration: BoxDecoration(
                 color: const Color(0xFFCB9FE4),
                 borderRadius: BorderRadius.circular(20),
@@ -46,6 +46,33 @@ class SignUpScreen extends StatelessWidget {
                   color: Colors.black,
                   size: MediaQuery.of(context).size.width * 0.10,
                 )
+              )
+            )
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.04,
+            left: (MediaQuery.of(context).size.width - MediaQuery.of(context).size.width * 0.25) / 2,
+            child: Image.asset(
+              'assets/vectors/logo.png',
+              width: MediaQuery.of(context).size.width * 0.30,
+              height: MediaQuery.of(context).size.width * 0.30,
+              fit: BoxFit.contain,
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.07 + MediaQuery.of(context).size.width * 0.22 + MediaQuery.of(context).size.height * 0.015,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                "Let's get you\n signed up!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Montserrat',
+                  fontSize: MediaQuery.of(context).size.width * 0.075,
+                  fontWeight: FontWeight.bold,
+                ),
               )
             )
           )
