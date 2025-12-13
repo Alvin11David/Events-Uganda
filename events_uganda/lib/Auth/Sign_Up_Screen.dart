@@ -311,7 +311,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.06,
+                          ),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.15,
                             height: MediaQuery.of(context).size.width * 0.15,
@@ -323,11 +325,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: Image.asset(
                                 'assets/vectors/apple.png',
                                 width: MediaQuery.of(context).size.width * 0.08,
-                                height: MediaQuery.of(context).size.width * 0.08,
+                                height:
+                                    MediaQuery.of(context).size.width * 0.08,
                                 fit: BoxFit.contain,
-                              )
-                            )
-                          )
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Already have an account? ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.038,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // Handle sign in tap
+                            },
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(
+                                color: Color(0xFF8715C9),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.040,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],
