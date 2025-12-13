@@ -216,6 +216,9 @@ class _ResponsiveTextField extends StatelessWidget {
   final FocusNode focusNode;
   final FocusNode nextFocusNode;
   final TextInputAction textInputAction;
+  final Color? iconColor;
+  final double? fontSize;
+
 
   const _ResponsiveTextField({
     Key? key,
@@ -226,6 +229,8 @@ class _ResponsiveTextField extends StatelessWidget {
     required this.focusNode,
     required this.nextFocusNode,
     required this.textInputAction,
+    this.iconColor,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -233,15 +238,19 @@ class _ResponsiveTextField extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
       width: screenWidth *0.85,
-      height: 44,
+      height: 40,
       child: TextField(
       controller: controller,
       focusNode: focusNode,
       textInputAction: textInputAction,
+      style: TextStyle(
+        fontSize: fontSize ?? screenWidth * 0.045,
+        color: Colors.black,
+      ),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        prefixIcon: Icon(icon),
+        prefixIcon: Icon(icon, color: iconColor ?? const Color.fromARGB(255, 0, 0, 0)),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: const Color(0xFF8715C9), width: 1),
