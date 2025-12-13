@@ -25,8 +25,7 @@ class SignUpScreen extends StatelessWidget {
               width:
                   MediaQuery.of(context).size.width * 1.18, // responsive width
               height:
-                  MediaQuery.of(context).size.height *
-                  0.9, // responsive height
+                  MediaQuery.of(context).size.height * 0.9, // responsive height
               fit: BoxFit.contain,
             ),
           ),
@@ -38,20 +37,23 @@ class SignUpScreen extends StatelessWidget {
               height: MediaQuery.of(context).size.width * 0.15,
               decoration: BoxDecoration(
                 color: const Color(0xFFCB9FE4),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Center(
                 child: Icon(
                   Icons.chevron_left,
                   color: Colors.black,
                   size: MediaQuery.of(context).size.width * 0.10,
-                )
-              )
-            )
+                ),
+              ),
+            ),
           ),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.04,
-            left: (MediaQuery.of(context).size.width - MediaQuery.of(context).size.width * 0.25) / 2,
+            left:
+                (MediaQuery.of(context).size.width -
+                    MediaQuery.of(context).size.width * 0.25) /
+                2,
             child: Image.asset(
               'assets/vectors/logo.png',
               width: MediaQuery.of(context).size.width * 0.30,
@@ -60,7 +62,10 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.07 + MediaQuery.of(context).size.width * 0.22 + MediaQuery.of(context).size.height * 0.015,
+            top:
+                MediaQuery.of(context).size.height * 0.07 +
+                MediaQuery.of(context).size.width * 0.22 +
+                MediaQuery.of(context).size.height * 0.015,
             left: 0,
             right: 0,
             child: Center(
@@ -71,11 +76,38 @@ class SignUpScreen extends StatelessWidget {
                   color: Colors.white,
                   fontFamily: 'Montserrat',
                   fontSize: MediaQuery.of(context).size.width * 0.075,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                 ),
-              )
-            )
-          )
+              ),
+            ),
+          ),
+          Positioned(
+            top:
+                MediaQuery.of(context).size.height * 0.07 +
+                MediaQuery.of(context).size.width * 0.22 +
+                MediaQuery.of(context).size.height * 0.015 +
+                MediaQuery.of(context).size.width * 0.13,
+            left: MediaQuery.of(context).size.width * 0.04,
+            right: MediaQuery.of(context).size.width * 0.08,
+            bottom: 0,
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.75,
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.04,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

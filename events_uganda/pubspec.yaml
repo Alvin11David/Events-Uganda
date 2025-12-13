@@ -67,7 +67,7 @@ flutter:
     - family: Montserrat
       fonts:
         - asset: assets/fonts/MontserratAlternates-Bold.ttf
-          weight: 400
+          weight: 800
       
     - family: AbrilFatface
       fonts:
