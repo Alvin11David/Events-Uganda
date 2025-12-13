@@ -238,6 +238,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         nextFocusNode: _contactFocus,
                         textInputAction: TextInputAction.next,
                       ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      Container(
+                        width: screenWidth * 0.8,
+                        height: screenWidth * 0.13,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            stops: [0.0, 0.47],
+                            colors: [
+                              Color(0XFFE0E7FF),
+                              Color(0XFF8715C9),
+                            ],
+                          ),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(30),
+                            onTap: () {
+
+                            },
+                            child: Center(
+                              child: Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: screenWidth * 0.045,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Montserrat',
+                                ),
+                              ),
+                              )
+                          )
+                        )
+                      ),
                     ],
                   ),
                 ),
