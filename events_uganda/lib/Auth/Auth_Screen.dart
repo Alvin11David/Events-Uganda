@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:events_uganda/Intro/Onboarding_Screen2.dart';
 import 'package:flutter/material.dart';
 
 class AuthScreen extends StatefulWidget {
