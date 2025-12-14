@@ -73,6 +73,45 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               ),
             ),
           ),
+          Positioned(
+            top: screenHeight * 0.33,
+            left: screenWidth * 0.02,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.asset(
+                'assets/images/photography.jpg',
+                width: screenWidth * (120/390),
+                height: screenHeight * (233/844),
+                fit: BoxFit.fitHeight,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.33,
+            right: screenWidth * 0.02,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.asset(
+                'assets/images/carhire1.jpg',
+                width: screenWidth * (120/390),
+                height: screenHeight * (233/844),
+                fit: BoxFit.fitHeight,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.425,
+            right: screenWidth * 0.345,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.asset(
+                'images/cake1.jpg',
+                width: screenWidth * (120/390),
+                height: screenHeight * (233/844),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
         ]
       )
     );
