@@ -133,6 +133,19 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               ),
             ),
           ),
+          Positioned(
+            // Adjust 'top' to place it below cake1.jpg
+            top: screenHeight * 0.46, // Example value, tweak as needed
+            left:
+                (screenWidth - (screenWidth * (600 / 390))) /
+                2, // Center horizontally
+            child: Image.asset(
+              'backgroundcolors/whitebg.png',
+              width: screenWidth * (600 / 390),
+              height: screenWidth * (600 / 390),
+              fit: BoxFit.cover,
+            ),
+          ),
         ],
       ),
     );
