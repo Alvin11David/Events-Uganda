@@ -17,6 +17,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold (
       backgroundColor: Colors.black,
       body: Stack(
@@ -31,6 +32,19 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               width: MediaQuery.of(context).size.width * 1.08,
               height: MediaQuery.of(context).size.height * 0.9,
               fit: BoxFit.contain,
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.04,
+            left: screenWidth * 0.04,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.asset(
+                'assets/images/tent1.jpg',
+                width: screenWidth * (122/390),
+                height: screenHeight * (233/844),
+                fit: BoxFit.fitHeight,
+              ),
             ),
           ),
         ]
