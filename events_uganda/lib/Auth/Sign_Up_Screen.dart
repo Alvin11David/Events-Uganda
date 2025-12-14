@@ -432,17 +432,14 @@ class _ResponsiveTextField extends StatelessWidget {
   final double? fontSize;
 
   const _ResponsiveTextField({
-    Key? key,
     required this.controller,
     required this.label,
     required this.hint,
     required this.icon,
     required this.focusNode,
     required this.nextFocusNode,
-    required this.textInputAction,
-    this.iconColor,
-    this.fontSize,
-  }) : super(key: key);
+    required this.textInputAction, this.iconColor, this.fontSize,
+  });
 
   @override
   Widget build(BuildContext context) {

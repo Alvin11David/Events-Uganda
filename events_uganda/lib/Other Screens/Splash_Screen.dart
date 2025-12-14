@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:events_uganda/Auth/Sign_Up_Screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'dart:math' as math;
 
 class DiagonalLogoText extends StatelessWidget {
@@ -17,7 +17,7 @@ class DiagonalLogoText extends StatelessWidget {
       children: [
         Positioned(
           left: screenWidth * 0.01,
-          top: screenHeight * 0.41,
+          top: screenHeight * 0.39,
           child: Transform.rotate(
             angle: 0.95,
             child: Row(
@@ -34,7 +34,7 @@ class DiagonalLogoText extends StatelessWidget {
                   'Events Uganda',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: screenWidth * 0.12,
+                    fontSize: screenWidth * 0.11,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -75,6 +75,12 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    Timer(const Duration(seconds: 5), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SignUpScreen()),
+      );
+    });
     int totalSquares = 4 * 9; // 4 columns, 8 squares each
     _controllers = List.generate(
       totalSquares,
@@ -189,8 +195,8 @@ class _SplashScreenState extends State<SplashScreen>
                 alignment: Alignment.center,
                 children: [
                   Container(
-                    width: 470,
-                    height: 470,
+                    width: 420,
+                    height: 420,
                     decoration: BoxDecoration(
                       color: const Color(0xFF31373A), // Hex color #31373A
                       borderRadius: BorderRadius.circular(20),
@@ -198,7 +204,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                   Positioned(
                     left: screenWidth * 0.42, // adjust as needed
-                    top: screenHeight * 0.01, // adjust as needed
+                    top: screenHeight * 0.02, // adjust as needed
                     child: Transform.rotate(
                       angle: math.pi / 0.1,
                       child: Image.asset(
