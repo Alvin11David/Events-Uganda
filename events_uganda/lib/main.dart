@@ -1,4 +1,5 @@
 import 'package:events_uganda/Auth/Auth_Screen.dart';
+import 'package:events_uganda/Auth/Sign_In_Screen.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen2.dart';
 import 'package:events_uganda/Other%20Screens/Splash_Screen.dart';
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Events Uganda',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: AuthScreen(),
+      home: SignInScreen(),
     );
   }
 }
@@ -52,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('You have pushed the button this many times:'),
             Text(
