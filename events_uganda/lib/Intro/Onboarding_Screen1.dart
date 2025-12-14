@@ -36,104 +36,6 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.04,
-            left: screenWidth * 0.02,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                'assets/images/tent1.jpg',
-                width: screenWidth * (120 / 390),
-                height: screenHeight * (233 / 844),
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.04,
-            right: screenWidth * 0.02,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                'assets/images/catering.jpg',
-                width: screenWidth * (120 / 390),
-                height: screenHeight * (233 / 844),
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-          ),
-          Positioned(
-            top: -screenHeight * 0.05,
-            right: screenWidth * 0.345,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                'images/couple.jpg',
-                width: screenWidth * (120 / 390),
-                height: screenHeight * (233 / 844),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-            top:
-                screenHeight *
-                0.25, // Adjust this value to place it just below couple.jpg
-            right: screenWidth * 0.345,
-            child: Container(
-              width: screenWidth * (120 / 390),
-              height: screenWidth * (120 / 390),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                'assets/vectors/logo.png',
-                width: MediaQuery.of(context).size.width * 0.15,
-                height: MediaQuery.of(context).size.width * 0.15,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.33,
-            left: screenWidth * 0.02,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                'assets/images/photography.jpg',
-                width: screenWidth * (120 / 390),
-                height: screenHeight * (233 / 844),
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.33,
-            right: screenWidth * 0.02,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                'assets/images/carhire1.jpg',
-                width: screenWidth * (120 / 390),
-                height: screenHeight * (233 / 844),
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.422,
-            right: screenWidth * 0.345,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                'images/cake1.jpg',
-                width: screenWidth * (120 / 390),
-                height: screenHeight * (233 / 844),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
             // Adjust 'top' to place it below cake1.jpg
             top: screenHeight * 0.52, // Example value, tweak as needed
             left:
@@ -213,7 +115,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                 ),
               ),
             ),
-          ), 
+          ),
           Positioned(
             // Adjust 'top' to place it below cake1.jpg
             top: screenHeight * 0.62, // Example value, tweak as needed
@@ -280,7 +182,84 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
               ),
             ),
           ),
+          // Place this inside your widget tree (e.g., in the body of your Scaffold)
+          Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              // 4th card (bottom)
+              Positioned(
+                top: screenHeight * 0.04,
+                child: Transform.rotate(
+                  angle: 0,
+                child: _buildCard(
+                  'assets/images/bdgal4.jpg',
+                  screenWidth,
+                  screenHeight,
+                  0.92, 0.34
+                ),
+              ),
+              ),
+              // 3rd card
+              Positioned(
+                top: screenHeight * 0.06,
+                child: Transform.rotate(
+                  angle: -0.035,
+                child: _buildCard(
+                  'assets/images/introduction.jpg',
+                  screenWidth,
+                  screenHeight,
+                  0.92, 0.36
+                ),
+              ),
+              ),
+              // 2nd card
+              Positioned(
+                top: screenHeight * 0.1,
+                child: Transform.rotate(
+                  angle: -0.056,
+                child: _buildCard(
+                  'assets/images/introductionbride.jpg',
+                  screenWidth,
+                  screenHeight,
+                  0.92, 0.38
+                ),
+                ),
+              ),
+              // 1st card (top)
+              Positioned(
+                top: screenHeight * 0.15,
+                child: Transform.rotate(
+                  angle: -0.088,
+                  child: _buildCard('assets/images/women.jpg', screenWidth, screenHeight, 0.92, 0.40),
+                ),
+              ),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCard(
+    String imagePath,
+    double screenWidth,
+    double screenHeight,
+    double widthFactor,
+    double? heightFactor,
+  ) {
+    return Container(
+      width: screenWidth * widthFactor,
+      height: screenHeight * (heightFactor ?? 0.25),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.18),
+            blurRadius: 18,
+            offset: Offset(0, 8),
+          ),
+        ],
+        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
       ),
     );
   }
