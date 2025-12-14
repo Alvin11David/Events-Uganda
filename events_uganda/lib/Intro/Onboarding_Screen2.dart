@@ -148,15 +148,10 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
           ),
           Positioned(
             // Position at the top part of the whitebg.png image
-            top:
-                screenHeight *
-                0.55, // Adjust as needed to sit on top of whitebg.png
-            left:
-                (screenWidth - (screenWidth * 0.25)) /
-                2, // Center horizontally, 25% width
+            top: screenHeight * 0.55,
+            left: (screenWidth - (screenWidth * 0.25)) / 2,
             child: Row(
               children: [
-                // First (inactive) indicator
                 Container(
                   width: screenWidth * 0.06,
                   height: screenHeight * 0.010,
@@ -166,7 +161,6 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                   ),
                 ),
                 SizedBox(width: screenWidth * 0.015),
-                // Second (active) indicator
                 Container(
                   width: screenWidth * 0.1,
                   height: screenHeight * 0.015,
@@ -176,7 +170,6 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                   ),
                 ),
                 SizedBox(width: screenWidth * 0.015),
-                // Third (inactive) indicator
                 Container(
                   width: screenWidth * 0.06,
                   height: screenHeight * 0.010,
