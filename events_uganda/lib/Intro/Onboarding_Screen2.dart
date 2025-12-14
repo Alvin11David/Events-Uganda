@@ -1,4 +1,5 @@
 import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
+import 'package:events_uganda/Intro/Onboarding_Screen3.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen2 extends StatefulWidget {
@@ -286,43 +287,53 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
           Positioned(
             top: screenHeight * 0.90,
             right: screenWidth * 0.06,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.black, Color(0xFFED9E27)],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  stops: [0.1, 0.6],
-                ),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.08,
-                  vertical: screenHeight * 0.015,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Next',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenWidth * 0.047,
-                        fontWeight: FontWeight.w600,
-                      ),
+            child: GestureDetector(
+              onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OnboardingScreen3(),
                     ),
-                    SizedBox(width: screenWidth * 0.01),
-                    Transform.rotate(
-                      angle: -0.628, // -36 degrees in radians
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: screenWidth * 0.067,
+                  );
+                },
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.black, Color(0xFFED9E27)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: [0.1, 0.6],
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.08,
+                    vertical: screenHeight * 0.015,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Next',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.047,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: screenWidth * 0.01),
+                      Transform.rotate(
+                        angle: -0.628, // -36 degrees in radians
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: screenWidth * 0.067,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

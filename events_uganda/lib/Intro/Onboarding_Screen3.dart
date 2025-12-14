@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:events_uganda/Auth/Auth_Screen.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
+import 'package:events_uganda/Intro/Onboarding_Screen2.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen3 extends StatefulWidget {
@@ -37,7 +39,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.04,
+            top: screenHeight * 0.096,
             left: screenWidth * 0.143,
             child: ClipOval(
               child: Image.asset(
@@ -49,7 +51,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.04, // Adjust as needed
+            top: screenHeight * 0.096, // Adjust as needed
             right: screenWidth * 0.18,
             child: ClipRRect(
               borderRadius: BorderRadius.only(
@@ -61,6 +63,67 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
                 'assets/images/brideandladies.jpg',
                 width: screenWidth * 0.30, // Adjust as needed
                 height: screenHeight * 0.18, // Adjust as needed
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.276,
+            left: screenWidth * 0.143,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(
+                  screenWidth * (50 / 390),
+                ),  // Responsive radius
+              ),
+              child: Image.asset(
+                'assets/images/women.jpg',
+                width: screenWidth * 0.31, // Adjust as needed
+                height: screenHeight * 0.18, // Adjust as needed
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.276, // Adjust as needed
+            right: screenWidth * 0.173,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(topRight: Radius.circular(screenWidth * (70 / 390), ), topLeft: Radius.circular(screenWidth * (70 / 390), ), bottomRight: Radius.circular(screenWidth * (70 / 390), ),// Responsive radius
+              ),
+              child: Image.asset(
+                'assets/images/bdgal3.jpg',
+                width: screenWidth * 0.37, // Adjust as needed
+                height: screenHeight * 0.175, // Adjust as needed
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.45,
+            right: screenWidth * 0.209,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(topRight: Radius.circular(screenWidth * (50 / 390),
+                ), bottomRight: Radius.circular(screenWidth * (50 / 390), ) // Responsive radius
+              ),
+              child: Image.asset(
+                'assets/images/glassdeco.jpg',
+                width: screenWidth * 0.33, // Adjust as needed
+                height: screenHeight * 0.22, // Adjust as needed
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.45,
+            left: screenWidth * 0.143,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(topRight: Radius.circular(screenWidth * (140 / 390),
+                ), bottomLeft: Radius.circular(screenWidth * (140 / 390), ) // Responsive radius
+              ),
+              child: Image.asset(
+                'assets/images/blacknwhitemen.jpg',
+                width: screenWidth * 0.33, // Adjust as needed
+                height: screenHeight * 0.19, // Adjust as needed
                 fit: BoxFit.cover,
               ),
             ),
@@ -152,7 +215,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => OnboardingScreen1()),
+                  MaterialPageRoute(builder: (context) => OnboardingScreen2()),
                 );
               },
               child: Container(
@@ -217,43 +280,53 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
           Positioned(
             top: screenHeight * 0.90,
             right: screenWidth * 0.06,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.black, Color(0xFFEBD90F)],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  stops: [0.2, 0.6],
-                ),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.08,
-                  vertical: screenHeight * 0.015,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Next',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenWidth * 0.047,
-                        fontWeight: FontWeight.w600,
-                      ),
+            child: GestureDetector(
+              onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AuthScreen(),
                     ),
-                    SizedBox(width: screenWidth * 0.01),
-                    Transform.rotate(
-                      angle: -0.628, // -36 degrees in radians
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: screenWidth * 0.067,
+                  );
+                },
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.black, Color(0xFFEBD90F)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: [0.2, 0.6],
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.08,
+                    vertical: screenHeight * 0.015,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Start',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.047,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: screenWidth * 0.01),
+                      Transform.rotate(
+                        angle: -0.628, // -36 degrees in radians
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: screenWidth * 0.067,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
