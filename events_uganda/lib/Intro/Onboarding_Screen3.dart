@@ -43,6 +43,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             left: screenWidth * 0.143,
             child: ClipOval(
               child: Image.asset(
+                
                 'assets/images/introduction.jpg',
                 width: screenWidth * 0.37,
                 height: screenWidth * 0.37,
