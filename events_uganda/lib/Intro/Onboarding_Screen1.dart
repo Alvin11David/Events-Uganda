@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:events_uganda/Intro/Onboarding_Screen2.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen1 extends StatefulWidget {
@@ -219,54 +220,64 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
                 screenHeight *
                 0.05, // Adjust as needed for spacing from the bottom
             child: Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF7EED27), Colors.black],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    stops: [0.26, 0.8],
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OnboardingScreen2(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF7EED27), Colors.black],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      stops: [0.26, 0.8],
+                    ),
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.05,
-                    vertical: screenHeight * 0.018,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/vectors/heart.png',
-                        width: screenWidth * 0.07, // Responsive width
-                        height: screenWidth * 0.07,
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Next',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: screenWidth * 0.06,
-                                  fontWeight: FontWeight.w600,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.05,
+                      vertical: screenHeight * 0.018,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/vectors/heart.png',
+                          width: screenWidth * 0.07, // Responsive width
+                          height: screenWidth * 0.07,
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Next',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: screenWidth * 0.06,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      // keyboard_double_arrow_right icon on the far right
-                      Icon(
-                        Icons.keyboard_double_arrow_right,
-                        color: Colors.white,
-                        size: screenWidth * 0.09,
-                      ),
-                    ],
+                        // keyboard_double_arrow_right icon on the far right
+                        Icon(
+                          Icons.keyboard_double_arrow_right,
+                          color: Colors.white,
+                          size: screenWidth * 0.09,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
