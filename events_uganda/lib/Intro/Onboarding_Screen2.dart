@@ -147,7 +147,6 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
             ),
           ),
           Positioned(
-            // Position at the top part of the whitebg.png image
             top: screenHeight * 0.55,
             left: (screenWidth - (screenWidth * 0.25)) / 2,
             child: Row(
@@ -180,6 +179,40 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 ),
               ],
             ),
+          ),
+          Positioned(
+            top: screenHeight * 0.58,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                'Everything in one\nApp',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: screenWidth * 0.065,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Montserrat',
+                )
+              )
+            )
+          ),
+          Positioned(
+            top: screenHeight * 0.67,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                'Decoration, Catering,\nPhotography & Videography,\nCar hiring, Sound & Lighting\nservices in one app',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: screenWidth * 0.05,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'PlayfairDisplay',
+                )
+              )
+            )
           ),
         ],
       ),
