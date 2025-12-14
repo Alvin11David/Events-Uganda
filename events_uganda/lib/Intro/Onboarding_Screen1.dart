@@ -139,45 +139,61 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.90,
-            right: screenWidth * 0.06,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.black, Color(0xFFED9E27)],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  stops: [0.1, 0.6],
+            left: screenWidth * 0.15, // Add margin from left
+            right: screenWidth * 0.15,
+            bottom:
+                screenHeight *
+                0.05, // Adjust as needed for spacing from the bottom
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF7EED27), Colors.black],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: [0.26, 0.8],
+                  ),
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.08,
-                  vertical: screenHeight * 0.015,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Next',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenWidth * 0.047,
-                        fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.05,
+                    vertical: screenHeight * 0.018,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/vectors/heart.png',
+                        width: screenWidth * 0.07, // Responsive width
+                        height: screenWidth * 0.07,
                       ),
-                    ),
-                    SizedBox(width: screenWidth * 0.01),
-                    Transform.rotate(
-                      angle: -0.628, // -36 degrees in radians
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: screenWidth * 0.067,
+                      Expanded(
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Next',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: screenWidth * 0.06,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      // keyboard_double_arrow_right icon on the far right
+                      Icon(
+                        Icons.keyboard_double_arrow_right,
+                        color: Colors.white,
+                        size: screenWidth * 0.09,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -191,38 +207,41 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                 top: screenHeight * 0.04,
                 child: Transform.rotate(
                   angle: 0,
-                child: _buildCard(
-                  'assets/images/bdgal4.jpg',
-                  screenWidth,
-                  screenHeight,
-                  0.92, 0.34
+                  child: _buildCard(
+                    'assets/images/bdgal4.jpg',
+                    screenWidth,
+                    screenHeight,
+                    0.92,
+                    0.34,
+                  ),
                 ),
-              ),
               ),
               // 3rd card
               Positioned(
                 top: screenHeight * 0.06,
                 child: Transform.rotate(
                   angle: -0.035,
-                child: _buildCard(
-                  'assets/images/introduction.jpg',
-                  screenWidth,
-                  screenHeight,
-                  0.92, 0.36
+                  child: _buildCard(
+                    'assets/images/introduction.jpg',
+                    screenWidth,
+                    screenHeight,
+                    0.92,
+                    0.36,
+                  ),
                 ),
-              ),
               ),
               // 2nd card
               Positioned(
                 top: screenHeight * 0.1,
                 child: Transform.rotate(
                   angle: -0.056,
-                child: _buildCard(
-                  'assets/images/introductionbride.jpg',
-                  screenWidth,
-                  screenHeight,
-                  0.92, 0.38
-                ),
+                  child: _buildCard(
+                    'assets/images/introductionbride.jpg',
+                    screenWidth,
+                    screenHeight,
+                    0.92,
+                    0.38,
+                  ),
                 ),
               ),
               // 1st card (top)
@@ -230,7 +249,13 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                 top: screenHeight * 0.15,
                 child: Transform.rotate(
                   angle: -0.088,
-                  child: _buildCard('assets/images/women.jpg', screenWidth, screenHeight, 0.92, 0.40),
+                  child: _buildCard(
+                    'assets/images/women.jpg',
+                    screenWidth,
+                    screenHeight,
+                    0.92,
+                    0.40,
+                  ),
                 ),
               ),
             ],
