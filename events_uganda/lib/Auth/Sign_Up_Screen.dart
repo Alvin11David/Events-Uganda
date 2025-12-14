@@ -432,6 +432,7 @@ class _ResponsiveTextField extends StatelessWidget {
   final double? fontSize;
 
   const _ResponsiveTextField({
+
     required this.controller,
     required this.label,
     required this.hint,
@@ -440,6 +441,8 @@ class _ResponsiveTextField extends StatelessWidget {
     required this.nextFocusNode,
     required this.textInputAction, this.iconColor, this.fontSize,
   });
+
+
 
   @override
   Widget build(BuildContext context) {

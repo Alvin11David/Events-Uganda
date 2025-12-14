@@ -38,19 +38,19 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
           ),
           Positioned(
             top: screenHeight * 0.04,
-            left: screenWidth * 0.04,
+            left: screenWidth * 0.143,
             child: ClipOval(
               child: Image.asset(
                 'assets/images/introduction.jpg',
-                width: screenWidth * 0.35,
-                height: screenWidth * 0.35,
+                width: screenWidth * 0.37,
+                height: screenWidth * 0.37,
                 fit: BoxFit.cover,
               ),
             ),
           ),
           Positioned(
-            top: screenHeight * 0.13, // Adjust as needed
-            right: screenWidth * 0.04,
+            top: screenHeight * 0.04, // Adjust as needed
+            right: screenWidth * 0.18,
             child: ClipRRect(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(
@@ -59,8 +59,8 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
               ),
               child: Image.asset(
                 'assets/images/brideandladies.jpg',
-                width: screenWidth * 0.22, // Adjust as needed
-                height: screenHeight * 0.16, // Adjust as needed
+                width: screenWidth * 0.30, // Adjust as needed
+                height: screenHeight * 0.18, // Adjust as needed
                 fit: BoxFit.cover,
               ),
             ),

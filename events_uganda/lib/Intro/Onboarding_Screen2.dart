@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
 import 'package:flutter/material.dart';
 
