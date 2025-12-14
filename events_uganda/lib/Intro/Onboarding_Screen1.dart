@@ -8,9 +8,75 @@ class OnboardingScreen1 extends StatefulWidget {
   State<OnboardingScreen1> createState() => _OnboardingScreen1State();
 }
 
-class _OnboardingScreen1State extends State<OnboardingScreen1> {
+class _OnboardingScreen1State extends State<OnboardingScreen1>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _offsetAnim;
+  late Animation<double> _opacityAnim;
+  bool _isDragging = false;
+  double _dragStart = 0.0;
+  double _dragOffset = 0.0;
+  bool _isAnimating = false;
+
+  void _onDragUpdate(DragUpdateDetails details) {
+    if (!_isAnimating) {
+      setState(() {
+        _dragOffset += details.delta.dy;
+      });
+    }
+  }
+
+  void _onDragEnd(DragEndDetails details) {
+    if (_dragOffset > 60 && !_isAnimating) {
+      setState(() {
+        _isAnimating = true;
+      });
+      Future.delayed(const Duration(milliseconds: 250), () {
+        setState(() {
+          // Move top card to back
+          final last = cardImages.removeLast();
+          cardImages.insert(0, last);
+          _dragOffset = 0.0;
+          _isAnimating = false;
+        });
+      });
+    } else {
+      setState(() {
+        _dragOffset = 0.0;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500), // slower, smoother
+    );
+    _offsetAnim = Tween<double>(
+      begin: 0,
+      end: 200,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+    _opacityAnim = Tween<double>(
+      begin: 1,
+      end: 0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          final last = cardImages.removeLast();
+          cardImages.insert(0, last);
+          _controller.reset();
+          _isDragging = false;
+        });
+      }
+    });
+  }
+
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -199,6 +265,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
             ),
           ),
           // Place this inside your widget tree (e.g., in the body of your Scaffold)
+          // In your build method, replace your Stack's card section with this:
           Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -208,7 +275,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                 child: Transform.rotate(
                   angle: 0,
                   child: _buildCard(
-                    'assets/images/bdgal4.jpg',
+                    cardImages[0],
                     screenWidth,
                     screenHeight,
                     0.92,
@@ -222,7 +289,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                 child: Transform.rotate(
                   angle: -0.035,
                   child: _buildCard(
-                    'assets/images/introduction.jpg',
+                    cardImages[1],
                     screenWidth,
                     screenHeight,
                     0.92,
@@ -236,7 +303,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                 child: Transform.rotate(
                   angle: -0.056,
                   child: _buildCard(
-                    'assets/images/introductionbride.jpg',
+                    cardImages[2],
                     screenWidth,
                     screenHeight,
                     0.92,
@@ -244,17 +311,48 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                   ),
                 ),
               ),
-              // 1st card (top)
+              // 1st card (top, swipeable)
               Positioned(
-                top: screenHeight * 0.15,
-                child: Transform.rotate(
-                  angle: -0.088,
-                  child: _buildCard(
-                    'assets/images/women.jpg',
-                    screenWidth,
-                    screenHeight,
-                    0.92,
-                    0.40,
+                top: screenHeight * 0.15 + _dragOffset,
+                child: GestureDetector(
+                  onVerticalDragStart: (details) {
+                    _dragStart = details.localPosition.dy;
+                    _isDragging = true;
+                  },
+                  onVerticalDragUpdate: (details) {
+                    if (_isDragging &&
+                        details.localPosition.dy - _dragStart > 60) {
+                      _isDragging = false;
+                      _controller.forward();
+                    }
+                  },
+                  onVerticalDragEnd: (_) {
+                    if (_isDragging) {
+                      _isDragging = false;
+                      _controller.reverse();
+                    }
+                  },
+                  child: AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      return Opacity(
+                        opacity: _opacityAnim.value,
+                        child: Transform.translate(
+                          offset: Offset(0, _offsetAnim.value),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Transform.rotate(
+                      angle: -0.088,
+                      child: _buildCard(
+                        cardImages[3],
+                        screenWidth,
+                        screenHeight,
+                        0.92,
+                        0.40,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -289,3 +387,12 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
     );
   }
 }
+
+List<String> images = [
+  'assets/images/women.jpg',
+  'assets/images/introductionbride.jpg',
+  'assets/images/introduction.jpg',
+  'assets/images/bdgal4.jpg',
+];
+int topIndex = 0;
+List<String> cardImages = List.from(images);
