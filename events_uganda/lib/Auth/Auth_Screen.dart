@@ -219,8 +219,11 @@ class _AuthScreenState extends State<AuthScreen>
                           child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                             child: Container(
-                              width: screenWidth * 0.85, // Adjust width as needed
-                          height: screenHeight * 0.07, // Adjust height as needed
+                              width:
+                                  screenWidth * 0.85, // Adjust width as needed
+                              height:
+                                  screenHeight *
+                                  0.07, // Adjust height as needed
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.18),
                                 borderRadius: BorderRadius.circular(30),
@@ -229,7 +232,26 @@ class _AuthScreenState extends State<AuthScreen>
                                   width: 1.5,
                                 ),
                               ),
-                              // child: ... // Add your Apple/other content here
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.mail,
+                                    color: Colors.white,
+                                    size: screenWidth * 0.07,
+                                  ),
+                                  SizedBox(width: screenWidth * 0.03),
+                                  Text(
+                                    'Continue with Email',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: screenWidth * 0.045,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'PlayfairDisplay',
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
