@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen2 extends StatefulWidget {
@@ -217,38 +218,46 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
           Positioned(
             top: screenHeight * 0.90,
             left: screenWidth * 0.06,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.08,
-                  vertical: screenHeight * 0.015,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => OnboardingScreen1()),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Back',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenWidth * 0.047,
-                        fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.08,
+                    vertical: screenHeight * 0.015,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Back',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.047,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    Transform.rotate(
-                      angle: 0.628, // 36 degrees in radians
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: screenWidth * 0.067,
+                      Transform.rotate(
+                        angle: 0.628, // 36 degrees in radians
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: screenWidth * 0.067,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: screenWidth * 0.01),
-                  ],
+                      SizedBox(width: screenWidth * 0.01),
+                    ],
+                  ),
                 ),
               ),
             ),
