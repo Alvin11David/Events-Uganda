@@ -135,7 +135,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
           ),
           Positioned(
             // Adjust 'top' to place it below cake1.jpg
-            top: screenHeight * 0.46, // Example value, tweak as needed
+            top: screenHeight * 0.52, // Example value, tweak as needed
             left:
                 (screenWidth - (screenWidth * (600 / 390))) /
                 2, // Center horizontally
@@ -147,7 +147,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.55,
+            top: screenHeight * 0.60,
             left: (screenWidth - (screenWidth * 0.25)) / 2,
             child: Row(
               children: [
@@ -181,7 +181,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.58,
+            top: screenHeight * 0.63,
             left: 0,
             right: 0,
             child: Center(
@@ -193,12 +193,12 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                   fontSize: screenWidth * 0.065,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Montserrat',
-                )
-              )
-            )
+                ),
+              ),
+            ),
           ),
           Positioned(
-            top: screenHeight * 0.67,
+            top: screenHeight * 0.725,
             left: 0,
             right: 0,
             child: Center(
@@ -210,9 +210,114 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                   fontSize: screenWidth * 0.05,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'PlayfairDisplay',
-                )
-              )
-            )
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.90,
+            left: screenWidth * 0.06,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.08,
+                  vertical: screenHeight * 0.015,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Back',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.047,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Transform.rotate(
+                      angle: 0.628, // 36 degrees in radians
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: screenWidth * 0.067,
+                      ),
+                    ),
+                    SizedBox(width: screenWidth * 0.01),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            // Adjust 'top' to place it below cake1.jpg
+            top: screenHeight * 0.62, // Example value, tweak as needed
+            left: -screenWidth * 0.09,
+            child: Image.asset(
+              'vectors/onboardingscreen2vect.png',
+              width: screenWidth * (129 / 390),
+              height: screenWidth * (147 / 390),
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned(
+            // Adjust 'top' to place it below cake1.jpg
+            top: screenHeight * 0.82, // Example value, tweak as needed
+            right: -screenWidth * 0.06,
+            child: Image.asset(
+              'vectors/onboardingscreen2vect.png',
+              width: screenWidth * (129 / 390),
+              height: screenWidth * (147 / 390),
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.90,
+            right: screenWidth * 0.06,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.black, Color(0xFFED9E27)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  stops: [0.1, 0.6],
+                ),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.08,
+                  vertical: screenHeight * 0.015,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Next',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.047,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(width: screenWidth * 0.01),
+                    Transform.rotate(
+                      angle: -0.628, // -36 degrees in radians
+                      child: Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                        size: screenWidth * 0.067,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),
