@@ -180,7 +180,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             right: 0,
             child: Center(
               child: Text(
-                'So let\'\s get you the special\ncompany to make your\nparty and ideas come to\nlife',
+                'So let\'s get you the special\ncompany to make your\nparty and ideas come to\nlife',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,

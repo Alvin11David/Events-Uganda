@@ -438,7 +438,7 @@ class _ResponsiveTextField extends StatelessWidget {
     required this.icon,
     required this.focusNode,
     required this.nextFocusNode,
-    required this.textInputAction, this.iconColor, this.fontSize,
+    required this.textInputAction,
   });
 
   @override

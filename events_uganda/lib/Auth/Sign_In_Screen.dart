@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -41,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Colors.black, Color.fromARGB(255, 255, 86, 2)],
+                colors: [Colors.black, Color.fromARGB(255, 231, 9, 9)],
               ),
             ),
           ),
@@ -55,7 +54,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 decoration: BoxDecoration(
                   gradient: RadialGradient(
                     colors: [
-                      const Color(0xFFCC471B).withOpacity(0.65),
+                      const Color.fromARGB(255, 243, 67, 8).withOpacity(0.65),
                       Colors.transparent
                     ],
                     radius: 0.65,
