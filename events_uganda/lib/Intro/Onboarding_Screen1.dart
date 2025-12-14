@@ -51,7 +51,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 8), () {
       if (mounted) {
         setState(() {
           _showSwipeHint = false;
@@ -272,6 +272,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
               ),
             ),
           ),
+          
           // Place this inside your widget tree (e.g., in the body of your Scaffold)
           // In your build method, replace your Stack's card section with this:
           Stack(
@@ -366,6 +367,43 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
               ),
             ],
           ),
+          if (_showSwipeHint)
+            Positioned(
+              top: screenHeight * 0.13, // Adjust as needed
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.05,
+                    vertical: screenHeight * 0.012,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.swipe_down,
+                        color: Colors.white,
+                        size: screenWidth * 0.07,
+                      ),
+                      SizedBox(width: screenWidth * 0.02),
+                      Text(
+                        'Swipe down',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.05,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
