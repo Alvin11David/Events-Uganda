@@ -14,6 +14,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
   late Animation<double> _offsetAnim;
   late Animation<double> _opacityAnim;
   bool _isDragging = false;
+  bool _showSwipeHint = true;
   double _dragStart = 0.0;
   double _dragOffset = 0.0;
   bool _isAnimating = false;
@@ -50,6 +51,13 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          _showSwipeHint = false;
+        });
+      }
+    });
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500), // slower, smoother
