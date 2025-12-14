@@ -136,7 +136,106 @@ class _AuthScreenState extends State<AuthScreen>
                       width: 1.5,
                     ),
                   ),
-                  // child: ... // Add your content here if needed
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: screenHeight * 0.03),
+                          child: Text(
+                            'Sign Up or Sign In',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenWidth * 0.065,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'PlayfairDisplay',
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.015),
+                        Container(
+                          width: screenWidth * 0.85, // Adjust width as needed
+                          height: screenHeight * 0.07, // Thin rectangle
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/vectors/apple.png',
+                                width: screenWidth * 0.07,
+                                height: screenWidth * 0.07,
+                              ),
+                              SizedBox(width: screenWidth * 0.03),
+                              Text(
+                                'Continue with Apple',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: screenWidth * 0.045,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'PlayfairDisplay',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.03),
+                        Container(
+                          width: screenWidth * 0.85, // Adjust width as needed
+                          height: screenHeight * 0.07, // Thin rectangle
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/vectors/google.png',
+                                width: screenWidth * 0.07,
+                                height: screenWidth * 0.07,
+                              ),
+                              SizedBox(width: screenWidth * 0.03),
+                              Text(
+                                'Continue with Google',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: screenWidth * 0.045,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'PlayfairDisplay',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.03,
+                        ), // Space between rectangles
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                            child: Container(
+                              width: screenWidth * 0.85, // Adjust width as needed
+                          height: screenHeight * 0.07, // Adjust height as needed
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.18),
+                                borderRadius: BorderRadius.circular(30),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.3),
+                                  width: 1.5,
+                                ),
+                              ),
+                              // child: ... // Add your Apple/other content here
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
