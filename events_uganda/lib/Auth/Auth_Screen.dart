@@ -288,3 +288,6 @@ class _AuthScreenState extends State<AuthScreen>
     );
   }
 }
+
+class standard {
+}
