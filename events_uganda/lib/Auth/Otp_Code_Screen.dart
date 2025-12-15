@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Otp_Code_Screen extends StatefulWidget {
   const Otp_Code_Screen({super.key});
@@ -10,142 +11,108 @@ class Otp_Code_Screen extends StatefulWidget {
 }
 
 class _Otp_Code_Screen extends State<Otp_Code_Screen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  // Focus nodes for field navigation
-  final FocusNode _fullNameFocus = FocusNode();
-  final FocusNode _emailFocus = FocusNode();
-  final FocusNode _passwordFocus = FocusNode();
-  final FocusNode _contactFocus = FocusNode();
-
-  final bool obscureText = true;
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _fullNameController.dispose();
-    _passwordController.dispose();
-    _phoneController.dispose();
-
-    _fullNameFocus.dispose();
-    _emailFocus.dispose();
-    _passwordFocus.dispose();
-    _contactFocus.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final diameter = screenWidth * 0.9; // Responsive, nearly full width
+    final screenHeight = MediaQuery.of(context).size.height;
+    
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: [
           // Top center image
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.0, // adjust as needed
-            right:
-                (MediaQuery.of(context).size.width +
-                    MediaQuery.of(context).size.width * 1) /
-                300,
+            top: 0,
+            right: (screenWidth + screenWidth * 1) / 300,
             child: Image.asset(
               'assets/backgroundcolors/otpcodescreen.png',
-              width:
-                  MediaQuery.of(context).size.width * 1.08, // responsive width
-              height:
-                  MediaQuery.of(context).size.height * 0.9, // responsive height
+              width: screenWidth * 1.08,
+              height: screenHeight * 0.9,
               fit: BoxFit.contain,
             ),
           ),
+          
+          // Back button
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.04,
-            left: MediaQuery.of(context).size.width * 0.04,
+            top: screenHeight * 0.04,
+            left: screenWidth * 0.04,
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.15,
-              height: MediaQuery.of(context).size.width * 0.15,
+              width: screenWidth * 0.15,
+              height: screenWidth * 0.15,
               decoration: BoxDecoration(
-                color: const Color(0xFFF3CA9B),
+                color: const Color(0xFF825E34),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Center(
                 child: Icon(
                   Icons.chevron_left,
                   color: Colors.black,
-                  size: MediaQuery.of(context).size.width * 0.10,
+                  size: screenWidth * 0.10,
                 ),
               ),
             ),
           ),
+          
+          // Logo at top center
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.0,
-            left:
-                (MediaQuery.of(context).size.width -
-                    MediaQuery.of(context).size.width * 0.25) /
-                2,
+            top: 0,
+            left: (screenWidth - screenWidth * 0.30) / 2,
             child: Image.asset(
               'assets/vectors/logo.png',
-              width: MediaQuery.of(context).size.width * 0.30,
-              height: MediaQuery.of(context).size.width * 0.30,
+              width: screenWidth * 0.30,
+              height: screenWidth * 0.30,
               fit: BoxFit.contain,
             ),
           ),
+          
+          // Decorative vector - right side
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.2,
-            left:
-                (MediaQuery.of(context).size.width -
-                    MediaQuery.of(context).size.width * 0.25) /
-                1,
+            top: screenHeight * 0.2,
+            left: (screenWidth - screenWidth * 0.25) / 1,
             child: Image.asset(
               'assets/vectors/otpcodevect.png',
-              width: MediaQuery.of(context).size.width * 0.18,
-              height: MediaQuery.of(context).size.width * 0.18,
+              width: screenWidth * 0.18,
+              height: screenWidth * 0.18,
               fit: BoxFit.contain,
             ),
           ),
+          
+          // Decorative vector - left side
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.15,
-            right:
-                (MediaQuery.of(context).size.width -
-                    MediaQuery.of(context).size.width * 0.23) /
-                1,
+            top: screenHeight * 0.15,
+            right: (screenWidth - screenWidth * 0.23) / 1,
             child: Image.asset(
               'assets/vectors/otpcodevect.png',
-              width: MediaQuery.of(context).size.width * 0.18,
-              height: MediaQuery.of(context).size.width * 0.18,
+              width: screenWidth * 0.18,
+              height: screenWidth * 0.18,
               fit: BoxFit.contain,
             ),
           ),
+          
+          // Main heading text
           Positioned(
-            top:
-                MediaQuery.of(context).size.height * 0.03 +
-                MediaQuery.of(context).size.width * 0.22 +
-                MediaQuery.of(context).size.height * 0.015,
+            top: screenHeight * 0.03 + screenWidth * 0.22 + screenHeight * 0.015,
             left: 0,
             right: 0,
             child: Center(
               child: Text(
-                "Let's get you\n sorted",
+                "Let's get you\nsorted!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Montserrat',
-                  fontSize: MediaQuery.of(context).size.width * 0.075,
+                  fontSize: screenWidth * 0.075,
                   fontWeight: FontWeight.w800,
                 ),
               ),
             ),
           ),
+          
+          // White container with form
           Positioned(
-            top:
-                MediaQuery.of(context).size.height * 0.10 +
-                MediaQuery.of(context).size.width * 0.22 +
-                MediaQuery.of(context).size.height * 0.015 +
-                MediaQuery.of(context).size.width * 0.13,
-            left: MediaQuery.of(context).size.width * 0.04,
-            right: MediaQuery.of(context).size.width * 0.04,
+            top: screenHeight * 0.10 + screenWidth * 0.22 + screenHeight * 0.015 + screenWidth * 0.13,
+            left: screenWidth * 0.04,
+            right: screenWidth * 0.04,
             bottom: 0,
             child: Container(
               width: double.infinity,
@@ -156,184 +123,198 @@ class _Otp_Code_Screen extends State<Otp_Code_Screen> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.015,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                ),
-                child: SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight:
-                          MediaQuery.of(context).size.height *
-                          1.2, // 120% of screen height
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // Email icon positioned at the top center
+                  Positioned(
+                    top: -screenWidth * 0.12,
+                    left: (screenWidth * 0.92 - screenWidth * 0.24) / 2,
+                    child: Container(
+                      width: screenWidth * 0.24,
+                      height: screenWidth * 0.24,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF825E34),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.email_outlined,
+                          color: Colors.white,
+                          size: screenWidth * 0.13,
+                        ),
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Verify Your Email",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          'Please enter the 4 digit codewe sent to \n ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Abril Fatface',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            fontSize: MediaQuery.of(context).size.width * 0.035,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        _ResponsiveTextField(
-                          controller: _fullNameController,
-                          label: 'Full Names',
-                          hint: 'Enter Your Full Names',
-                          icon: Icons.person,
-                          focusNode: _fullNameFocus,
-                          nextFocusNode: _emailFocus,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        _ResponsiveTextField(
-                          controller: _emailController,
-                          label: 'Email',
-                          hint: 'Enter Your Email',
-                          icon: Icons.mail,
-                          focusNode: _emailFocus,
-                          nextFocusNode: _passwordFocus,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        _ResponsiveTextField(
-                          controller: _passwordController,
-                          label: 'Password',
-                          hint: 'Enter Your Password',
-                          icon: Icons.lock,
-                          focusNode: _passwordFocus,
-                          nextFocusNode: _contactFocus,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        _ResponsiveTextField(
-                          controller: _phoneController,
-                          label: 'Phone',
-                          hint: 'Enter Your Phone Contact',
-                          icon: Icons.phone,
-                          focusNode: _contactFocus,
-                          nextFocusNode: _contactFocus,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        Container(
-                          width: screenWidth * 0.8,
-                          height: screenWidth * 0.13,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: const Color(0xFF825E34),
-                              width: 1,
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              stops: [0.0, 0.47],
-                              colors: [Color(0XFFE0E7FF), Color(0XFF825E34)],
+                  ),
+                  
+                  // Content
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: screenHeight * 0.06,
+                      left: screenWidth * 0.04,
+                      right: screenWidth * 0.04,
+                      bottom: 0,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Verify Your Email",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: screenWidth * 0.06,
                             ),
                           ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(30),
-                              onTap: () {},
-                              child: Center(
+                          SizedBox(height: screenHeight * 0.015),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                  fontSize: screenWidth * 0.035,
+                                ),
+                                children: [
+                                  TextSpan(text: 'Please enter the 4 digit code we sent to '),
+                                  TextSpan(
+                                    text: 'emailaddress@gmail.com',
+                                    style: TextStyle(
+                                      color: Color(0xFF825E34),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.03),
+                          _OtpPinFields(
+                            onCompleted: (code) {
+                              debugPrint('OTP entered: $code');
+                            },
+                          ),
+                          SizedBox(height: screenHeight * 0.03),
+                          SizedBox(
+                            width: screenWidth * 0.8,
+                            child: Column(
+                              children: [
+                                // Resend button
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: screenWidth * 0.13,
+                                  child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(color: Color(0xFF825E34), width: 1.2),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                      backgroundColor: Colors.white,
+                                    ),
+                                    onPressed: () {},
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: screenWidth * 0.08,
+                                          height: screenWidth * 0.08,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: Color(0xFF825E34), width: 1.0),
+                                          ),
+                                          child: Icon(Icons.replay, color: Color(0xFF825E34), size: screenWidth * 0.05),
+                                        ),
+                                        SizedBox(width: 12),
+                                        Text(
+                                          'Resend',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: screenWidth * 0.045,
+                                            fontFamily: 'Montserrat',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: screenWidth * 0.04),
+                                
+                                // Verify button
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: screenWidth * 0.13,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Verify action
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: [Color(0xFFB8915A), Color(0xFF825E34)],
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Verify',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: screenWidth * 0.045,
+                                            fontFamily: 'Montserrat',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.03),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Already have an account? ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: screenWidth * 0.038,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle sign in tap
+                                },
                                 child: Text(
-                                  'Verify',
+                                  'Sign In',
                                   style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: screenWidth * 0.045,
-                                    fontWeight: FontWeight.w800,
+                                    color: Color(0xFF825E34),
+                                    fontSize: screenWidth * 0.040,
                                     fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.08,
-                          ),
-                          child: _OrDivider(
-                            fontSize: screenWidth * 0.04,
-                            horizontalPadding: screenWidth * 0.02,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Already have an account? ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.038,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // Handle sign in tap
-                              },
-                              child: Text(
-                                'Sign In',
-                                style: TextStyle(
-                                  color: Color(0xFF825E34),
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.040,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                          SizedBox(height: screenHeight * 0.02),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
@@ -343,102 +324,94 @@ class _Otp_Code_Screen extends State<Otp_Code_Screen> {
   }
 }
 
-class _OrDivider extends StatelessWidget {
-  final double fontSize;
-  final double horizontalPadding;
+class _OtpPinFields extends StatefulWidget {
+  final void Function(String)? onCompleted;
+  const _OtpPinFields({this.onCompleted});
 
-  const _OrDivider({required this.fontSize, required this.horizontalPadding});
+  @override
+  State<_OtpPinFields> createState() => _OtpPinFieldsState();
+}
+
+class _OtpPinFieldsState extends State<_OtpPinFields> {
+  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
+  final List<TextEditingController> _controllers = List.generate(4, (_) => TextEditingController());
+
+  @override
+  void dispose() {
+    for (final c in _controllers) {
+      c.dispose();
+    }
+    for (final f in _focusNodes) {
+      f.dispose();
+    }
+    super.dispose();
+  }
+
+  void _onChanged(int index, String value) {
+    if (value.length == 1) {
+      if (index < 3) {
+        FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+      } else {
+        FocusScope.of(context).unfocus();
+        final code = _controllers.map((c) => c.text).join();
+        if (widget.onCompleted != null) widget.onCompleted!(code);
+      }
+    } else if (value.isEmpty) {
+      if (index > 0) {
+        FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
+      }
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    return SizedBox(
-      width: screenWidth * 0.8,
-      child: Row(
-        children: [
-          Expanded(child: Container(height: 1, color: Colors.grey)),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Text(
-              'Or Sign Up With',
+    final width = MediaQuery.of(context).size.width;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(4, (i) {
+        final hasValue = _controllers[i].text.isNotEmpty;
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+          child: SizedBox(
+            width: width * 0.15,
+            height: width * 0.15,
+            child: TextField(
+              controller: _controllers[i],
+              focusNode: _focusNodes[i],
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(1)
+              ],
               style: TextStyle(
-                color: const Color.fromARGB(255, 36, 37, 38),
-                fontSize: fontSize,
-                fontFamily: 'Epunda Slab',
-                fontWeight: FontWeight.w400,
+                fontSize: width * 0.06,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
+              decoration: InputDecoration(
+                counterText: '',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: hasValue ? Color(0xFF825E34) : Colors.grey.shade300,
+                    width: hasValue ? 1.5 : 1,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF825E34), width: 2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.zero,
+              ),
+              onChanged: (val) => _onChanged(i, val),
             ),
           ),
-          Expanded(child: Container(height: 1, color: Colors.grey)),
-        ],
-      ),
-    );
-  }
-}
-
-class _ResponsiveTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String label;
-  final String hint;
-  final IconData icon;
-  final FocusNode focusNode;
-  final FocusNode nextFocusNode;
-  final TextInputAction textInputAction;
-  final Color? iconColor;
-  final double? fontSize;
-
-  const _ResponsiveTextField({
-
-    required this.controller,
-    required this.label,
-    required this.hint,
-    required this.icon,
-    required this.focusNode,
-    required this.nextFocusNode,
-    required this.textInputAction, this.iconColor, this.fontSize,
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return SizedBox(
-      width: screenWidth * 0.8,
-      height: screenWidth * 0.13,
-      child: TextField(
-        controller: controller,
-        focusNode: focusNode,
-        textInputAction: textInputAction,
-        style: TextStyle(
-          fontSize: fontSize ?? screenWidth * 0.045,
-          color: Colors.black,
-        ),
-        decoration: InputDecoration(
-          labelText: label,
-          hintText: hint,
-          prefixIcon: Icon(
-            icon,
-            color: iconColor ?? const Color.fromARGB(255, 0, 0, 0),
-          ),
-          contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(color: const Color(0xFF8715C9), width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(color: const Color(0xFF8715C9), width: 2),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(color: const Color(0xFF8715C9), width: 1),
-          ),
-        ),
-        onSubmitted: (_) {
-          FocusScope.of(context).requestFocus(nextFocusNode);
-        },
-      ),
+        );
+      }),
     );
   }
 }
