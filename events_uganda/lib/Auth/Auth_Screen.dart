@@ -23,7 +23,6 @@ class _AuthScreenState extends State<AuthScreen>
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
       await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       print('Google sign-in error: $e');
