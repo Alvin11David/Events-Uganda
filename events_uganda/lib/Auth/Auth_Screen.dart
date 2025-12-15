@@ -293,4 +293,5 @@ class _AuthScreenState extends State<AuthScreen>
 }
 
 class standard {
+  Future<GoogleSignInAccount?> signIn() async {}
 }
