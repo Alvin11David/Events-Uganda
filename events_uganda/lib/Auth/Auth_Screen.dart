@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -16,24 +15,23 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   Future<void> signInWithGoogle() async {
-  try {
-    final googleSignIn = GoogleSignIn.standard();
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-    if (googleUser == null) return;
+    try {
+      final googleSignIn = GoogleSignIn.standard();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) return;
 
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      idToken: googleAuth.idToken,
-    );
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
-  } catch (e) {
-    debugPrint('Google sign-in error: $e');
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      debugPrint('Google sign-in error: $e');
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
