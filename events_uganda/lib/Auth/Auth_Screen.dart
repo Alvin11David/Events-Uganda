@@ -14,23 +14,20 @@ class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   Future<void> signInWithGoogle() async {
   try {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    final googleSignIn = GoogleSignIn.standard();
+    final googleUser = await googleSignIn.signInSilently() ?? await googleSignIn.signInInteractive();
     if (googleUser == null) return;
 
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
+    final googleAuth = await googleUser.authentication;
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+      idToken: googleAuth.idToken, // Only idToken is available
+      // accessToken: googleAuth.accessToken, // REMOVE THIS LINE
     );
 
     await FirebaseAuth.instance.signInWithCredential(credential);
   } catch (e) {
-    debugPrint('Google sign-in error: $e');
+    print('Google sign-in error: $e');
   }
-}
 
 
   @override
