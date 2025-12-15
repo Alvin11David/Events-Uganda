@@ -14,7 +14,7 @@ class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   Future<void> signInWithGoogle() async {
   try {
-    final googleSignIn = GoogleSignIn();
+    final googleSignIn = GoogleSignIn.standard();
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser == null) return;
 
