@@ -22,7 +22,6 @@ class _AuthScreenState extends State<AuthScreen>
         await googleUser.authentication;
 
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
