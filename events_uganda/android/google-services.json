@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "830864962380",
+    "project_id": "events-uganda",
+    "storage_bucket": "events-uganda.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830864962380:android:7842c491b29dd5988255e9",
+        "android_client_info": {
+          "package_name": "com.example.events_uganda"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpBekZrexbvQan6Uo6Sl4DZJCBDF04-7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
