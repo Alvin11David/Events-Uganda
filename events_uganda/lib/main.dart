@@ -3,9 +3,12 @@ import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen2.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen3.dart';
 import 'package:events_uganda/Other%20Screens/Splash_Screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: OnboardingScreen3(),
+      home: AuthScreen(),
     );
   }
 }
