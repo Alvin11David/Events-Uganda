@@ -1,6 +1,4 @@
 import 'dart:ui';
-import 'package:events_uganda/Auth/Auth_Screen.dart';
-import 'package:events_uganda/Auth/Auth_Screen.dart' as GoogleSignIn;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,23 +13,28 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   Future<void> signInWithGoogle() async {
-    try {
-      final googleSignIn = GoogleSignIn.standard();
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return;
+  try {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+    final GoogleSignInAccount? googleUser =
+        await googleSignIn.signIn();
 
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
+    if (googleUser == null) return;
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
-    } catch (e) {
-      debugPrint('Google sign-in error: $e');
-    }
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+      accessToken: googleAuth.accessToken,
+    );
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
+  } catch (e) {
+    debugPrint('Google Sign-In error: $e');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -205,32 +208,35 @@ class _AuthScreenState extends State<AuthScreen>
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.03),
-                        Container(
-                          width: screenWidth * 0.85, // Adjust width as needed
-                          height: screenHeight * 0.07, // Thin rectangle
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/vectors/google.png',
-                                width: screenWidth * 0.07,
-                                height: screenWidth * 0.07,
-                              ),
-                              SizedBox(width: screenWidth * 0.03),
-                              Text(
-                                'Continue with Google',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: screenWidth * 0.045,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'PlayfairDisplay',
+                        GestureDetector(
+                          onTap: signInWithGoogle,
+                          child: Container(
+                            width: screenWidth * 0.85, // Adjust width as needed
+                            height: screenHeight * 0.07, // Thin rectangle
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/vectors/google.png',
+                                  width: screenWidth * 0.07,
+                                  height: screenWidth * 0.07,
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: screenWidth * 0.03),
+                                Text(
+                                  'Continue with Google',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: screenWidth * 0.045,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'PlayfairDisplay',
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -288,8 +294,4 @@ class _AuthScreenState extends State<AuthScreen>
       ),
     );
   }
-}
-
-class standard {
-  Future<GoogleSignInAccount?> signIn() async {}
 }
