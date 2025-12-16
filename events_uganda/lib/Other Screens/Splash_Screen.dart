@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:events_uganda/Auth/Sign_Up_Screen.dart';
+import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -78,10 +79,10 @@ class _SplashScreenState extends State<SplashScreen>
     Timer(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SignUpScreen()),
+        MaterialPageRoute(builder: (context) => const OnboardingScreen1()),
       );
     });
-    int totalSquares = 4 * 9; // 4 columns, 8 squares each
+    int totalSquares = 4 * 9; 
     _controllers = List.generate(
       totalSquares,
       (index) => AnimationController(

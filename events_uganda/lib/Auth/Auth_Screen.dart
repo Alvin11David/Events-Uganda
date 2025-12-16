@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:events_uganda/Auth/Sign_In_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,28 +14,26 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   Future<void> signInWithGoogle() async {
-  try {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
 
-    final GoogleSignInAccount? googleUser =
-        await googleSignIn.signIn();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
-    if (googleUser == null) return;
+      if (googleUser == null) return;
 
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      idToken: googleAuth.idToken,
-      accessToken: googleAuth.accessToken,
-    );
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
+      );
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
-  } catch (e) {
-    debugPrint('Google Sign-In error: $e');
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      debugPrint('Google Sign-In error: $e');
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -242,43 +241,54 @@ class _AuthScreenState extends State<AuthScreen>
                         SizedBox(
                           height: screenHeight * 0.03,
                         ), // Space between rectangles
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                            child: Container(
-                              width:
-                                  screenWidth * 0.85, // Adjust width as needed
-                              height:
-                                  screenHeight *
-                                  0.07, // Adjust height as needed
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.18),
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.3),
-                                  width: 1.5,
-                                ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignInScreen(),
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.mail,
-                                    color: Colors.white,
-                                    size: screenWidth * 0.07,
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                              child: Container(
+                                width:
+                                    screenWidth *
+                                    0.85, // Adjust width as needed
+                                height:
+                                    screenHeight *
+                                    0.07, // Adjust height as needed
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.18),
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(0.3),
+                                    width: 1.5,
                                   ),
-                                  SizedBox(width: screenWidth * 0.03),
-                                  Text(
-                                    'Continue with Email',
-                                    style: TextStyle(
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.mail,
                                       color: Colors.white,
-                                      fontSize: screenWidth * 0.045,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'PlayfairDisplay',
+                                      size: screenWidth * 0.07,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: screenWidth * 0.03),
+                                    Text(
+                                      'Continue with Email',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: screenWidth * 0.045,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'PlayfairDisplay',
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

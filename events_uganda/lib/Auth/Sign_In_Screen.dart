@@ -1,3 +1,4 @@
+import 'package:events_uganda/Auth/Sign_Up_Screen.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -12,6 +13,9 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _contactFocus = FocusNode();
+
+  final bool obscureText = true;
 
   @override
   void dispose() {
@@ -55,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   gradient: RadialGradient(
                     colors: [
                       const Color.fromARGB(255, 243, 67, 8).withOpacity(0.65),
-                      Colors.transparent
+                      Colors.transparent,
                     ],
                     radius: 0.65,
                   ),
@@ -107,8 +111,11 @@ class _SignInScreenState extends State<SignInScreen> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new,
-                    size: screen.width * 0.065, color: Colors.black),
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  size: screen.width * 0.065,
+                  color: Colors.black,
+                ),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
             ),
@@ -185,28 +192,25 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     SizedBox(height: screen.height * 0.03),
-                    _RoundedField(
-                      controller: _emailController,
-                      label: 'Email',
-                      hint: 'Enter Your Email',
-                      icon: Icons.email_rounded,
-                      focusNode: _emailFocus,
-                      nextFocusNode: _passwordFocus,
-                      textInputAction: TextInputAction.next,
-                      accent: accent,
-                    ),
+                    _ResponsiveTextField(
+                          controller: _emailController,
+                          label: 'Email',
+                          hint: 'Enter Your Email',
+                          icon: Icons.mail,
+                          focusNode: _emailFocus,
+                          nextFocusNode: _passwordFocus,
+                          textInputAction: TextInputAction.next,
+                        ),
                     SizedBox(height: screen.height * 0.022),
-                    _RoundedField(
-                      controller: _passwordController,
-                      label: 'Password',
-                      hint: 'Enter Your Password',
-                      icon: Icons.lock_rounded,
-                      focusNode: _passwordFocus,
-                      nextFocusNode: _passwordFocus,
-                      textInputAction: TextInputAction.done,
-                      accent: accent,
-                      isPassword: true,
-                    ),
+                     _ResponsiveTextField(
+                          controller: _passwordController,
+                          label: 'Password',
+                          hint: 'Enter Your Password',
+                          icon: Icons.lock,
+                          focusNode: _passwordFocus,
+                          nextFocusNode: _contactFocus,
+                          textInputAction: TextInputAction.next,
+                        ),
                     SizedBox(height: screen.height * 0.016),
                     Align(
                       alignment: Alignment.centerRight,
@@ -231,6 +235,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
+                           border: Border.all(
+                              color: const Color(0xFFCB471B),
+                              width: 1,
+                            ),
                           gradient: const LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
@@ -272,10 +280,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     Row(
                       children: [
                         const Expanded(
-                            child: Divider(color: Colors.grey, thickness: 0.8)),
+                          child: Divider(color: Colors.grey, thickness: 0.8),
+                        ),
                         Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: screen.width * 0.02),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screen.width * 0.02,
+                          ),
                           child: Text(
                             'Or Sign Up With',
                             style: TextStyle(
@@ -287,7 +297,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ),
                         const Expanded(
-                            child: Divider(color: Colors.grey, thickness: 0.8)),
+                          child: Divider(color: Colors.grey, thickness: 0.8),
+                        ),
                       ],
                     ),
                     SizedBox(height: screen.height * 0.02),
@@ -322,7 +333,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // TODO: navigate to sign up
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUpScreen(),
+                              ),
+                            );
                           },
                           child: Text(
                             'Sign Up',
@@ -419,7 +435,11 @@ class _RoundedFieldState extends State<_RoundedField> {
               color: Colors.black,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(widget.icon, color: Colors.white, size: screen.width * 0.055),
+            child: Icon(
+              widget.icon,
+              color: Colors.white,
+              size: screen.width * 0.055,
+            ),
           ),
           suffixIcon: widget.isPassword
               ? IconButton(
@@ -430,7 +450,10 @@ class _RoundedFieldState extends State<_RoundedField> {
                   onPressed: () => setState(() => _obscure = !_obscure),
                 )
               : null,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(28),
             borderSide: BorderSide(color: widget.accent, width: 1.4),
@@ -440,7 +463,8 @@ class _RoundedFieldState extends State<_RoundedField> {
             borderSide: BorderSide(color: widget.accent, width: 2),
           ),
         ),
-        onSubmitted: (_) => FocusScope.of(context).requestFocus(widget.nextFocusNode),
+        onSubmitted: (_) =>
+            FocusScope.of(context).requestFocus(widget.nextFocusNode),
       ),
     );
   }
@@ -451,11 +475,7 @@ class _SocialBtn extends StatelessWidget {
   final Color bg;
   final double size;
 
-  const _SocialBtn({
-    required this.asset,
-    required this.bg,
-    required this.size,
-  });
+  const _SocialBtn({required this.asset, required this.bg, required this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -475,6 +495,72 @@ class _SocialBtn extends StatelessWidget {
       ),
       padding: EdgeInsets.all(size * 0.22),
       child: Image.asset(asset, fit: BoxFit.contain),
+    );
+  }
+}
+
+class _ResponsiveTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final String hint;
+  final IconData icon;
+  final FocusNode focusNode;
+  final FocusNode nextFocusNode;
+  final TextInputAction textInputAction;
+  final Color? iconColor;
+  final double? fontSize;
+
+  const _ResponsiveTextField({
+    required this.controller,
+    required this.label,
+    required this.hint,
+    required this.icon,
+    required this.focusNode,
+    required this.nextFocusNode,
+    required this.textInputAction,
+    this.iconColor,
+    this.fontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return SizedBox(
+      width: screenWidth * 0.8,
+      height: screenWidth * 0.13,
+      child: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        textInputAction: textInputAction,
+        style: TextStyle(
+          fontSize: fontSize ?? screenWidth * 0.045,
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          prefixIcon: Icon(
+            icon,
+            color: iconColor ?? const Color.fromARGB(255, 0, 0, 0),
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: const Color(0xFFCB471B), width: 1),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: const Color(0xFFCB471B), width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: const Color(0xFFCB471B), width: 1),
+          ),
+        ),
+        onSubmitted: (_) {
+          FocusScope.of(context).requestFocus(nextFocusNode);
+        },
+      ),
     );
   }
 }

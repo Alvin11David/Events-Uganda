@@ -256,8 +256,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             ),
           ),
           Positioned(
-            // Adjust 'top' to place it below cake1.jpg
-            top: screenHeight * 0.62, // Example value, tweak as needed
+            top: screenHeight * 0.62, 
             left: -screenWidth * 0.09,
             child: Image.asset(
               'vectors/onboardingscreen3vect.png',
@@ -267,8 +266,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             ),
           ),
           Positioned(
-            // Adjust 'top' to place it below cake1.jpg
-            top: screenHeight * 0.82, // Example value, tweak as needed
+            top: screenHeight * 0.82, 
             right: -screenWidth * 0.06,
             child: Image.asset(
               'vectors/onboardingscreen3vect.png',

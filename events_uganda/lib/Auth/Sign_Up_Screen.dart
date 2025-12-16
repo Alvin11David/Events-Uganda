@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:events_uganda/Auth/Sign_In_Screen.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -359,7 +360,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                // Handle sign in tap
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignInScreen(),
+                                  ),
+                                );
                               },
                               child: Text(
                                 'Sign In',
@@ -432,17 +438,16 @@ class _ResponsiveTextField extends StatelessWidget {
   final double? fontSize;
 
   const _ResponsiveTextField({
-
     required this.controller,
     required this.label,
     required this.hint,
     required this.icon,
     required this.focusNode,
     required this.nextFocusNode,
-    required this.textInputAction, this.iconColor, this.fontSize,
+    required this.textInputAction,
+    this.iconColor,
+    this.fontSize,
   });
-
-
 
   @override
   Widget build(BuildContext context) {
