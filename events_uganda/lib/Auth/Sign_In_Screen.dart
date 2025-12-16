@@ -41,6 +41,7 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -62,336 +63,333 @@ class _SignInScreenState extends State<SignInScreen> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
-          children: [
-            // Gradient background (black → deep orange)
-            Container(),
-            // Orange glow overlay at top
-            Positioned(
-              top: MediaQuery.of(context).size.height * 0.0, // adjust as needed
-              right:
-                  (MediaQuery.of(context).size.width +
-                      MediaQuery.of(context).size.width * 1) /
-                  300,
-              child: Image.asset(
-                'assets/backgroundcolors/signinscreen.png',
-                width:
-                    MediaQuery.of(context).size.width *
-                    1.08, // responsive width
-                height:
-                    MediaQuery.of(context).size.height *
-                    0.9, // responsive height
-                fit: BoxFit.contain,
-              ),
+        children: [
+          // Gradient background (black → deep orange)
+          Container(
+            
+          ),
+          // Orange glow overlay at top
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.0, // adjust as needed
+            right:
+                (MediaQuery.of(context).size.width +
+                    MediaQuery.of(context).size.width * 1) /
+                300,
+            child: Image.asset(
+              'assets/backgroundcolors/signinscreen.png',
+              width:
+                  MediaQuery.of(context).size.width * 1.08, // responsive width
+              height:
+                  MediaQuery.of(context).size.height * 0.9, // responsive height
+              fit: BoxFit.contain,
             ),
-            // Decorative vectors
-            Positioned(
-              top: screen.height * 0.21,
-              left:
-                  (MediaQuery.of(context).size.width -
-                      MediaQuery.of(context).size.width * 0.15) /
-                  1,
-              child: Image.asset(
-                'assets/vectors/signinvect.png',
-                width: screen.width * 0.10,
-                height: screen.width * 0.10,
-                fit: BoxFit.contain,
-              ),
+          ),
+          // Decorative vectors
+          Positioned(
+            top: screen.height * 0.21,
+            left:
+                (MediaQuery.of(context).size.width -
+                    MediaQuery.of(context).size.width * 0.15) /
+                1,
+            child: Image.asset(
+              'assets/vectors/signinvect.png',
+              width: screen.width * 0.10,
+              height: screen.width * 0.10,
+              fit: BoxFit.contain,
             ),
-            Positioned(
-              top: screen.height * 0.18,
-              right:
-                  (MediaQuery.of(context).size.width -
-                      MediaQuery.of(context).size.width * 0.15) /
-                  1,
-              child: Image.asset(
-                'assets/vectors/signinvect.png',
-                width: screen.width * 0.10,
-                height: screen.width * 0.10,
-                fit: BoxFit.contain,
-              ),
+          ),
+          Positioned(
+            top: screen.height * 0.18,
+            right:
+                (MediaQuery.of(context).size.width -
+                    MediaQuery.of(context).size.width * 0.15) /
+                1,
+            child: Image.asset(
+              'assets/vectors/signinvect.png',
+              width: screen.width * 0.10,
+              height: screen.width * 0.10,
+              fit: BoxFit.contain,
             ),
-            // Logo ring
-            Positioned(
-              top: screen.height * 0.03,
-              left: (screen.width - screen.width * 0.30) / 2,
-              child: Image.asset(
-                'assets/vectors/logo.png',
-                width: screen.width * 0.30,
-                height: screen.width * 0.30,
-                fit: BoxFit.contain,
-              ),
+          ),
+          // Logo ring
+          Positioned(
+            top: screen.height * 0.03,
+            left: (screen.width - screen.width * 0.30) / 2,
+            child: Image.asset(
+              'assets/vectors/logo.png',
+              width: screen.width * 0.30,
+              height: screen.width * 0.30,
+              fit: BoxFit.contain,
             ),
-            // Back button
-            Positioned(
-              top: screen.height * 0.05,
-              left: screen.width * 0.05,
-              child: Container(
-                width: screen.width * 0.13,
-                height: screen.width * 0.13,
-                decoration: BoxDecoration(
-                  color: peach,
-                  borderRadius: BorderRadius.circular(16),
+          ),
+          // Back button
+          Positioned(
+            top: screen.height * 0.05,
+            left: screen.width * 0.05,
+            child: Container(
+              width: screen.width * 0.13,
+              height: screen.width * 0.13,
+              decoration: BoxDecoration(
+                color: peach,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  size: screen.width * 0.065,
+                  color: Colors.black,
                 ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new,
-                    size: screen.width * 0.065,
-                    color: Colors.black,
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
+            ),
+          ),
+          // Heading
+          Positioned(
+            top: screen.height * 0.16,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                Text(
+                  "Let's get you",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Montserrat',
+                    fontSize: screen.width * 0.08,
+                    fontWeight: FontWeight.w800,
                   ),
-                  onPressed: () => Navigator.of(context).maybePop(),
+                ),
+                Text(
+                  "signed in!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Montserrat',
+                    fontSize: screen.width * 0.08,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Form container
+          Positioned(
+            top:
+                MediaQuery.of(context).size.height * 0.10 +
+                MediaQuery.of(context).size.width * 0.22 +
+                MediaQuery.of(context).size.height * 0.015 +
+                MediaQuery.of(context).size.width * 0.13,
+            left: MediaQuery.of(context).size.width * 0.03,
+            right: MediaQuery.of(context).size.width * 0.03,
+            bottom: 0,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: screen.width * 0.08,
+                vertical: screen.height * 0.03,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(36),
+                  topRight: Radius.circular(36),
                 ),
               ),
-            ),
-            // Heading
-            Positioned(
-              top: screen.height * 0.16,
-              left: 0,
-              right: 0,
-              child: Column(
-                children: [
-                  Text(
-                    "Let's get you",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Montserrat',
-                      fontSize: screen.width * 0.08,
-                      fontWeight: FontWeight.w800,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      "Sign In",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black,
+                        fontSize: screen.width * 0.05,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "signed in!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Montserrat',
-                      fontSize: screen.width * 0.08,
-                      fontWeight: FontWeight.w800,
+                    SizedBox(height: screen.height * 0.006),
+                    Text(
+                      'Please enter the details to continue.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Abril Fatface',
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                        fontSize: screen.width * 0.035,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            // Form container
-            Positioned(
-              top:
-                  MediaQuery.of(context).size.height * 0.10 +
-                  MediaQuery.of(context).size.width * 0.22 +
-                  MediaQuery.of(context).size.height * 0.015 +
-                  MediaQuery.of(context).size.width * 0.13,
-              left: MediaQuery.of(context).size.width * 0.03,
-              right: MediaQuery.of(context).size.width * 0.03,
-              bottom: 0,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screen.width * 0.08,
-                  vertical: screen.height * 0.03,
-                ),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(36),
-                    topRight: Radius.circular(36),
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text(
-                        "Sign In",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black,
-                          fontSize: screen.width * 0.05,
+                    SizedBox(height: screen.height * 0.03),
+                    _ResponsiveTextField(
+                          controller: _emailController,
+                          label: 'Email',
+                          hint: 'Enter Your Email',
+                          icon: Icons.mail,
+                          focusNode: _emailFocus,
+                          nextFocusNode: _passwordFocus,
+                          textInputAction: TextInputAction.next,
+                        ),
+                    SizedBox(height: screen.height * 0.03),
+                     _ResponsiveTextField(
+                          controller: _passwordController,
+                          label: 'Password',
+                          hint: 'Enter Your Password',
+                          icon: Icons.lock,
+                          focusNode: _passwordFocus,
+                          nextFocusNode: _contactFocus,
+                          textInputAction: TextInputAction.next,
+                        ),
+                    SizedBox(height: screen.height * 0.016),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: screen.width * 0.02),
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: screen.width * 0.038,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                      SizedBox(height: screen.height * 0.006),
-                      Text(
-                        'Please enter the details to continue.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Abril Fatface',
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          fontSize: screen.width * 0.035,
+                    ),
+                    SizedBox(height: screen.height * 0.028),
+                    // Sign In button
+                    SizedBox(
+                      width: double.infinity,
+                      height: screen.width * 0.12,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                           border: Border.all(
+                              color: const Color(0xFFCB471B),
+                              width: 1,
+                            ),
+                          gradient: const LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [lightGrad, accent],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: accent.withOpacity(0.25),
+                              blurRadius: 10,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: screen.height * 0.03),
-                      _ResponsiveTextField(
-                        controller: _emailController,
-                        label: 'Email',
-                        hint: 'Enter Your Email',
-                        icon: Icons.mail,
-                        focusNode: _emailFocus,
-                        nextFocusNode: _passwordFocus,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      SizedBox(height: screen.height * 0.03),
-                      _ResponsiveTextField(
-                        controller: _passwordController,
-                        label: 'Password',
-                        hint: 'Enter Your Password',
-                        icon: Icons.lock,
-                        focusNode: _passwordFocus,
-                        nextFocusNode: _contactFocus,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      SizedBox(height: screen.height * 0.016),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(right: screen.width * 0.02),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          onPressed: () {
+                            // TODO: hook up sign-in
+                          },
                           child: Text(
-                            'Forgot Password?',
+                            'Sign In',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: screen.width * 0.038,
+                              fontSize: screen.width * 0.045,
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: screen.height * 0.028),
+                    // Divider
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Divider(color: Colors.grey, thickness: 0.8),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screen.width * 0.02,
+                          ),
+                          child: Text(
+                            'Or Sign Up With',
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: screen.width * 0.035,
+                              fontFamily: 'Epunda Slab',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        const Expanded(
+                          child: Divider(color: Colors.grey, thickness: 0.8),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: screen.height * 0.02),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: signInWithGoogle,
+                        child: _SocialBtn(
+                          bg: socialBg,
+                          asset: 'assets/vectors/google.png',
+                          size: screen.width * 0.16,
+                        ),
+                        ),
+                        SizedBox(width: screen.width * 0.06),
+                        _SocialBtn(
+                          bg: socialBg,
+                          asset: 'assets/vectors/apple.png',
+                          size: screen.width * 0.16,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: screen.height * 0.025),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Already have an account? ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: screen.width * 0.037,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUpScreen(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              color: accent,
+                              fontSize: screen.width * 0.040,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: screen.height * 0.028),
-                      // Sign In button
-                      SizedBox(
-                        width: double.infinity,
-                        height: screen.width * 0.12,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: const Color(0xFFCB471B),
-                              width: 1,
-                            ),
-                            gradient: const LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [lightGrad, accent],
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: accent.withOpacity(0.25),
-                                blurRadius: 10,
-                                offset: const Offset(0, 6),
-                              ),
-                            ],
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            onPressed: () {
-                              // TODO: hook up sign-in
-                            },
-                            child: Text(
-                              'Sign In',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: screen.width * 0.045,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: screen.height * 0.028),
-                      // Divider
-                      Row(
-                        children: [
-                          const Expanded(
-                            child: Divider(color: Colors.grey, thickness: 0.8),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: screen.width * 0.02,
-                            ),
-                            child: Text(
-                              'Or Sign Up With',
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: screen.width * 0.035,
-                                fontFamily: 'Epunda Slab',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          const Expanded(
-                            child: Divider(color: Colors.grey, thickness: 0.8),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screen.height * 0.02),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: signInWithGoogle,
-                            child: _SocialBtn(
-                              bg: socialBg,
-                              asset: 'assets/vectors/google.png',
-                              size: screen.width * 0.16,
-                            ),
-                          ),
-                          SizedBox(width: screen.width * 0.06),
-                          GestureDetector(
-                            onTap: signInWithGoogle,
-                            child: _SocialBtn(
-                              bg: socialBg,
-                              asset: 'assets/vectors/apple.png',
-                              size: screen.width * 0.16,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screen.height * 0.025),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Already have an account? ',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: screen.width * 0.037,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignUpScreen(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                color: accent,
-                                fontSize: screen.width * 0.040,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screen.height * 0.015),
-                    ],
-                  ),
+                      ],
+                    ),
+                    SizedBox(height: screen.height * 0.015),
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
+        ],
         ),
       ),
     );
