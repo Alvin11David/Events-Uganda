@@ -145,8 +145,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 MediaQuery.of(context).size.width * 0.22 +
                 MediaQuery.of(context).size.height * 0.015 +
                 MediaQuery.of(context).size.width * 0.13,
-            left: MediaQuery.of(context).size.width * 0.04,
-            right: MediaQuery.of(context).size.width * 0.04,
+            left: MediaQuery.of(context).size.width * 0.03,
+            right: MediaQuery.of(context).size.width * 0.03,
             bottom: 0,
             child: Container(
               width: double.infinity,
@@ -268,7 +268,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: Colors.transparent,
                             child: InkWell(
                               borderRadius: BorderRadius.circular(30),
-                              onTap: () {},
+                              onTap: () {
+                              },
                               child: Center(
                                 child: Text(
                                   'Sign Up',

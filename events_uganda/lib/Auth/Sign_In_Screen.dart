@@ -69,22 +69,28 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           // Decorative vectors
           Positioned(
-            top: screen.height * 0.20,
-            left: screen.width * 0.10,
+            top: screen.height * 0.21,
+            left:
+                (MediaQuery.of(context).size.width -
+                    MediaQuery.of(context).size.width * 0.15) /
+                1,
             child: Image.asset(
-              'assets/vectors/signupvect.png',
-              width: screen.width * 0.12,
-              height: screen.width * 0.12,
+              'assets/vectors/signinvect.png',
+              width: screen.width * 0.10,
+              height: screen.width * 0.10,
               fit: BoxFit.contain,
             ),
           ),
           Positioned(
             top: screen.height * 0.18,
-            right: screen.width * 0.10,
+            right:
+                (MediaQuery.of(context).size.width -
+                    MediaQuery.of(context).size.width * 0.15) /
+                1,
             child: Image.asset(
-              'assets/vectors/signupvect.png',
-              width: screen.width * 0.12,
-              height: screen.width * 0.12,
+              'assets/vectors/signinvect.png',
+              width: screen.width * 0.10,
+              height: screen.width * 0.10,
               fit: BoxFit.contain,
             ),
           ),
@@ -152,9 +158,13 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           // Form container
           Positioned(
-            top: screen.height * 0.30,
-            left: 0,
-            right: 0,
+            top:
+                MediaQuery.of(context).size.height * 0.10 +
+                MediaQuery.of(context).size.width * 0.22 +
+                MediaQuery.of(context).size.height * 0.015 +
+                MediaQuery.of(context).size.width * 0.13,
+            left: MediaQuery.of(context).size.width * 0.03,
+            right: MediaQuery.of(context).size.width * 0.03,
             bottom: 0,
             child: Container(
               padding: EdgeInsets.symmetric(
@@ -201,7 +211,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           nextFocusNode: _passwordFocus,
                           textInputAction: TextInputAction.next,
                         ),
-                    SizedBox(height: screen.height * 0.022),
+                    SizedBox(height: screen.height * 0.03),
                      _ResponsiveTextField(
                           controller: _passwordController,
                           label: 'Password',
