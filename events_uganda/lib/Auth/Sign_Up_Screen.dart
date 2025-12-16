@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:events_uganda/Auth/Sign_In_Screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -22,6 +24,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _contactFocus = FocusNode();
 
   final bool obscureText = true;
+
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser == null) return;
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      debugPrint('Google Sign-In error: $e');
+    }
+  }
+
 
   @override
   void dispose() {
