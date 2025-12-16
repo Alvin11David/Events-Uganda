@@ -36,35 +36,27 @@ class _SignInScreenState extends State<SignInScreen> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
+      body: SafeArea(
+        child: Stack(
         children: [
           // Gradient background (black → deep orange)
           Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.black, Color.fromARGB(255, 231, 9, 9)],
-              ),
-            ),
+            
           ),
           // Orange glow overlay at top
-          Positioned.fill(
-            child: Align(
-              alignment: const Alignment(0, -0.55),
-              child: Container(
-                width: screen.width * 1.3,
-                height: screen.width * 1.0,
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    colors: [
-                      const Color.fromARGB(255, 243, 67, 8).withOpacity(0.65),
-                      Colors.transparent,
-                    ],
-                    radius: 0.65,
-                  ),
-                ),
-              ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.0, // adjust as needed
+            right:
+                (MediaQuery.of(context).size.width +
+                    MediaQuery.of(context).size.width * 1) /
+                300,
+            child: Image.asset(
+              'assets/backgroundcolors/signinscreen.png',
+              width:
+                  MediaQuery.of(context).size.width * 1.08, // responsive width
+              height:
+                  MediaQuery.of(context).size.height * 0.9, // responsive height
+              fit: BoxFit.contain,
             ),
           ),
           // Decorative vectors
@@ -369,6 +361,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ),
         ],
+        ),
       ),
     );
   }

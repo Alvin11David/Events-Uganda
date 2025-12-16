@@ -43,7 +43,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final diameter = screenWidth * 0.9; // Responsive, nearly full width
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
+      body: SafeArea(
+        child: Stack(
         children: [
           // Top center image
           Positioned(
@@ -389,6 +390,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
         ],
+        ),
       ),
     );
   }

@@ -41,7 +41,8 @@ class _AuthScreenState extends State<AuthScreen>
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
+      body: SafeArea(
+        child: Stack(
         children: [
           Positioned(
             top: MediaQuery.of(context).size.height * 0.0,
@@ -301,6 +302,7 @@ class _AuthScreenState extends State<AuthScreen>
             ),
           ),
         ],
+        ),
       ),
     );
   }
