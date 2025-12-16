@@ -125,20 +125,23 @@ class _SignInScreenState extends State<SignInScreen> {
             Positioned(
               top: screen.height * 0.05,
               left: screen.width * 0.05,
-              child: Container(
-                width: screen.width * 0.13,
-                height: screen.width * 0.13,
-                decoration: BoxDecoration(
-                  color: peach,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new,
-                    size: screen.width * 0.065,
-                    color: Colors.black,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).maybePop(),
+                child: Container(
+                  width: screen.width * 0.13,
+                  height: screen.width * 0.13,
+                  decoration: BoxDecoration(
+                    color: peach,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  onPressed: () => Navigator.of(context).maybePop(),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.chevron_left,
+                      size: screen.width * 0.065,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => Navigator.of(context).maybePop(),
+                  ),
                 ),
               ),
             ),
