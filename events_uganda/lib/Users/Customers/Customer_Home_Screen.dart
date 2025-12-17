@@ -590,6 +590,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   ),
                   SizedBox(height: screenWidth * 0.03),
                   SingleChildScrollView(
+                    controller: _circleScrollController,
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(
                       horizontal: screenWidth * 0.04,
