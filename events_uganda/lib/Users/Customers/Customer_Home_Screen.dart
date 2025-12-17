@@ -113,6 +113,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   void dispose() {
     _countdownTimer?.cancel();
     _searchFocus.dispose();
+    _circleScrollController.dispose();
     _promoScrollController.dispose();
     super.dispose();
   }
