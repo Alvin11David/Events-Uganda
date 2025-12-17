@@ -37,6 +37,26 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               fit: BoxFit.contain,
             ),
           ),
+          Positioned(
+            top: screenHeight * 0.04,
+            right: screenWidth * 0.04,
+            child: Container(
+              width: screenWidth * 0.128,
+              height: screenWidth * 0.128,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 10,
+                    offset: const Offset(0,4),
+                    )
+                  
+                ]
+              ),
+            )
+          )
         ],
         ),
       ),
