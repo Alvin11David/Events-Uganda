@@ -733,6 +733,26 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                       ],
                     ),
                   ),
+                  SizedBox(height: screenWidth * 0.03),
+                  SizedBox(
+                    height: 240,
+                    child: SingleChildScrollView(
+                      controller: _forYouScrollController,
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04,
+                      ),
+                      child: Row(
+                        children: [
+                          _buildForYouImage('assets/images/cake2.jpg', 0),
+                          SizedBox(width: screenWidth * 0.04),
+                          _buildForYouImage('assets/images/carhire1.jpg', 1),
+                          SizedBox(width: screenWidth * 0.04),
+                          _buildForYouImage('assets/images/photography.jpg', 2),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
