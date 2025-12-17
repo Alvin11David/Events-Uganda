@@ -61,6 +61,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final promoTop =
+        screenHeight * 0.15 + screenWidth * 0.12 + screenHeight * 0.02;
+    final promoHeight = screenWidth * 0.46;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -163,7 +166,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               ),
             ),
             Positioned(
-              top: screenHeight * 0.128,
+              top: screenHeight * 0.122,
               right: screenWidth * 0.04,
               child: Container(
                 width: screenWidth * 0.128,
@@ -253,14 +256,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               ),
             ),
             Positioned(
-              top:
-                  screenHeight * 0.15 +
-                  screenWidth * 0.12 +
-                  screenHeight * 0.02,
+              top: promoTop,
               left: screenWidth * 0.04,
               right: screenWidth * 0.04,
               child: Container(
-                height: screenWidth * 0.43,
+                height: promoHeight,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(25),
@@ -275,85 +275,112 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(screenWidth * 0.04),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenWidth * 0.04,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Montserrat',
-                            ),
-                            children: [
-                              const TextSpan(
-                                text: 'GET YOUR SPECIAL CAR BOOKING\n',
-                              ),
-                              const TextSpan(text: 'UP TO '),
-                              TextSpan(
-                                text: '30%',
-                                style: TextStyle(
-                                  color: const Color(0xFFB47A25),
-                                  fontSize: screenWidth * 0.08,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.01),
-                        Text(
-                          'Time Left',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: screenWidth * 0.038,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.01),
-                        Row(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Left: existing text content
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              countdownText,
-                              style: TextStyle(
-                                color: const Color.fromARGB(255, 210, 141, 38),
-                                fontSize: screenWidth * 0.035,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 1.5,
+                            RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: screenWidth * 0.038,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Montserrat',
+                                ),
+                                children: [
+                                  const TextSpan(
+                                    text: 'GET YOUR SPECIAL CAR BOOKING\n',
+                                  ),
+                                  const TextSpan(text: 'UP TO '),
+                                  TextSpan(
+                                    text: '30%',
+                                    style: TextStyle(
+                                      color: const Color(0xFFB47A25),
+                                      fontSize: screenWidth * 0.07,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(width: screenWidth * 0.05),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.04,
-                                vertical: screenHeight * 0.006,
+                            SizedBox(height: screenHeight * 0.008),
+                            Text(
+                              'Time Left',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenWidth * 0.036,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Montserrat',
                               ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFB47A25),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'BOOK NOW',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  fontSize: screenWidth * 0.035,
-                                  fontWeight: FontWeight.w700,
+                            ),
+                            SizedBox(height: screenHeight * 0.008),
+                            Row(
+                              children: [
+                                Text(
+                                  countdownText,
+                                  style: TextStyle(
+                                    color: const Color.fromARGB(
+                                      255,
+                                      210,
+                                      141,
+                                      38,
+                                    ),
+                                    fontSize: screenWidth * 0.033,
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: 'Montserrat',
+                                    letterSpacing: 1.2,
+                                  ),
                                 ),
-                              ),
+                                const Spacer(),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.038,
+                                    vertical: screenHeight * 0.006,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFB47A25),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    'BOOK NOW',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      fontSize: screenWidth * 0.033,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(width: screenWidth * 0.02),
+                      // Right: image
+                      Image.asset(
+                        'assets/backgroundcolors/booking.png',
+                        width: screenWidth * 0.30, // adjust as needed
+                        height: screenWidth * 0.30, // adjust as needed
+                        fit: BoxFit.cover,
+                      ),
+                    ],
                   ),
                 ),
+              ),
+            ),
+            Positioned(
+              top: promoTop + promoHeight - screenWidth * 0.20,
+              right: -screenWidth * 0.0,
+              child: Image.asset(
+                'assets/images/nobgcar.png',
+                width: screenWidth * 0.42,
+                fit: BoxFit.contain,
               ),
             ),
           ],
