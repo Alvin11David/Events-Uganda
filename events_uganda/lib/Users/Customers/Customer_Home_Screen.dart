@@ -21,6 +21,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   int _activeCircleIndex = 0;
   final ScrollController _forYouScrollController = ScrollController();
   int _activeForYouIndex = 1;
+  final ScrollController _popularNowScrollController = ScrollController();
+  int _activePopularNowIndex = 1;
+  final Set<int> _likedPopularNowImages = {};
+  final Set<int> _cartedPopularNowImages = {};
   final Set<int> _likedImages = {};
   final Set<int> _cartedImages = {};
 
@@ -73,7 +77,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     super.initState();
     _promoScrollController.addListener(_onPromoScroll);
     _circleScrollController.addListener(_onCircleScroll);
+    _popularNowScrollController.addListener(_onPopularNowScroll);
     _forYouScrollController.addListener(_onForYouScroll);
+    _popularNowScrollController.addListener(_onPopularNowScroll);
     _startCountdown();
     _searchFocus.addListener(() {
       setState(() {
@@ -114,6 +120,30 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     }
   }
 
+  void _onPopularNowScroll() {
+    if (!mounted) return;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final imageWidth = 184.0;
+    final spacing = screenWidth * 0.04;
+    final offset = _popularNowScrollController.offset;
+    final maxScroll = _popularNowScrollController.position.maxScrollExtent;
+
+    int index;
+    if (offset <= (imageWidth + spacing) * 0.3) {
+      index = 0;
+    } else if (offset >= maxScroll - (imageWidth + spacing) * 0.3) {
+      index = 3;
+    } else if (offset < (imageWidth + spacing) * 1.2) {
+      index = 1;
+    } else {
+      index = 2;
+    }
+
+    if (index != _activePopularNowIndex) {
+      setState(() => _activePopularNowIndex = index);
+    }
+  }
+
   void _onForYouScroll() {
     if (!mounted) return;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -145,6 +175,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     _searchFocus.dispose();
     _circleScrollController.dispose();
     _promoScrollController.dispose();
+    _popularNowScrollController.dispose();
     _forYouScrollController.dispose();
     super.dispose();
   }
@@ -170,6 +201,229 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     final mins = _remaining.inMinutes.remainder(60);
     final secs = _remaining.inSeconds.remainder(60);
     return '${_fmt(hours)}:${_fmt(mins)}:${_fmt(secs)}';
+  }
+
+  Widget _buildPopularNowImage(
+    String imagePath,
+    int index,
+    String rating,
+    String title,
+    String price,
+  ) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isCentered = index == _activePopularNowIndex;
+    final relativePosition = index - _activePopularNowIndex;
+    final angle = relativePosition == -1
+        ? -11 *
+              3.14159 /
+              180 // Left position
+        : (relativePosition == 1
+              ? 11 *
+                    3.14159 /
+                    180 // Right position
+              : 0.0);
+
+    // Adjust these values to move left/right images
+    final offsetX = relativePosition == -1
+        ? -28.0 // Left position
+        : (relativePosition == 1
+              ? 31.0 // Right position
+              : 0.0); // Center or other positions
+
+    final offsetY = relativePosition == -1
+        ? 35.0 // Left position
+        : (relativePosition == 1
+              ? -1.0 // Right position
+              : 0.0);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transform: Matrix4.identity()
+        ..translate(offsetX, isCentered ? 0.0 : offsetY)
+        ..rotateZ(isCentered ? 0.0 : angle),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                imagePath,
+                width: 184,
+                height: 218,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: Container(
+              width: 50,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: screenWidth * 0.05,
+                  ),
+                  SizedBox(width: screenWidth * 0.01),
+                  Text(
+                    rating,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.028,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (_likedPopularNowImages.contains(index)) {
+                    _likedPopularNowImages.remove(index);
+                  } else {
+                    _likedPopularNowImages.add(index);
+                  }
+                });
+              },
+              child: AnimatedScale(
+                scale: _likedPopularNowImages.contains(index) ? 1.0 : 1.0,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOutBack,
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(
+                    begin: 1.0,
+                    end: _likedPopularNowImages.contains(index) ? 1.2 : 1.0,
+                  ),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.elasticOut,
+                  builder: (context, scale, child) {
+                    return Transform.scale(
+                      scale: scale,
+                      child: Container(
+                        width: screenWidth * 0.1,
+                        height: screenWidth * 0.1,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            _likedPopularNowImages.contains(index)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: _likedPopularNowImages.contains(index)
+                                ? Colors.red
+                                : Colors.white,
+                            size: screenWidth * 0.07,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (_cartedPopularNowImages.contains(index)) {
+                    _cartedPopularNowImages.remove(index);
+                  } else {
+                    _cartedPopularNowImages.add(index);
+                  }
+                });
+              },
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(
+                  begin: 1.0,
+                  end: _cartedPopularNowImages.contains(index) ? 1.2 : 1.0,
+                ),
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutBack,
+                builder: (context, scale, child) {
+                  return Transform.scale(
+                    scale: scale,
+                    child: Container(
+                      width: screenWidth * 0.1,
+                      height: screenWidth * 0.1,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: _cartedPopularNowImages.contains(index)
+                              ? Colors.yellow
+                              : Colors.white,
+                          width: 2,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: _cartedPopularNowImages.contains(index)
+                              ? Colors.green
+                              : Colors.white,
+                          size: screenWidth * 0.07,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Positioned(
+            left: 12,
+            bottom: 12,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: screenWidth * 0.04,
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+                SizedBox(height: screenWidth * 0.008),
+                Text(
+                  price,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: screenWidth * 0.035,
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildForYouImage(
@@ -214,9 +468,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
       child: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.asset(
@@ -954,14 +1206,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                     SizedBox(
                       height: 240,
                       child: SingleChildScrollView(
-                        controller: _forYouScrollController,
+                        controller: _popularNowScrollController,
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.04,
                         ),
                         child: Row(
                           children: [
-                            _buildForYouImage(
+                            _buildPopularNowImage(
                               'assets/images/cake4.jpg',
                               0,
                               '4.8',
@@ -969,7 +1221,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                               '1,500,000 UGX',
                             ),
                             SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage(
+                            _buildPopularNowImage(
                               'assets/images/deco3.jpg',
                               1,
                               '4.5',
@@ -977,7 +1229,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                               '2,000,000 UGX',
                             ),
                             SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage(
+                            _buildPopularNowImage(
                               'assets/images/blacknwhitemen.jpg',
                               2,
                               '4.9',
@@ -985,7 +1237,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                               '3,100,000 UGX',
                             ),
                             SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage(
+                            _buildPopularNowImage(
                               'assets/images/glassdeco.jpg',
                               3,
                               '4.7',
