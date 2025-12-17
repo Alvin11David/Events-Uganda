@@ -171,26 +171,31 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   }
 
   Widget _buildForYouImage(String imagePath, int index) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final isCentered = index == _activeForYouIndex;
     final relativePosition = index - _activeForYouIndex;
-    final angle = relativePosition == -1 
-      ? -11 * 3.14159 / 180      // Left position
-      : (relativePosition == 1 
-          ? 11 * 3.14159 / 180    // Right position
-          : 0.0); 
+    final angle = relativePosition == -1
+        ? -11 *
+              3.14159 /
+              180 // Left position
+        : (relativePosition == 1
+              ? 11 *
+                    3.14159 /
+                    180 // Right position
+              : 0.0);
 
     // Adjust these values to move left/right images
-    final offsetX = relativePosition == -1 
-      ? -28.0                     // Left position
-      : (relativePosition == 1 
-          ? 31.0                  // Right position
-          : 0.0);                 // Center or other positions
-  
-  final offsetY = relativePosition == -1 
-      ? 35.0                      // Left position
-      : (relativePosition == 1 
-          ? -1.0                  // Right position
-          : 0.0);
+    final offsetX = relativePosition == -1
+        ? -28.0 // Left position
+        : (relativePosition == 1
+              ? 31.0 // Right position
+              : 0.0); // Center or other positions
+
+    final offsetY = relativePosition == -1
+        ? 35.0 // Left position
+        : (relativePosition == 1
+              ? -1.0 // Right position
+              : 0.0);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -198,14 +203,51 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
       transform: Matrix4.identity()
         ..translate(offsetX, isCentered ? 0.0 : offsetY)
         ..rotateZ(isCentered ? 0.0 : angle),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Image.asset(
-          imagePath,
-          width: 184,
-          height: 218,
-          fit: BoxFit.cover,
-        ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(
+              imagePath,
+              width: 184,
+              height: 218,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: Container(
+              width: 50,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: screenWidth * 0.05,
+                  ),
+                  SizedBox(width: screenWidth * 0.01),
+                  Text(
+                    '4.5',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.028,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
