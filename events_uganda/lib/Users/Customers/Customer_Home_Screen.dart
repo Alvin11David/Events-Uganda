@@ -164,18 +164,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   Widget _buildForYouImage(String imagePath, int index) {
     final isCentered = index == _activeForYouIndex;
     final angle = index == 0
-        ? 11 * 3.14159 / 180
-        : (index == 2 ? -11 * 3.14159 / 180 : 0.0);
+        ? -11 * 3.14159 / 180
+        : (index == 2 ? 11 * 3.14159 / 180 : 0.0);
 
     // Adjust these values to move left/right images
-    final offsetX = index == 0
-        ? 0.0
-        : (index == 2 ? 0.0 : 0.0); // Horizontal offset
-    final offsetY = index == 0
-        ? 20.0
-        : (index == 2
-              ? 20.0
-              : 0.0); // Vertical offset (positive = down, negative = up)
+    final offsetX = index == 0 ? -28.0 : (index == 2 ? -28.0 : 0.0);
+    final offsetY = index == 0 ? 29.0 : (index == 2 ? -29.0 : 0.0);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
