@@ -19,6 +19,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   int _activeCardIndex = 0;
   final ScrollController _circleScrollController = ScrollController();
   int _activeCircleIndex = 0;
+  final ScrollController _forYouScrollController = ScrollController();
+  int _activeForYouIndex = 1; 
 
   Widget _buildCircleItem(
     double screenWidth,
