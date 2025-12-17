@@ -637,8 +637,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   SizedBox(height: screenWidth * 0.03),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(3, (index) {
-                      final isActive = index == _activeCardIndex;
+                    children: List.generate(5, (index) {
+                      final isActive = index == _activeCircleIndex;
                       return Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.015,
