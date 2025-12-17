@@ -172,13 +172,25 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
 
   Widget _buildForYouImage(String imagePath, int index) {
     final isCentered = index == _activeForYouIndex;
-    final angle = index == 0
-        ? -11 * 3.14159 / 180
-        : (index == 2 ? 11 * 3.14159 / 180 : 0.0);
+    final relativePosition = index - _activeForYouIndex;
+    final angle = relativePosition == -1 
+      ? -11 * 3.14159 / 180      // Left position
+      : (relativePosition == 1 
+          ? 11 * 3.14159 / 180    // Right position
+          : 0.0); 
 
     // Adjust these values to move left/right images
-    final offsetX = index == 0 ? -28.0 : (index == 2 ? 31.0 : 0.0);
-    final offsetY = index == 0 ? 35.0 : (index == 2 ? -1.0 : 0.0);
+    final offsetX = relativePosition == -1 
+      ? -28.0                     // Left position
+      : (relativePosition == 1 
+          ? 31.0                  // Right position
+          : 0.0);                 // Center or other positions
+  
+  final offsetY = relativePosition == -1 
+      ? 35.0                      // Left position
+      : (relativePosition == 1 
+          ? -1.0                  // Right position
+          : 0.0);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
