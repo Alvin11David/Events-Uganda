@@ -202,7 +202,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: screenWidth * 0.05,
+                  fontSize: screenWidth * 0.045,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'PlayfairDisplay',
                 ),
