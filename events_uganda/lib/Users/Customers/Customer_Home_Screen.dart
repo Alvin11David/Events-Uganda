@@ -249,13 +249,28 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   padding: EdgeInsets.all(screenWidth * 0.04),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: Text(
-                      'GET YOUR SPECIAL CAR BOOKING\nUP TO',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenWidth * 0.04,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Montserrat',
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.04,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Montserrat',
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: 'GET YOUR SPECIAL CAR BOOKING\n',
+                          ),
+                          const TextSpan(text: 'UP TO '),
+                          TextSpan(
+                            text: '30%',
+                            style: TextStyle(
+                              color: const Color(0xFFB47A25),
+                              fontSize: screenWidth * 0.08,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
