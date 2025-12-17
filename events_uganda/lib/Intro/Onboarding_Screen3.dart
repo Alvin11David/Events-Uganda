@@ -210,7 +210,9 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.90,
+            bottom:
+                screenHeight *
+                0.02, 
             left: screenWidth * 0.06,
             child: GestureDetector(
               onTap: () {
