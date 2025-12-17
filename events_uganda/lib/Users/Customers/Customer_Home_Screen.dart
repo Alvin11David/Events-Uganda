@@ -172,7 +172,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     return '${_fmt(hours)}:${_fmt(mins)}:${_fmt(secs)}';
   }
 
-  Widget _buildForYouImage(String imagePath, int index, String rating) {
+  Widget _buildForYouImage(
+    String imagePath,
+    int index,
+    String rating,
+    String title,
+    String price,
+  ) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isCentered = index == _activeForYouIndex;
     final relativePosition = index - _activeForYouIndex;
@@ -364,6 +370,34 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   );
                 },
               ),
+            ),
+          ),
+          Positioned(
+            left: 12,
+            bottom: 12,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: screenWidth * 0.04,
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+                SizedBox(height: screenWidth * 0.008),
+                Text(
+                  price,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: screenWidth * 0.035,
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -939,24 +973,32 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                               'assets/images/cake4.jpg',
                               0,
                               '4.8',
+                              'Cake Design',
+                              '1,500,000 UGX',
                             ),
                             SizedBox(width: screenWidth * 0.04),
                             _buildForYouImage(
                               'assets/images/deco3.jpg',
                               1,
                               '4.5',
+                              'Tent Decoration',
+                              '2,000,000 UGX',
                             ),
                             SizedBox(width: screenWidth * 0.04),
                             _buildForYouImage(
                               'assets/images/blacknwhitemen.jpg',
                               2,
                               '4.9',
+                              'Photography',
+                              '3,100,000 UGX',
                             ),
                             SizedBox(width: screenWidth * 0.04),
                             _buildForYouImage(
                               'assets/images/glassdeco.jpg',
                               3,
                               '4.7',
+                              'Decoration',
+                              '6,000,000 UGX',
                             ),
                           ],
                         ),
