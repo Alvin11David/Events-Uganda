@@ -112,6 +112,22 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     }
   }
 
+  void _onForYouScroll() {
+  if (!mounted) return;
+  final screenWidth = MediaQuery.of(context).size.width;
+  final imageWidth = 184.0;
+  final spacing = screenWidth * 0.04;
+  final offset = _forYouScrollController.offset;
+
+  final index = ((offset + imageWidth / 2) / (imageWidth + spacing))
+      .clamp(0, 2)
+      .toInt();
+
+  if (index != _activeForYouIndex) {
+    setState(() => _activeForYouIndex = index);
+  }
+}
+
   @override
   void dispose() {
     _countdownTimer?.cancel();
