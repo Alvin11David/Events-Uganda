@@ -62,6 +62,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     double screenHeight,
     double promoHeight, {
     String imagePath = 'assets/images/nobgcar.png',
+    String mainText = 'GET YOUR SPECIAL CAR BOOKING\n',
+    String prefixText = 'UP TO ',
+    String percentageText = '30%',
   }) {
     final cardWidth = screenWidth * 0.82;
     return SizedBox(
@@ -97,17 +100,15 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                           text: TextSpan(
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: screenWidth * 0.038,
+                              fontSize: screenWidth * 0.035,
                               fontWeight: FontWeight.w700,
                               fontFamily: 'Montserrat',
                             ),
                             children: [
-                              const TextSpan(
-                                text: 'GET YOUR SPECIAL CAR BOOKING\n',
-                              ),
-                              const TextSpan(text: 'UP TO '),
+                              TextSpan(text: mainText),
+                              TextSpan(text: prefixText),
                               TextSpan(
-                                text: '30%',
+                                text: percentageText,
                                 style: TextStyle(
                                   color: const Color(0xFFB47A25),
                                   fontSize: screenWidth * 0.06,
@@ -117,7 +118,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                             ],
                           ),
                         ),
-                        SizedBox(height: screenHeight * 0.010),
+                        SizedBox(height: screenHeight * 0.02),
                         Text(
                           'Time Left',
                           style: TextStyle(
@@ -140,11 +141,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                                 letterSpacing: 1.2,
                               ),
                             ),
-                            SizedBox(height: screenHeight * 0.05),
                             SizedBox(width: screenWidth * 0.01),
                             Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.030,
+                                horizontal: screenWidth * 0.028,
                                 vertical: screenHeight * 0.006,
                               ),
                               decoration: BoxDecoration(
@@ -156,7 +156,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   color: Colors.white,
-                                  fontSize: screenWidth * 0.028,
+                                  fontSize: screenWidth * 0.026,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -403,8 +403,25 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                       final isLast = index == 2;
                       final images = [
                         'assets/images/nobgcar.png',
-                        'assets/images/carhire1.jpg',
+                        'assets/images/nobgcake.png',
                         'assets/images/bgcake1.png',
+                      ];
+                      final promoData = [
+                        {
+                          'main': 'GET YOUR SPECIAL CAR BOOKING\n',
+                          'prefix': 'UP TO ',
+                          'percent': '30%',
+                        },
+                        {
+                          'main': 'GET YOUR INTRODUCTION CAKE\n',
+                          'prefix': 'SAVE ',
+                          'percent': '25%',
+                        },
+                        {
+                          'main': 'LUXURY CAKES AVAILABLE\n',
+                          'prefix': 'GET ',
+                          'percent': '40%',
+                        },
                       ];
                       return Padding(
                         padding: EdgeInsets.only(
@@ -415,6 +432,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                           screenHeight,
                           promoHeight,
                           imagePath: images[index],
+                          mainText: promoData[index]['main'] as String,
+                          prefixText: promoData[index]['prefix'] as String,
+                          percentageText: promoData[index]['percent'] as String,
                         ),
                       );
                     }),
