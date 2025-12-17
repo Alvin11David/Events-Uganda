@@ -135,7 +135,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
                 (screenWidth - (screenWidth * (600 / 390))) /
                 2, // Center horizontally
             child: Image.asset(
-              'backgroundcolors/whitebg.png',
+              'assets/backgroundcolors/whitebg.png',
               width: screenWidth * (600 / 390),
               height: screenWidth * (600 / 390),
               fit: BoxFit.cover,

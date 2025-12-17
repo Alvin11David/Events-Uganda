@@ -123,24 +123,23 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             // Back button
             Positioned(
-              top: screen.height * 0.05,
-              left: screen.width * 0.05,
+              top: MediaQuery.of(context).size.height * 0.04,
+              left: MediaQuery.of(context).size.width * 0.04,
               child: GestureDetector(
                 onTap: () => Navigator.of(context).maybePop(),
                 child: Container(
-                  width: screen.width * 0.13,
-                  height: screen.width * 0.13,
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: MediaQuery.of(context).size.width * 0.15,
                   decoration: BoxDecoration(
-                    color: peach,
-                    borderRadius: BorderRadius.circular(16),
+                    color: const Color(0xFFF8C2B0),
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  child: IconButton(
-                    icon: Icon(
+                  child: Center(
+                    child: Icon(
                       Icons.chevron_left,
-                      size: screen.width * 0.065,
                       color: Colors.black,
+                      size: MediaQuery.of(context).size.width * 0.10,
                     ),
-                    onPressed: () => Navigator.of(context).maybePop(),
                   ),
                 ),
               ),
