@@ -15,10 +15,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   bool _isSearchFocused = false;
   Timer? _countdownTimer;
   Duration _remaining = const Duration(hours: 0, minutes: 0, seconds: 0);
+  final ScrollController _promoScrollController = ScrollController();
+  int _activeCardIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    _promoScrollController.addListener(_onPromoScroll);
     _startCountdown();
     _searchFocus.addListener(() {
       setState(() {
@@ -27,10 +30,27 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     });
   }
 
+  void _onPromoScroll() {
+    if (!mounted) return;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = screenWidth * 0.82;
+    final spacing = screenWidth * 0.04;
+    final offset = _promoScrollController.offset;
+
+    final index = ((offset + cardWidth / 2) / (cardWidth + spacing))
+        .clamp(0, 2)
+        .toInt();
+
+    if (index != _activeCardIndex) {
+      setState(() => _activeCardIndex = index);
+    }
+  }
+
   @override
   void dispose() {
     _countdownTimer?.cancel();
     _searchFocus.dispose();
+  _promoScrollController.dispose();
     super.dispose();
   }
 
@@ -79,7 +99,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               borderRadius: BorderRadius.circular(25),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withOpacity(0),
                   blurRadius: 12,
                   spreadRadius: 2,
                   offset: const Offset(2, 7),
@@ -196,7 +216,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final promoTop =
-        screenHeight * 0.15 + screenWidth * 0.12 + screenHeight * 0.02;
+        screenHeight * 0.13 + screenWidth * 0.12 + screenHeight * 0.02;
     final promoHeight = screenWidth * 0.46;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -393,53 +413,89 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               top: promoTop,
               left: 0,
               right: 0,
-              child: SizedBox(
-                height: promoHeight + screenWidth * 0.10,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                  child: Row(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: promoHeight + screenWidth * 0.05,
+                    child: SingleChildScrollView(
+                      controller: _promoScrollController,
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04,
+                      ),
+                      child: Row(
+                        children: List.generate(3, (index) {
+                          final isLast = index == 2;
+                          final images = [
+                            'assets/images/nobgcar.png',
+                            'assets/images/nobgcake.png',
+                            'assets/images/bgcake1.png',
+                          ];
+                          final promoData = [
+                            {
+                              'main': 'GET YOUR SPECIAL CAR BOOKING\n',
+                              'prefix': 'UP TO ',
+                              'percent': '30%',
+                            },
+                            {
+                              'main': 'GET YOUR INTRODUCTION CAKE\n',
+                              'prefix': 'SAVE ',
+                              'percent': '25%',
+                            },
+                            {
+                              'main': 'LUXURY CAKES AVAILABLE\n',
+                              'prefix': 'GET ',
+                              'percent': '40%',
+                            },
+                          ];
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              right: isLast ? 0 : screenWidth * 0.04,
+                            ),
+                            child: _buildPromoCard(
+                              screenWidth,
+                              screenHeight,
+                              promoHeight,
+                              imagePath: images[index],
+                              mainText: promoData[index]['main'] as String,
+                              prefixText: promoData[index]['prefix'] as String,
+                              percentageText:
+                                  promoData[index]['percent'] as String,
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: screenWidth * 0.03),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(3, (index) {
-                      final isLast = index == 2;
-                      final images = [
-                        'assets/images/nobgcar.png',
-                        'assets/images/nobgcake.png',
-                        'assets/images/bgcake1.png',
-                      ];
-                      final promoData = [
-                        {
-                          'main': 'GET YOUR SPECIAL CAR BOOKING\n',
-                          'prefix': 'UP TO ',
-                          'percent': '30%',
-                        },
-                        {
-                          'main': 'GET YOUR INTRODUCTION CAKE\n',
-                          'prefix': 'SAVE ',
-                          'percent': '25%',
-                        },
-                        {
-                          'main': 'LUXURY CAKES AVAILABLE\n',
-                          'prefix': 'GET ',
-                          'percent': '40%',
-                        },
-                      ];
+                      final isActive = index == _activeCardIndex;
                       return Padding(
-                        padding: EdgeInsets.only(
-                          right: isLast ? 0 : screenWidth * 0.04,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.015,
                         ),
-                        child: _buildPromoCard(
-                          screenWidth,
-                          screenHeight,
-                          promoHeight,
-                          imagePath: images[index],
-                          mainText: promoData[index]['main'] as String,
-                          prefixText: promoData[index]['prefix'] as String,
-                          percentageText: promoData[index]['percent'] as String,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOut,
+                          width: isActive
+                              ? screenWidth * 0.035
+                              : screenWidth * 0.025,
+                          height: isActive
+                              ? screenWidth * 0.035
+                              : screenWidth * 0.025,
+                          decoration: BoxDecoration(
+                            color: isActive
+                                ? const Color(0xFFB47A25)
+                                : Colors.grey,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                         ),
                       );
                     }),
                   ),
-                ),
+                ],
               ),
             ),
           ],
