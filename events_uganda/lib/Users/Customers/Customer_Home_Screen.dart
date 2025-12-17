@@ -134,6 +134,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     _searchFocus.dispose();
     _circleScrollController.dispose();
     _promoScrollController.dispose();
+    _forYouScrollController.dispose();
     super.dispose();
   }
 
