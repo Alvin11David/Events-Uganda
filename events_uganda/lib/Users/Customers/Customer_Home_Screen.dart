@@ -760,9 +760,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         ),
                         child: Row(
                           children: [
-                            _buildForYouImage('assets/images/cake2.jpg', 0),
+                            _buildForYouImage('assets/images/cake4.jpg', 0),
                             SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage('assets/images/carhire1.jpg', 1),
+                            _buildForYouImage('assets/images/deco3.jpg', 1),
                             SizedBox(width: screenWidth * 0.04),
                             _buildForYouImage(
                               'assets/images/photography.jpg',
