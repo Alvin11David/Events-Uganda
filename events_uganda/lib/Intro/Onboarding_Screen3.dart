@@ -260,7 +260,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             top: screenHeight * 0.62, 
             left: -screenWidth * 0.09,
             child: Image.asset(
-              'vectors/onboardingscreen3vect.png',
+              'assets/vectors/onboardingscreen3vect.png',
               width: screenWidth * (129 / 390),
               height: screenWidth * (147 / 390),
               fit: BoxFit.cover,
