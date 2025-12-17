@@ -167,10 +167,22 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
         ? 11 * 3.14159 / 180
         : (index == 2 ? -11 * 3.14159 / 180 : 0.0);
 
+    // Adjust these values to move left/right images
+    final offsetX = index == 0
+        ? 0.0
+        : (index == 2 ? 0.0 : 0.0); // Horizontal offset
+    final offsetY = index == 0
+        ? 20.0
+        : (index == 2
+              ? 20.0
+              : 0.0); // Vertical offset (positive = down, negative = up)
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
-      transform: Matrix4.rotationZ(isCentered ? 0.0 : angle),
+      transform: Matrix4.identity()
+        ..translate(offsetX, isCentered ? 0.0 : offsetY)
+        ..rotateZ(isCentered ? 0.0 : angle),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Image.asset(
@@ -519,241 +531,248 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               top: promoTop,
               left: 0,
               right: 0,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: promoHeight + screenWidth * 0.05,
-                    child: SingleChildScrollView(
-                      controller: _promoScrollController,
-                      scrollDirection: Axis.horizontal,
+              bottom: 0,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: promoHeight + screenWidth * 0.05,
+                      child: SingleChildScrollView(
+                        controller: _promoScrollController,
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.04,
+                        ),
+                        child: Row(
+                          children: List.generate(3, (index) {
+                            final isLast = index == 2;
+                            final images = [
+                              'assets/images/nobgcar.png',
+                              'assets/images/nobgcake.png',
+                              'assets/images/bgcake1.png',
+                            ];
+                            final promoData = [
+                              {
+                                'main': 'GET YOUR SPECIAL CAR BOOKING\n',
+                                'prefix': 'UP TO ',
+                                'percent': '30%',
+                              },
+                              {
+                                'main': 'GET YOUR INTRODUCTION CAKE\n',
+                                'prefix': 'SAVE ',
+                                'percent': '25%',
+                              },
+                              {
+                                'main': 'LUXURY CAKES AVAILABLE\n',
+                                'prefix': 'GET ',
+                                'percent': '40%',
+                              },
+                            ];
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                right: isLast ? 0 : screenWidth * 0.04,
+                              ),
+                              child: _buildPromoCard(
+                                screenWidth,
+                                screenHeight,
+                                promoHeight,
+                                imagePath: images[index],
+                                mainText: promoData[index]['main'] as String,
+                                prefixText:
+                                    promoData[index]['prefix'] as String,
+                                percentageText:
+                                    promoData[index]['percent'] as String,
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: screenWidth * 0.03),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(3, (index) {
+                        final isActive = index == _activeCardIndex;
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.015,
+                          ),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOut,
+                            width: isActive
+                                ? screenWidth * 0.035
+                                : screenWidth * 0.025,
+                            height: isActive
+                                ? screenWidth * 0.035
+                                : screenWidth * 0.025,
+                            decoration: BoxDecoration(
+                              color: isActive
+                                  ? const Color(0xFFB47A25)
+                                  : Colors.grey,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                    SizedBox(height: screenWidth * 0.02),
+                    Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: screenWidth * 0.04,
                       ),
                       child: Row(
-                        children: List.generate(3, (index) {
-                          final isLast = index == 2;
-                          final images = [
-                            'assets/images/nobgcar.png',
-                            'assets/images/nobgcake.png',
-                            'assets/images/bgcake1.png',
-                          ];
-                          final promoData = [
-                            {
-                              'main': 'GET YOUR SPECIAL CAR BOOKING\n',
-                              'prefix': 'UP TO ',
-                              'percent': '30%',
-                            },
-                            {
-                              'main': 'GET YOUR INTRODUCTION CAKE\n',
-                              'prefix': 'SAVE ',
-                              'percent': '25%',
-                            },
-                            {
-                              'main': 'LUXURY CAKES AVAILABLE\n',
-                              'prefix': 'GET ',
-                              'percent': '40%',
-                            },
-                          ];
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              right: isLast ? 0 : screenWidth * 0.04,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Categories Quick Access',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w700,
+                              fontSize: screenWidth * 0.045,
+                              color: Colors.black,
                             ),
-                            child: _buildPromoCard(
-                              screenWidth,
-                              screenHeight,
-                              promoHeight,
-                              imagePath: images[index],
-                              mainText: promoData[index]['main'] as String,
-                              prefixText: promoData[index]['prefix'] as String,
-                              percentageText:
-                                  promoData[index]['percent'] as String,
+                          ),
+                          Text(
+                            'View All',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              fontSize: screenWidth * 0.030,
+                              color: const Color(0xFFB47A25),
                             ),
-                          );
-                        }),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: screenWidth * 0.03),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(3, (index) {
-                      final isActive = index == _activeCardIndex;
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.015,
-                        ),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                          width: isActive
-                              ? screenWidth * 0.035
-                              : screenWidth * 0.025,
-                          height: isActive
-                              ? screenWidth * 0.035
-                              : screenWidth * 0.025,
-                          decoration: BoxDecoration(
-                            color: isActive
-                                ? const Color(0xFFB47A25)
-                                : Colors.grey,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(height: screenWidth * 0.02),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Categories Quick Access',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w700,
-                            fontSize: screenWidth * 0.045,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          'View All',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w600,
-                            fontSize: screenWidth * 0.030,
-                            color: const Color(0xFFB47A25),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: screenWidth * 0.03),
-                  SingleChildScrollView(
-                    controller: _circleScrollController,
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
-                    ),
-                    child: Row(
-                      children: [
-                        _buildCircleItem(
-                          screenWidth,
-                          screenHeight,
-                          'assets/images/deco5.jpg',
-                          'Decoration',
-                        ),
-                        SizedBox(width: screenWidth * 0.03),
-                        _buildCircleItem(
-                          screenWidth,
-                          screenHeight,
-                          'assets/images/catering.jpg',
-                          'Catering',
-                        ),
-                        SizedBox(width: screenWidth * 0.03),
-                        _buildCircleItem(
-                          screenWidth,
-                          screenHeight,
-                          'assets/images/photography.jpg',
-                          'Photography\n& Videography',
-                        ),
-                        SizedBox(width: screenWidth * 0.03),
-                        _buildCircleItem(
-                          screenWidth,
-                          screenHeight,
-                          'assets/images/carhire1.jpg',
-                          'Car Hire',
-                        ),
-                        SizedBox(width: screenWidth * 0.03),
-                        _buildCircleItem(
-                          screenWidth,
-                          screenHeight,
-                          'assets/images/cake2.jpg',
-                          'Cakes',
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: screenWidth * 0.03),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(5, (index) {
-                      final isActive = index == _activeCircleIndex;
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.015,
-                        ),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                          width: isActive
-                              ? screenWidth * 0.035
-                              : screenWidth * 0.025,
-                          height: isActive
-                              ? screenWidth * 0.035
-                              : screenWidth * 0.025,
-                          decoration: BoxDecoration(
-                            color: isActive
-                                ? const Color(0xFFB47A25)
-                                : Colors.grey,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(height: screenWidth * 0.02),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'For You',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w700,
-                            fontSize: screenWidth * 0.045,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          'View All',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w600,
-                            fontSize: screenWidth * 0.030,
-                            color: const Color(0xFFB47A25),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: screenWidth * 0.03),
-                  SizedBox(
-                    height: 240,
-                    child: SingleChildScrollView(
-                      controller: _forYouScrollController,
+                    SizedBox(height: screenWidth * 0.03),
+                    SingleChildScrollView(
+                      controller: _circleScrollController,
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(
                         horizontal: screenWidth * 0.04,
                       ),
                       child: Row(
                         children: [
-                          _buildForYouImage('assets/images/cake2.jpg', 0),
-                          SizedBox(width: screenWidth * 0.04),
-                          _buildForYouImage('assets/images/carhire1.jpg', 1),
-                          SizedBox(width: screenWidth * 0.04),
-                          _buildForYouImage('assets/images/photography.jpg', 2),
+                          _buildCircleItem(
+                            screenWidth,
+                            screenHeight,
+                            'assets/images/deco5.jpg',
+                            'Decoration',
+                          ),
+                          SizedBox(width: screenWidth * 0.03),
+                          _buildCircleItem(
+                            screenWidth,
+                            screenHeight,
+                            'assets/images/catering.jpg',
+                            'Catering',
+                          ),
+                          SizedBox(width: screenWidth * 0.03),
+                          _buildCircleItem(
+                            screenWidth,
+                            screenHeight,
+                            'assets/images/photography.jpg',
+                            'Photography\n& Videography',
+                          ),
+                          SizedBox(width: screenWidth * 0.03),
+                          _buildCircleItem(
+                            screenWidth,
+                            screenHeight,
+                            'assets/images/carhire1.jpg',
+                            'Car Hire',
+                          ),
+                          SizedBox(width: screenWidth * 0.03),
+                          _buildCircleItem(
+                            screenWidth,
+                            screenHeight,
+                            'assets/images/cake2.jpg',
+                            'Cakes',
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(height: screenWidth * 0.03),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        final isActive = index == _activeCircleIndex;
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.015,
+                          ),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOut,
+                            width: isActive
+                                ? screenWidth * 0.035
+                                : screenWidth * 0.025,
+                            height: isActive
+                                ? screenWidth * 0.035
+                                : screenWidth * 0.025,
+                            decoration: BoxDecoration(
+                              color: isActive
+                                  ? const Color(0xFFB47A25)
+                                  : Colors.grey,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                    SizedBox(height: screenWidth * 0.02),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'For You',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w700,
+                              fontSize: screenWidth * 0.045,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            'View All',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              fontSize: screenWidth * 0.030,
+                              color: const Color(0xFFB47A25),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: screenWidth * 0.03),
+                    SizedBox(
+                      height: 240,
+                      child: SingleChildScrollView(
+                        controller: _forYouScrollController,
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.04,
+                        ),
+                        child: Row(
+                          children: [
+                            _buildForYouImage('assets/images/cake2.jpg', 0),
+                            SizedBox(width: screenWidth * 0.04),
+                            _buildForYouImage('assets/images/carhire1.jpg', 1),
+                            SizedBox(width: screenWidth * 0.04),
+                            _buildForYouImage(
+                              'assets/images/photography.jpg',
+                              2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
