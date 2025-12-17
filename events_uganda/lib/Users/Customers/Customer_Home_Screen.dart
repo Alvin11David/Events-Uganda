@@ -765,7 +765,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                             _buildForYouImage('assets/images/deco3.jpg', 1),
                             SizedBox(width: screenWidth * 0.04),
                             _buildForYouImage(
-                              'assets/images/photography.jpg',
+                              'assets/images/blacknwhitemen.jpg',
                               2,
                             ),
                           ],
