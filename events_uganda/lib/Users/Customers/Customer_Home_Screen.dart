@@ -382,7 +382,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         child: Icon(
                           Icons.shopping_cart_outlined,
                           color: _cartedPopularNowImages.contains(index)
-                              ? Colors.green
+                              ? Colors.yellow
                               : Colors.white,
                           size: screenWidth * 0.07,
                         ),
@@ -596,7 +596,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: _cartedImages.contains(index)
-                              ? Colors.green
+                              ? Colors.yellow
                               : Colors.white,
                           width: 2,
                         ),
@@ -605,7 +605,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         child: Icon(
                           Icons.shopping_cart_outlined,
                           color: _cartedImages.contains(index)
-                              ? Colors.green
+                              ? Colors.yellow
                               : Colors.white,
                           size: screenWidth * 0.07,
                         ),
