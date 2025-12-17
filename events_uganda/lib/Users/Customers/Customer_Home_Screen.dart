@@ -118,10 +118,17 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     final imageWidth = 184.0;
     final spacing = screenWidth * 0.04;
     final offset = _forYouScrollController.offset;
+    final maxScroll = _forYouScrollController.position.maxScrollExtent;
 
-    final index = ((offset + imageWidth / 2) / (imageWidth + spacing))
-        .clamp(0, 2)
-        .toInt();
+    // Better calculation for determining centered image
+    int index;
+    if (offset <= (imageWidth + spacing) * 0.3) {
+      index = 0; // Left image
+    } else if (offset >= maxScroll - (imageWidth + spacing) * 0.3) {
+      index = 2; // Right image
+    } else {
+      index = 1; // Center image
+    }
 
     if (index != _activeForYouIndex) {
       setState(() => _activeForYouIndex = index);
