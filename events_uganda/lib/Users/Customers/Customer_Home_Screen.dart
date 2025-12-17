@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
@@ -12,10 +13,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     with SingleTickerProviderStateMixin {
   final FocusNode _searchFocus = FocusNode();
   bool _isSearchFocused = false;
+  Timer? _countdownTimer;
+  Duration _remaining = const Duration(hours: 0, minutes: 0, seconds: 0);
 
   @override
   void initState() {
     super.initState();
+    _startCountdown();
     _searchFocus.addListener(() {
       setState(() {
         _isSearchFocused = _searchFocus.hasFocus;
@@ -25,8 +29,32 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
 
   @override
   void dispose() {
+    _countdownTimer?.cancel();
     _searchFocus.dispose();
     super.dispose();
+  }
+
+  void _startCountdown() {
+    _countdownTimer?.cancel();
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (!mounted) return;
+      setState(() {
+        if (_remaining.inSeconds > 0) {
+          _remaining -= const Duration(seconds: 1);
+        } else {
+          _countdownTimer?.cancel();
+        }
+      });
+    });
+  }
+
+  String _fmt(int v) => v.toString().padLeft(2, '0');
+
+  String get countdownText {
+    final hours = _remaining.inHours.remainder(24);
+    final mins = _remaining.inMinutes.remainder(60);
+    final secs = _remaining.inSeconds.remainder(60);
+    return '${_fmt(hours)}:${_fmt(mins)}:${_fmt(secs)}';
   }
 
   @override
@@ -53,7 +81,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               ),
             ),
             Positioned(
-              top: screenHeight * 0.04,
+              top: screenHeight * 0.03,
               left: screenWidth * 0.04,
               child: Container(
                 width: screenWidth * 0.128,
@@ -80,7 +108,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               ),
             ),
             Positioned(
-              top: screenHeight * 0.04,
+              top: screenHeight * 0.03,
               right: screenWidth * 0.2,
               child: Container(
                 width: screenWidth * 0.128,
@@ -108,7 +136,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               ),
             ),
             Positioned(
-              top: screenHeight * 0.04,
+              top: screenHeight * 0.03,
               right: screenWidth * 0.04,
               child: Container(
                 width: screenWidth * 0.128,
@@ -135,7 +163,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               ),
             ),
             Positioned(
-              top: screenHeight * 0.147,
+              top: screenHeight * 0.128,
               right: screenWidth * 0.04,
               child: Container(
                 width: screenWidth * 0.128,
@@ -162,7 +190,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               ),
             ),
             Positioned(
-              top: screenHeight * 0.15,
+              top: screenHeight * 0.13,
               left: screenWidth * 0.04,
               right: screenWidth * 0.2,
               child: Container(
@@ -232,7 +260,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               left: screenWidth * 0.04,
               right: screenWidth * 0.04,
               child: Container(
-                height: screenWidth * 0.35,
+                height: screenWidth * 0.43,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(25),
@@ -249,29 +277,80 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   padding: EdgeInsets.all(screenWidth * 0.04),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: screenWidth * 0.04,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Montserrat',
-                        ),
-                        children: [
-                          const TextSpan(
-                            text: 'GET YOUR SPECIAL CAR BOOKING\n',
-                          ),
-                          const TextSpan(text: 'UP TO '),
-                          TextSpan(
-                            text: '30%',
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        RichText(
+                          text: TextSpan(
                             style: TextStyle(
-                              color: const Color(0xFFB47A25),
-                              fontSize: screenWidth * 0.08,
-                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              fontSize: screenWidth * 0.04,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Montserrat',
                             ),
+                            children: [
+                              const TextSpan(
+                                text: 'GET YOUR SPECIAL CAR BOOKING\n',
+                              ),
+                              const TextSpan(text: 'UP TO '),
+                              TextSpan(
+                                text: '30%',
+                                style: TextStyle(
+                                  color: const Color(0xFFB47A25),
+                                  fontSize: screenWidth * 0.08,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: screenHeight * 0.01),
+                        Text(
+                          'Time Left',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: screenWidth * 0.038,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.01),
+                        Row(
+                          children: [
+                            Text(
+                              countdownText,
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 210, 141, 38),
+                                fontSize: screenWidth * 0.035,
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                            SizedBox(width: screenWidth * 0.05),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.04,
+                                vertical: screenHeight * 0.006,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFB47A25),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                'BOOK NOW',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.white,
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
