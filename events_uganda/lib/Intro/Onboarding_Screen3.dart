@@ -40,7 +40,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.107,
+            top: screenHeight * 0.109,
             left: screenWidth * 0.143,
             child: ClipOval(
               child: Image.asset(
