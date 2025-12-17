@@ -20,7 +20,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   final ScrollController _circleScrollController = ScrollController();
   int _activeCircleIndex = 0;
   final ScrollController _forYouScrollController = ScrollController();
-  int _activeForYouIndex = 1; 
+  int _activeForYouIndex = 1;
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -113,20 +113,20 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   }
 
   void _onForYouScroll() {
-  if (!mounted) return;
-  final screenWidth = MediaQuery.of(context).size.width;
-  final imageWidth = 184.0;
-  final spacing = screenWidth * 0.04;
-  final offset = _forYouScrollController.offset;
+    if (!mounted) return;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final imageWidth = 184.0;
+    final spacing = screenWidth * 0.04;
+    final offset = _forYouScrollController.offset;
 
-  final index = ((offset + imageWidth / 2) / (imageWidth + spacing))
-      .clamp(0, 2)
-      .toInt();
+    final index = ((offset + imageWidth / 2) / (imageWidth + spacing))
+        .clamp(0, 2)
+        .toInt();
 
-  if (index != _activeForYouIndex) {
-    setState(() => _activeForYouIndex = index);
+    if (index != _activeForYouIndex) {
+      setState(() => _activeForYouIndex = index);
+    }
   }
-}
 
   @override
   void dispose() {
@@ -159,6 +159,28 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     final mins = _remaining.inMinutes.remainder(60);
     final secs = _remaining.inSeconds.remainder(60);
     return '${_fmt(hours)}:${_fmt(mins)}:${_fmt(secs)}';
+  }
+
+  Widget _buildForYouImage(String imagePath, int index) {
+    final isCentered = index == _activeForYouIndex;
+    final angle = index == 0
+        ? 11 * 3.14159 / 180
+        : (index == 2 ? -11 * 3.14159 / 180 : 0.0);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transform: Matrix4.rotationZ(isCentered ? 0.0 : angle),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Image.asset(
+          imagePath,
+          width: 184,
+          height: 218,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 
   Widget _buildPromoCard(
