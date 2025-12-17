@@ -22,6 +22,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   final ScrollController _forYouScrollController = ScrollController();
   int _activeForYouIndex = 1;
   final Set<int> _likedImages = {};
+  final Set<int> _cartedImages = {};
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -206,13 +207,26 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
         ..rotateZ(isCentered ? 0.0 : angle),
       child: Stack(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              imagePath,
-              width: 184,
-              height: 218,
-              fit: BoxFit.cover,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.22),
+                  blurRadius: screenWidth * 0.04,
+                  spreadRadius: screenWidth * 0.01,
+                  offset: Offset(0, screenWidth * 0.02),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                imagePath,
+                width: 184,
+                height: 218,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Positioned(
@@ -298,6 +312,57 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                     );
                   },
                 ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (_cartedImages.contains(index)) {
+                    _cartedImages.remove(index);
+                  } else {
+                    _cartedImages.add(index);
+                  }
+                });
+              },
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(
+                  begin: 1.0,
+                  end: _cartedImages.contains(index) ? 1.2 : 1.0,
+                ),
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutBack,
+                builder: (context, scale, child) {
+                  return Transform.scale(
+                    scale: scale,
+                    child: Container(
+                      width: screenWidth * 0.1,
+                      height: screenWidth * 0.1,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: _cartedImages.contains(index)
+                              ? Colors.green
+                              : Colors.white,
+                          width: 2,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: _cartedImages.contains(index)
+                              ? Colors.green
+                              : Colors.white,
+                          size: screenWidth * 0.07,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ),
