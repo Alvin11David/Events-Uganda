@@ -569,10 +569,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                     ),
                   ),
                   SizedBox(height: screenWidth * 0.03),
-                  Padding(
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildCircleItem(
                         screenWidth,
@@ -580,23 +580,33 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         'assets/images/deco5.jpg',
                         'Decoration',
                       ),
+                      SizedBox(width: screenWidth * 0.03),
                       _buildCircleItem(
                         screenWidth,
                         screenHeight,
                         'assets/images/catering.jpg',
                         'Catering',
                       ),
+                      SizedBox(width: screenWidth * 0.03),
                       _buildCircleItem(
                         screenWidth,
                         screenHeight,
                         'assets/images/photography.jpg',
                         'Photography\n& Videography',
                       ),
+                      SizedBox(width: screenWidth * 0.03),
                       _buildCircleItem(
                         screenWidth,
                         screenHeight,
                         'assets/images/carhire1.jpg',
                         'Car Hire',
+                      ),
+                      SizedBox(width: screenWidth * 0.03),
+                      _buildCircleItem(
+                        screenWidth,
+                        screenHeight,
+                        'assets/images/cake2.jpg',
+                        'Cakes',
                       ),
                     ],
                   ),
