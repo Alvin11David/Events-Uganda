@@ -17,6 +17,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   Duration _remaining = const Duration(hours: 0, minutes: 0, seconds: 0);
   final ScrollController _promoScrollController = ScrollController();
   int _activeCardIndex = 0;
+  final ScrollController _circleScrollController = ScrollController();
+  int _activeCircleIndex = 0;
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -66,12 +68,29 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   void initState() {
     super.initState();
     _promoScrollController.addListener(_onPromoScroll);
+    _circleScrollController.addListener(_onCircleScroll);
     _startCountdown();
     _searchFocus.addListener(() {
       setState(() {
         _isSearchFocused = _searchFocus.hasFocus;
       });
     });
+  }
+
+  void _onCircleScroll() {
+    if (!mounted) return;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final itemWidth = 70.0;
+    final spacing = screenWidth * 0.03;
+    final offset = _circleScrollController.offset;
+
+    final index = ((offset + itemWidth / 2) / (itemWidth + spacing))
+        .clamp(0, 4)
+        .toInt();
+
+    if (index != _activeCircleIndex) {
+      setState(() => _activeCircleIndex = index);
+    }
   }
 
   void _onPromoScroll() {
@@ -571,45 +590,75 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   SizedBox(height: screenWidth * 0.03),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                  child: Row(
-                    children: [
-                      _buildCircleItem(
-                        screenWidth,
-                        screenHeight,
-                        'assets/images/deco5.jpg',
-                        'Decoration',
-                      ),
-                      SizedBox(width: screenWidth * 0.03),
-                      _buildCircleItem(
-                        screenWidth,
-                        screenHeight,
-                        'assets/images/catering.jpg',
-                        'Catering',
-                      ),
-                      SizedBox(width: screenWidth * 0.03),
-                      _buildCircleItem(
-                        screenWidth,
-                        screenHeight,
-                        'assets/images/photography.jpg',
-                        'Photography\n& Videography',
-                      ),
-                      SizedBox(width: screenWidth * 0.03),
-                      _buildCircleItem(
-                        screenWidth,
-                        screenHeight,
-                        'assets/images/carhire1.jpg',
-                        'Car Hire',
-                      ),
-                      SizedBox(width: screenWidth * 0.03),
-                      _buildCircleItem(
-                        screenWidth,
-                        screenHeight,
-                        'assets/images/cake2.jpg',
-                        'Cakes',
-                      ),
-                    ],
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.04,
+                    ),
+                    child: Row(
+                      children: [
+                        _buildCircleItem(
+                          screenWidth,
+                          screenHeight,
+                          'assets/images/deco5.jpg',
+                          'Decoration',
+                        ),
+                        SizedBox(width: screenWidth * 0.03),
+                        _buildCircleItem(
+                          screenWidth,
+                          screenHeight,
+                          'assets/images/catering.jpg',
+                          'Catering',
+                        ),
+                        SizedBox(width: screenWidth * 0.03),
+                        _buildCircleItem(
+                          screenWidth,
+                          screenHeight,
+                          'assets/images/photography.jpg',
+                          'Photography\n& Videography',
+                        ),
+                        SizedBox(width: screenWidth * 0.03),
+                        _buildCircleItem(
+                          screenWidth,
+                          screenHeight,
+                          'assets/images/carhire1.jpg',
+                          'Car Hire',
+                        ),
+                        SizedBox(width: screenWidth * 0.03),
+                        _buildCircleItem(
+                          screenWidth,
+                          screenHeight,
+                          'assets/images/cake2.jpg',
+                          'Cakes',
+                        ),
+                      ],
+                    ),
                   ),
+                  SizedBox(height: screenWidth * 0.03),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(3, (index) {
+                      final isActive = index == _activeCardIndex;
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.015,
+                        ),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOut,
+                          width: isActive
+                              ? screenWidth * 0.035
+                              : screenWidth * 0.025,
+                          height: isActive
+                              ? screenWidth * 0.035
+                              : screenWidth * 0.025,
+                          decoration: BoxDecoration(
+                            color: isActive
+                                ? const Color(0xFFB47A25)
+                                : Colors.grey,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      );
+                    }),
                   ),
                 ],
               ),
