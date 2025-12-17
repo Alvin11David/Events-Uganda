@@ -125,9 +125,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     if (offset <= (imageWidth + spacing) * 0.3) {
       index = 0; // Left image
     } else if (offset >= maxScroll - (imageWidth + spacing) * 0.3) {
-      index = 2; // Right image
+      index = 3; // Right image
+    } else if (offset < (imageWidth + spacing) * 1.2) {
+      index = 1;
     } else {
-      index = 1; // Center image
+      index = 2;
     }
 
     if (index != _activeForYouIndex) {
@@ -768,6 +770,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                               'assets/images/blacknwhitemen.jpg',
                               2,
                             ),
+                            SizedBox(width: screenWidth * 0.04),
+                            _buildForYouImage('assets/images/glassdeco.jpg', 3),
                           ],
                         ),
                       ),
