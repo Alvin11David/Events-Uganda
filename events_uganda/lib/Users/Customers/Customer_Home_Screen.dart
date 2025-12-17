@@ -10,6 +10,25 @@ class CustomerHomeScreen extends StatefulWidget {
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     with SingleTickerProviderStateMixin {
+  final FocusNode _searchFocus = FocusNode();
+  bool _isSearchFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchFocus.addListener(() {
+      setState(() {
+        _isSearchFocused = _searchFocus.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchFocus.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -122,42 +141,62 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               child: Container(
                 height: screenWidth * 0.12,
                 decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 12,
-                    spreadRadius: 2,
-                    offset: const Offset(2,7),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    color: _isSearchFocused
+                        ? const Color(0xFFCC471B)
+                        : Colors.transparent,
+                    width: 2,
                   ),
-                ],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 12,
+                      spreadRadius: 2,
+                      offset: const Offset(2, 7),
+                    ),
+                  ],
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                    padding: EdgeInsets.only(left: screenWidth * 0.04),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.black,
-                      size: screenWidth * 0.06,
-                    ),
+                      padding: EdgeInsets.only(left: screenWidth * 0.04),
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.black.withOpacity(0.5),
+                        size: screenWidth * 0.06,
+                      ),
                     ),
                     SizedBox(width: screenWidth * 0.03),
                     Expanded(
-                      child: Text(
-                        'Search for services, vendors etc...',
+                      child: TextField(
+                        focusNode: _searchFocus,
                         style: TextStyle(
-                          color: Colors.black.withOpacity(0.5),
-                          fontSize: screenWidth * 0.033,
+                          color: Colors.black,
+                          fontSize: screenWidth * 0.04,
                           fontFamily: 'Montserrat',
-                        )
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Search for services, vendors',
+                          hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            fontSize: screenWidth * 0.035,
+                            fontFamily: 'Montserrat',
+                          ),
+                          border: InputBorder.none,
+                          isDense: true, // Add this
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                          ), // Change to vertical: 0
+                        ),
                       ),
-                      )
+                    ),
                   ],
                 ),
-              )
-            )
+              ),
+            ),
           ],
         ),
       ),
