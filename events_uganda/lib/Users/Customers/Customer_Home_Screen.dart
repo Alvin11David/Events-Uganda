@@ -71,6 +71,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     super.initState();
     _promoScrollController.addListener(_onPromoScroll);
     _circleScrollController.addListener(_onCircleScroll);
+    _forYouScrollController.addListener(_onForYouScroll);
     _startCountdown();
     _searchFocus.addListener(() {
       setState(() {
