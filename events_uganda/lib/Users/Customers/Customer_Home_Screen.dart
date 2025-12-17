@@ -277,7 +277,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                     color: _likedImages.contains(index)
                         ? Colors.red
                         : Colors.white,
-                    size: screenWidth * 0.05,
+                    size: screenWidth * 0.06,
                   ),
                 ),
               ),
