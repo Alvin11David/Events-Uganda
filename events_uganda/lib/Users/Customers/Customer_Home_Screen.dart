@@ -245,6 +245,21 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                     ),
                   ],
                 ),
+                child: Padding(
+                  padding: EdgeInsets.all(screenWidth * 0.04),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'GET YOUR SPECIAL CAR BOOKING\nUP TO',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.04,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

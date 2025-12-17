@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:events_uganda/Auth/Sign_In_Screen.dart';
+import 'package:events_uganda/Users/Customers/Customer_Home_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,26 +15,42 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   Future<void> signInWithGoogle() async {
-    try {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
+  try {
+    // If you use a prefix, keep it; otherwise plain usage is fine.
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    if (googleUser == null) return; // user cancelled selection
 
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-      if (googleUser == null) return;
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+      accessToken: googleAuth.accessToken,
+    );
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+    final userCred = await FirebaseAuth.instance.signInWithCredential(credential);
 
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-        accessToken: googleAuth.accessToken,
+    if (userCred.user != null && mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const CustomerHomeScreen()),
       );
-
-      await FirebaseAuth.instance.signInWithCredential(credential);
-    } catch (e) {
-      debugPrint('Google Sign-In error: $e');
+    }
+  } on FirebaseAuthException catch (e) {
+    debugPrint('Firebase auth error: ${e.code} ${e.message}');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign-in failed: ${e.message ?? e.code}')),
+      );
+    }
+  } catch (e) {
+    debugPrint('Google sign-in error: $e');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Something went wrong. Try again.')),
+      );
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -43,174 +60,143 @@ class _AuthScreenState extends State<AuthScreen>
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
-        children: [
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.0,
-            right:
-                (MediaQuery.of(context).size.width +
-                    MediaQuery.of(context).size.width * 1) /
-                300,
-            child: Image.asset(
-              'assets/backgroundcolors/authscreen.png',
-              width: MediaQuery.of(context).size.width * 1.08,
-              height: MediaQuery.of(context).size.height * 0.9,
-              fit: BoxFit.contain,
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.020,
-            left: screenWidth * 0.1,
-            child: Transform.rotate(
-              angle: 0.663, // -38 degrees in radians
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.asset(
-                  'assets/images/brideandgroom.jpg',
-                  width: screenWidth * (120 / 390),
-                  height: screenHeight * (233 / 844),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.010,
-            right: screenWidth * 0.02,
-            child: Transform.rotate(
-              angle: 0.663, // -38 degrees in radians
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.asset(
-                  'assets/images/cake2.jpg',
-                  width: screenWidth * (120 / 390),
-                  height: screenHeight * (233 / 844),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top:
-                screenHeight *
-                0.25, // Adjust this value to place it just below couple.jpg
-            right: screenWidth * 0.345,
-            child: Container(
-              width: screenWidth * (120 / 390),
-              height: screenWidth * (120 / 390),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
+          children: [
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.0,
+              right:
+                  (MediaQuery.of(context).size.width +
+                      MediaQuery.of(context).size.width * 1) /
+                  300,
               child: Image.asset(
-                'assets/vectors/logo.png',
-                width: MediaQuery.of(context).size.width * 0.15,
-                height: MediaQuery.of(context).size.width * 0.15,
+                'assets/backgroundcolors/authscreen.png',
+                width: MediaQuery.of(context).size.width * 1.08,
+                height: MediaQuery.of(context).size.height * 0.9,
                 fit: BoxFit.contain,
               ),
             ),
-          ),
-          Positioned(
-            top: screenHeight * 0.320,
-            right: screenWidth * 0.05,
-            child: Transform.rotate(
-              angle: 0.663, // -38 degrees in radians
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.asset(
-                  'assets/images/deco2.jpg',
-                  width: screenWidth * (120 / 390),
-                  height: screenHeight * (233 / 844),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.360,
-            left: screenWidth * 0.03,
-            child: Transform.rotate(
-              angle: 0.663, // -38 degrees in radians
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.asset(
-                  'assets/images/deco5.jpg',
-                  width: screenWidth * (120 / 390),
-                  height: screenHeight * (233 / 844),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left:
-                (screenWidth - (screenWidth * (370 / 390))) /
-                2, // Center horizontally
-            bottom: 0,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                child: Container(
-                  width: screenWidth * (370 / 390),
-                  height: screenHeight * (390 / 844),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.18),
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
-                      width: 1.5,
-                    ),
+            Positioned(
+              top: screenHeight * 0.020,
+              left: screenWidth * 0.1,
+              child: Transform.rotate(
+                angle: 0.663, // -38 degrees in radians
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset(
+                    'assets/images/brideandgroom.jpg',
+                    width: screenWidth * (120 / 390),
+                    height: screenHeight * (233 / 844),
+                    fit: BoxFit.cover,
                   ),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: screenHeight * 0.03),
-                          child: Text(
-                            'Sign Up or Sign In',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenWidth * 0.065,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.010,
+              right: screenWidth * 0.02,
+              child: Transform.rotate(
+                angle: 0.663, // -38 degrees in radians
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset(
+                    'assets/images/cake2.jpg',
+                    width: screenWidth * (120 / 390),
+                    height: screenHeight * (233 / 844),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top:
+                  screenHeight *
+                  0.25, // Adjust this value to place it just below couple.jpg
+              right: screenWidth * 0.345,
+              child: Container(
+                width: screenWidth * (120 / 390),
+                height: screenWidth * (120 / 390),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(
+                  'assets/vectors/logo.png',
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: MediaQuery.of(context).size.width * 0.15,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.320,
+              right: screenWidth * 0.05,
+              child: Transform.rotate(
+                angle: 0.663, // -38 degrees in radians
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset(
+                    'assets/images/deco2.jpg',
+                    width: screenWidth * (120 / 390),
+                    height: screenHeight * (233 / 844),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.360,
+              left: screenWidth * 0.03,
+              child: Transform.rotate(
+                angle: 0.663, // -38 degrees in radians
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset(
+                    'assets/images/deco5.jpg',
+                    width: screenWidth * (120 / 390),
+                    height: screenHeight * (233 / 844),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left:
+                  (screenWidth - (screenWidth * (370 / 390))) /
+                  2, // Center horizontally
+              bottom: 0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                  child: Container(
+                    width: screenWidth * (370 / 390),
+                    height: screenHeight * (390 / 844),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.18),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: screenHeight * 0.03),
+                            child: Text(
+                              'Sign Up or Sign In',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenWidth * 0.065,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'PlayfairDisplay',
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: screenHeight * 0.015),
-                        Container(
-                          width: screenWidth * 0.85, // Adjust width as needed
-                          height: screenHeight * 0.07, // Thin rectangle
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/vectors/apple.png',
-                                width: screenWidth * 0.07,
-                                height: screenWidth * 0.07,
-                              ),
-                              SizedBox(width: screenWidth * 0.03),
-                              Text(
-                                'Continue with Apple',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: screenWidth * 0.045,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'PlayfairDisplay',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.03),
-                        GestureDetector(
-                          onTap: signInWithGoogle,
-                          child: Container(
+                          SizedBox(height: screenHeight * 0.015),
+                          Container(
                             width: screenWidth * 0.85, // Adjust width as needed
                             height: screenHeight * 0.07, // Thin rectangle
                             decoration: BoxDecoration(
@@ -221,13 +207,13 @@ class _AuthScreenState extends State<AuthScreen>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/vectors/google.png',
+                                  'assets/vectors/apple.png',
                                   width: screenWidth * 0.07,
                                   height: screenWidth * 0.07,
                                 ),
                                 SizedBox(width: screenWidth * 0.03),
                                 Text(
-                                  'Continue with Google',
+                                  'Continue with Apple',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: screenWidth * 0.045,
@@ -238,70 +224,104 @@ class _AuthScreenState extends State<AuthScreen>
                               ],
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.03,
-                        ), // Space between rectangles
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignInScreen(),
+                          SizedBox(height: screenHeight * 0.03),
+                          GestureDetector(
+                            onTap: signInWithGoogle,
+                            child: Container(
+                              width: screenWidth * 0.85,
+                              height: screenHeight * 0.07,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                            );
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                              child: Container(
-                                width:
-                                    screenWidth *
-                                    0.85, // Adjust width as needed
-                                height:
-                                    screenHeight *
-                                    0.07, // Adjust height as needed
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.18),
-                                  borderRadius: BorderRadius.circular(30),
-                                  border: Border.all(
-                                    color: Colors.white.withOpacity(0.3),
-                                    width: 1.5,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/vectors/google.png',
+                                    width: screenWidth * 0.07,
+                                    height: screenWidth * 0.07,
                                   ),
+                                  SizedBox(width: screenWidth * 0.03),
+                                  Text(
+                                    'Continue with Google',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: screenWidth * 0.045,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'PlayfairDisplay',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.03,
+                          ), // Space between rectangles
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignInScreen(),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.mail,
-                                      color: Colors.white,
-                                      size: screenWidth * 0.07,
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(
+                                  sigmaX: 18,
+                                  sigmaY: 18,
+                                ),
+                                child: Container(
+                                  width:
+                                      screenWidth *
+                                      0.85, // Adjust width as needed
+                                  height:
+                                      screenHeight *
+                                      0.07, // Adjust height as needed
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.18),
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                      color: Colors.white.withOpacity(0.3),
+                                      width: 1.5,
                                     ),
-                                    SizedBox(width: screenWidth * 0.03),
-                                    Text(
-                                      'Continue with Email',
-                                      style: TextStyle(
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.mail,
                                         color: Colors.white,
-                                        fontSize: screenWidth * 0.045,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'PlayfairDisplay',
+                                        size: screenWidth * 0.07,
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(width: screenWidth * 0.03),
+                                      Text(
+                                        'Continue with Email',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: screenWidth * 0.045,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'PlayfairDisplay',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
     );
