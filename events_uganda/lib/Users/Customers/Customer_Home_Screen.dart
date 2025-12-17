@@ -216,14 +216,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.22),
-                  blurRadius: screenWidth * 0.04,
-                  spreadRadius: screenWidth * 0.01,
-                  offset: Offset(0, screenWidth * 0.02),
-                ),
-              ],
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
