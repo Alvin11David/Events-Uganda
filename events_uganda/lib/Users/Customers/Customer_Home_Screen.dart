@@ -662,6 +662,35 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                       );
                     }),
                   ),
+                  SizedBox(height: screenWidth * 0.02),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.04,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'For You',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w700,
+                            fontSize: screenWidth * 0.045,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          'View All',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w600,
+                            fontSize: screenWidth * 0.030,
+                            color: const Color(0xFFB47A25),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
