@@ -21,6 +21,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   int _activeCircleIndex = 0;
   final ScrollController _forYouScrollController = ScrollController();
   int _activeForYouIndex = 1;
+  final Set<int> _likedImages = {};
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -170,7 +171,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     return '${_fmt(hours)}:${_fmt(mins)}:${_fmt(secs)}';
   }
 
-  Widget _buildForYouImage(String imagePath, int index) {
+  Widget _buildForYouImage(String imagePath, int index, String rating) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isCentered = index == _activeForYouIndex;
     final relativePosition = index - _activeForYouIndex;
@@ -235,7 +236,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   ),
                   SizedBox(width: screenWidth * 0.01),
                   Text(
-                    '4.5',
+                    rating,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: screenWidth * 0.028,
@@ -244,6 +245,41 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (_likedImages.contains(index)) {
+                    _likedImages.remove(index);
+                  } else {
+                    _likedImages.add(index);
+                  }
+                });
+              },
+              child: Container(
+                width: screenWidth * 0.1,
+                height: screenWidth * 0.1,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                child: Center(
+                  child: Icon(
+                    _likedImages.contains(index)
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: _likedImages.contains(index)
+                        ? Colors.red
+                        : Colors.white,
+                    size: screenWidth * 0.045,
+                  ),
+                ),
               ),
             ),
           ),
@@ -816,16 +852,29 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         ),
                         child: Row(
                           children: [
-                            _buildForYouImage('assets/images/cake4.jpg', 0),
+                            _buildForYouImage(
+                              'assets/images/cake4.jpg',
+                              0,
+                              '4.8',
+                            ),
                             SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage('assets/images/deco3.jpg', 1),
+                            _buildForYouImage(
+                              'assets/images/deco3.jpg',
+                              1,
+                              '4.5',
+                            ),
                             SizedBox(width: screenWidth * 0.04),
                             _buildForYouImage(
                               'assets/images/blacknwhitemen.jpg',
                               2,
+                              '4.9',
                             ),
                             SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage('assets/images/glassdeco.jpg', 3),
+                            _buildForYouImage(
+                              'assets/images/glassdeco.jpg',
+                              3,
+                              '4.7',
+                            ),
                           ],
                         ),
                       ),
