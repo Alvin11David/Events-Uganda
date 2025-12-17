@@ -69,7 +69,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Image.asset(
-                  'images/couple.jpg',
+                  'assets/images/couple.jpg',
                   width: screenWidth * (120 / 390),
                   height: screenHeight * (233 / 844),
                   fit: BoxFit.cover,
@@ -128,7 +128,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Image.asset(
-                  'images/cake1.jpg',
+                  'assets/images/cake1.jpg',
                   width: screenWidth * (120 / 390),
                   height: screenHeight * (233 / 844),
                   fit: BoxFit.cover,
@@ -217,7 +217,9 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               ),
             ),
             Positioned(
-              top: screenHeight * 0.90,
+              bottom:
+                screenHeight *
+                0.02, 
               left: screenWidth * 0.06,
               child: GestureDetector(
                 onTap: () {
@@ -270,9 +272,9 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               top: screenHeight * 0.62, // Example value, tweak as needed
               left: -screenWidth * 0.09,
               child: Image.asset(
-                'vectors/onboardingscreen2vect.png',
-                width: screenWidth * (129 / 390),
-                height: screenWidth * (147 / 390),
+                'assets/vectors/onboardingscreen2vect.png',
+                width: screenWidth * (100 / 390),
+                height: screenWidth * (100 / 390),
                 fit: BoxFit.cover,
               ),
             ),
@@ -281,14 +283,16 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               top: screenHeight * 0.82, // Example value, tweak as needed
               right: -screenWidth * 0.06,
               child: Image.asset(
-                'vectors/onboardingscreen2vect.png',
-                width: screenWidth * (129 / 390),
-                height: screenWidth * (147 / 390),
+                'assets/vectors/onboardingscreen2vect.png',
+                width: screenWidth * (100 / 390),
+                height: screenWidth * (100 / 390),
                 fit: BoxFit.cover,
               ),
             ),
             Positioned(
-              top: screenHeight * 0.90,
+              bottom:
+                screenHeight *
+                0.02, 
               right: screenWidth * 0.06,
               child: GestureDetector(
                 onTap: () {
