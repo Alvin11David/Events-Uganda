@@ -224,6 +224,29 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                 ),
               ),
             ),
+            Positioned(
+              top:
+                  screenHeight * 0.15 +
+                  screenWidth * 0.12 +
+                  screenHeight * 0.02,
+              left: screenWidth * 0.04,
+              right: screenWidth * 0.04,
+              child: Container(
+                height: screenWidth * 0.35,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 12,
+                      spreadRadius: 2,
+                      offset: const Offset(2, 7),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
