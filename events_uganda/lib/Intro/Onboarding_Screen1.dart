@@ -197,9 +197,9 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             top: screenHeight * 0.62, // Example value, tweak as needed
             left: -screenWidth * 0.09,
             child: Image.asset(
-              'vectors/onboardingscreen1vect.png',
-              width: screenWidth * (118 / 390),
-              height: screenWidth * (140 / 390),
+              'assets/vectors/onboardingscreen1vect.png',
+              width: screenWidth * (108 / 390),
+              height: screenWidth * (100 / 390),
               fit: BoxFit.cover,
             ),
           ),
@@ -208,9 +208,9 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             top: screenHeight * 0.82, // Example value, tweak as needed
             right: -screenWidth * 0.06,
             child: Image.asset(
-              'vectors/onboardingscreen1vect.png',
-              width: screenWidth * (118 / 390),
-              height: screenWidth * (140 / 390),
+              'assets/vectors/onboardingscreen1vect.png',
+              width: screenWidth * (100 / 390),
+              height: screenWidth * (100 / 390),
               fit: BoxFit.cover,
             ),
           ),
@@ -219,7 +219,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             right: screenWidth * 0.15,
             bottom:
                 screenHeight *
-                0.05, // Adjust as needed for spacing from the bottom
+                0.02, // Adjust as needed for spacing from the bottom
             child: Center(
               child: GestureDetector(
                 onTap: () {
@@ -243,7 +243,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: screenWidth * 0.05,
-                      vertical: screenHeight * 0.018,
+                      vertical: screenHeight * 0.010,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

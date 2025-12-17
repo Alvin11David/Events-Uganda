@@ -18,6 +18,50 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   final ScrollController _promoScrollController = ScrollController();
   int _activeCardIndex = 0;
 
+  Widget _buildCircleItem(
+    double screenWidth,
+    double screenHeight,
+    String imagePath,
+    String label,
+  ) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 3),
+            image: DecorationImage(
+              image: AssetImage(imagePath),
+              fit: BoxFit.cover,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.12),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: screenHeight * 0.008),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w600,
+            fontSize: screenWidth * 0.032,
+            color: Colors.black,
+            height: 1.2,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -523,6 +567,39 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         ),
                       ],
                     ),
+                  ),
+                  SizedBox(height: screenWidth * 0.03),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildCircleItem(
+                        screenWidth,
+                        screenHeight,
+                        'assets/images/deco5.jpg',
+                        'Decoration',
+                      ),
+                      _buildCircleItem(
+                        screenWidth,
+                        screenHeight,
+                        'assets/images/catering.jpg',
+                        'Catering',
+                      ),
+                      _buildCircleItem(
+                        screenWidth,
+                        screenHeight,
+                        'assets/images/photography.jpg',
+                        'Photography\n& Videography',
+                      ),
+                      _buildCircleItem(
+                        screenWidth,
+                        screenHeight,
+                        'assets/images/carhire1.jpg',
+                        'Car Hire',
+                      ),
+                    ],
+                  ),
                   ),
                 ],
               ),
