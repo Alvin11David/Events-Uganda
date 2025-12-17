@@ -65,7 +65,7 @@ class _AuthScreenState extends State<AuthScreen>
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Image.asset(
-                  'images/brideandgroom.jpg',
+                  'assets/images/brideandgroom.jpg',
                   width: screenWidth * (120 / 390),
                   height: screenHeight * (233 / 844),
                   fit: BoxFit.cover,
@@ -81,7 +81,7 @@ class _AuthScreenState extends State<AuthScreen>
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Image.asset(
-                  'images/cake2.jpg',
+                  'assets/images/cake2.jpg',
                   width: screenWidth * (120 / 390),
                   height: screenHeight * (233 / 844),
                   fit: BoxFit.cover,
@@ -117,7 +117,7 @@ class _AuthScreenState extends State<AuthScreen>
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Image.asset(
-                  'images/deco2.jpg',
+                  'assets/images/deco2.jpg',
                   width: screenWidth * (120 / 390),
                   height: screenHeight * (233 / 844),
                   fit: BoxFit.cover,
@@ -133,7 +133,7 @@ class _AuthScreenState extends State<AuthScreen>
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Image.asset(
-                  'images/deco5.jpg',
+                  'assets/images/deco5.jpg',
                   width: screenWidth * (120 / 390),
                   height: screenHeight * (233 / 844),
                   fit: BoxFit.cover,
