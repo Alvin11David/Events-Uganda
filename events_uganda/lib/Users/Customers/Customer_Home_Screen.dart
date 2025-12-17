@@ -828,10 +828,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   ],
                 ),
                 child: Center(
-                  child: Icon(
-                    Icons.menu_open,
-                    color: Colors.black,
-                    size: screenWidth * 0.07,
+                  child: Image.asset(
+                    'assets/vectors/menu.png',
+                    width: screenWidth * 0.07,
+                    height: screenWidth * 0.07,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
