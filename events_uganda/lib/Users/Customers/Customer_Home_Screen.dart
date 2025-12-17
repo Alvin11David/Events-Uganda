@@ -1004,6 +1004,81 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         ),
                       ),
                     ),
+                    SizedBox(height: screenWidth * 0.02),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Popular Now',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w700,
+                              fontSize: screenWidth * 0.045,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            'View All',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              fontSize: screenWidth * 0.030,
+                              color: const Color(0xFFB47A25),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: screenWidth * 0.03),
+                    SizedBox(
+                      height: 240,
+                      child: SingleChildScrollView(
+                        controller: _forYouScrollController,
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.04,
+                        ),
+                        child: Row(
+                          children: [
+                            _buildForYouImage(
+                              'assets/images/cake4.jpg',
+                              0,
+                              '4.8',
+                              'Cake Design',
+                              '1,500,000 UGX',
+                            ),
+                            SizedBox(width: screenWidth * 0.04),
+                            _buildForYouImage(
+                              'assets/images/deco3.jpg',
+                              1,
+                              '4.5',
+                              'Tent Decoration',
+                              '2,000,000 UGX',
+                            ),
+                            SizedBox(width: screenWidth * 0.04),
+                            _buildForYouImage(
+                              'assets/images/blacknwhitemen.jpg',
+                              2,
+                              '4.9',
+                              'Photography',
+                              '3,100,000 UGX',
+                            ),
+                            SizedBox(width: screenWidth * 0.04),
+                            _buildForYouImage(
+                              'assets/images/glassdeco.jpg',
+                              3,
+                              '4.7',
+                              'Decoration',
+                              '6,000,000 UGX',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
