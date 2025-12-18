@@ -311,7 +311,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               focusNode: _passwordFocus,
                               nextFocusNode: _confirmPasswordFocus,
                               textInputAction: TextInputAction.next,
-                              iconColor: const Color(0xFF0F3D2E),
+                              iconColor:  Colors.black,
                             ),
 
                             SizedBox(height: screenHeight * 0.04),
@@ -324,7 +324,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               icon: Icons.lock,
                               focusNode: _confirmPasswordFocus,
                               textInputAction: TextInputAction.done,
-                              iconColor: const Color(0xFF0F3D2E),
+                              iconColor:  Colors.black,
                             ),
 
                             SizedBox(height: screenHeight * 0.04),
@@ -497,15 +497,15 @@ class _ResetPasswordTextFieldState extends State<ResetPasswordTextField> {
           fillColor: Colors.grey[100],
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(color: Color(0xFF1BCC94), width: 0.8),
+            borderSide: const BorderSide(color: Color(0xFFF23598), width: 0.8),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(color: Color(0xFF1BCC94), width: 0.8),
+            borderSide: const BorderSide(color: Color(0xFFF23598), width: 0.8),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(color: Color(0xFF1BCC94), width: 1.8),
+            borderSide: const BorderSide(color: Color(0xFFF23598), width: 1.8),
           ),
         ),
         onSubmitted: (_) {
