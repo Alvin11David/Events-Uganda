@@ -235,7 +235,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 shape: BoxShape.circle,
                               ),
                               child: const Icon(
-                                Icons.mail_outline,
+                                Icons.lock,
                                 size: 50,
                                 color: Colors.white,
                               ),
