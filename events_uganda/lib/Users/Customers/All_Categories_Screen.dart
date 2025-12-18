@@ -28,6 +28,8 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
   final Set<int> _cartedPopularNowImages = {};
   final Set<int> _likedImages = {};
   final Set<int> _cartedImages = {};
+  final Set<int> _likedCategoryImages = {};
+  final Set<int> _cartedCategoryImages = {};
   int _currentNavIndex = 0;
   String _userFullName = '';
   bool _canForwardReturn =
@@ -682,6 +684,9 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
   Widget _buildCategoryCard(
     String imagePath,
     String title,
+    String rating,
+    int index,
+    int providersCount,
     double screenWidth,
   ) {
     final cardWidth =
@@ -713,6 +718,143 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
             ),
           ),
           Positioned(
+            top: 10,
+            left: 10,
+            child: Container(
+              width: 50,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: screenWidth * 0.05,
+                  ),
+                  SizedBox(width: screenWidth * 0.01),
+                  Text(
+                    rating,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.028,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (_likedCategoryImages.contains(index)) {
+                    _likedCategoryImages.remove(index);
+                  } else {
+                    _likedCategoryImages.add(index);
+                  }
+                });
+              },
+              child: AnimatedScale(
+                scale: _likedCategoryImages.contains(index) ? 1.0 : 1.0,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOutBack,
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(
+                    begin: 1.0,
+                    end: _likedCategoryImages.contains(index) ? 1.2 : 1.0,
+                  ),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.elasticOut,
+                  builder: (context, scale, child) {
+                    return Transform.scale(
+                      scale: scale,
+                      child: Container(
+                        width: screenWidth * 0.1,
+                        height: screenWidth * 0.1,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            _likedCategoryImages.contains(index)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: _likedCategoryImages.contains(index)
+                                ? Colors.red
+                                : Colors.white,
+                            size: screenWidth * 0.07,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (_cartedCategoryImages.contains(index)) {
+                    _cartedCategoryImages.remove(index);
+                  } else {
+                    _cartedCategoryImages.add(index);
+                  }
+                });
+              },
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(
+                  begin: 1.0,
+                  end: _cartedCategoryImages.contains(index) ? 1.2 : 1.0,
+                ),
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutBack,
+                builder: (context, scale, child) {
+                  return Transform.scale(
+                    scale: scale,
+                    child: Container(
+                      width: screenWidth * 0.1,
+                      height: screenWidth * 0.1,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: _cartedCategoryImages.contains(index)
+                              ? Colors.yellow
+                              : Colors.white,
+                          width: 2,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: _cartedCategoryImages.contains(index)
+                              ? Colors.yellow
+                              : Colors.white,
+                          size: screenWidth * 0.07,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Positioned(
             bottom: 0,
             left: 0,
             right: 0,
@@ -729,14 +871,30 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                   colors: [Colors.black.withOpacity(0.7), Colors.transparent],
                 ),
               ),
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: screenWidth * 0.04,
-                  fontFamily: 'Montserrat',
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenWidth * 0.04,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                  SizedBox(height: screenWidth * 0.008),
+                  Text(
+                    '$providersCount Providers',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: screenWidth * 0.032,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -1065,41 +1223,65 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                           _buildCategoryCard(
                             'assets/images/deco5.jpg',
                             'Decoration',
+                            '4.8',
+                            0,
+                            43,
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/catering.jpg',
                             'Catering',
+                            '4.6',
+                            1,
+                            28,
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/photography.jpg',
                             'Photography',
+                            '4.9',
+                            2,
+                            56,
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/carhire1.jpg',
                             'Car Hire',
+                            '4.7',
+                            3,
+                            35,
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/cake2.jpg',
                             'Cakes',
+                            '4.5',
+                            4,
+                            21,
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/cake4.jpg',
                             'Wedding Cakes',
+                            '4.9',
+                            5,
+                            18,
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/deco3.jpg',
                             'Tent Decoration',
+                            '4.4',
+                            6,
+                            32,
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/glassdeco.jpg',
                             'Glass Decoration',
+                            '4.7',
+                            7,
+                            24,
                             screenWidth,
                           ),
                         ],
