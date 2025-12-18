@@ -205,34 +205,34 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
+                                  width: 15,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                      0xFFF23598,
+                                    ).withOpacity(0.3),
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Container(
+                                  width: 15,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                      0xFFF23598,
+                                    ).withOpacity(0.3),
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Container(
                                   width: 18,
                                   height: 10,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFF1BCC94),
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Container(
-                                  width: 15,
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                    color: const Color(
-                                      0xFF1BCC94,
-                                    ).withOpacity(0.6),
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Container(
-                                  width: 15,
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                    color: const Color(
-                                      0xFF1BCC94,
-                                    ).withOpacity(0.3),
+                                    color: Color(0xFFF23598),
                                     shape: BoxShape.rectangle,
                                     borderRadius: BorderRadius.circular(5),
                                   ),
