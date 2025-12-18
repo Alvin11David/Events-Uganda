@@ -24,8 +24,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     super.dispose();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -160,7 +158,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   // Top-left stone
                   Positioned(
                     top: screenHeight * 0.0,
-                      left: -screenWidth * 0.12,
+                    left: -screenWidth * 0.12,
                     child: Image.asset(
                       'assets/vectors/resetpasswordstone.png',
                       width: screenWidth * 0.35,
@@ -172,7 +170,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   // Bottom-right stone (flipped)
                   Positioned(
                     bottom: -screenHeight * 0.05,
-                      right: -screenWidth * 0.12,
+                    right: -screenWidth * 0.12,
                     child: Transform.flip(
                       flipX: true,
                       child: Image.asset(
@@ -207,8 +205,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 8,
-                                  height: 8,
+                                  width: 18,
+                                  height: 10,
                                   decoration: const BoxDecoration(
                                     color: Color(0xFF1BCC94),
                                     shape: BoxShape.circle,
@@ -216,8 +214,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ),
                                 const SizedBox(width: 12),
                                 Container(
-                                  width: 8,
-                                  height: 8,
+                                  width: 15,
+                                  height: 10,
                                   decoration: BoxDecoration(
                                     color: const Color(
                                       0xFF1BCC94,
@@ -227,8 +225,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ),
                                 const SizedBox(width: 12),
                                 Container(
-                                  width: 8,
-                                  height: 8,
+                                  width: 15,
+                                  height: 10,
                                   decoration: BoxDecoration(
                                     color: const Color(
                                       0xFF1BCC94,
@@ -329,12 +327,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               height: screenWidth * 0.13,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
+                                border: Border.all(
+                                color: const Color(0xFFF23598),
+                                width: 1,
+                              ),
                                 gradient: const LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
                                   colors: [
                                     Color(0xFFE0E7FF),
-                                   Color(0xFFEC2A8B),
+                                    Color(0xFFEC2A8B),
                                   ],
                                 ),
                                 boxShadow: [
@@ -366,7 +368,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ),
                               ),
                             ),
-
                             SizedBox(height: screenHeight * 0.03),
 
                             // Sign In link
@@ -384,13 +385,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignInScreen(),
-                                    ),
-                                  );
-                                },
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SignInScreen(),
+                                      ),
+                                    );
+                                  },
                                   child: Text(
                                     'Sign In',
                                     style: TextStyle(

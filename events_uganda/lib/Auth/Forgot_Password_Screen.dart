@@ -204,8 +204,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: 8,
-                                    height: 8,
+                                    width: 15,
+                                    height: 10,
                                     decoration: BoxDecoration(
                                       color: const Color(
                                         0xFFF23598,
@@ -215,8 +215,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   ),
                                   const SizedBox(width: 12),
                                   Container(
-                                    width: 8,
-                                    height: 8,
+                                    width: 15,
+                                    height: 10,
                                     decoration: BoxDecoration(
                                       color: const Color(
                                         0xFFF23598,
