@@ -3,6 +3,14 @@ import 'package:events_uganda/Auth/Sign_Up_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:crypto/crypto.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:events_uganda/Users/Customers/Customer_Home_Screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -19,6 +27,157 @@ class _SignInScreenState extends State<SignInScreen> {
   final FocusNode _contactFocus = FocusNode();
 
   final bool obscureText = true;
+  bool _isLoading = false;
+
+  // APPLE SIGN-IN (NEW!)
+  Future<void> _signInWithApple() async {
+    setState(() => _isLoading = true);
+    try {
+      final rawNonce = _generateNonce();
+      final nonce = _sha256ofString(rawNonce);
+
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: credential.identityToken,
+        accessToken: credential.authorizationCode,
+        rawNonce: rawNonce,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        oauthCredential,
+      );
+      final user = userCredential.user;
+
+      if (user == null) {
+        _showCustomSnackBar(
+          context,
+          'An error occurred. Please try again later.',
+        );
+        return;
+      }
+
+      // Prepare user data to update
+      final Map<String, dynamic> userData = {
+        'email': user.email ?? 'hidden@privaterelay.appleid.com',
+        'profilePicUrl': user.photoURL,
+        'authProvider': 'apple',
+        'isAdmin': (user.email ?? '').toLowerCase() == 'adminuser@gmail.com',
+        'fcmToken': await FirebaseMessaging.instance.getToken(),
+        'lastActiveTimestamp': Timestamp.now(),
+      };
+
+      // Handle Name: Apple only sends this on the FIRST login.
+      // On subsequent logins, givenName/familyName will be null.
+      // We only want to update the name if Apple provides it.
+      if (credential.givenName != null || credential.familyName != null) {
+        final name =
+            "${credential.givenName ?? ''} ${credential.familyName ?? ''}"
+                .trim();
+        if (name.isNotEmpty) {
+          userData['fullName'] = name;
+        }
+      }
+
+      // Check if user exists to handle 'createdAt' and default name
+      final userDocRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid);
+      final docSnapshot = await userDocRef.get();
+
+      if (!docSnapshot.exists) {
+        userData['createdAt'] = FieldValue.serverTimestamp();
+        // If it's a new user and we didn't get a name from Apple, set a default
+        if (!userData.containsKey('fullName')) {
+          userData['fullName'] = "Apple User";
+        }
+      }
+
+      await userDocRef.set(userData, SetOptions(merge: true));
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+      await _saveFcmToken();
+
+      _showCustomSnackBar(context, 'Signed in with Apple!');
+      await Future.delayed(const Duration(seconds: 1));
+      _navigateBasedOnEmail(user.email);
+    } on FirebaseAuthException {
+      _showCustomSnackBar(
+        context,
+        'Authentication failed. Please try again later.',
+      );
+    } on SignInWithAppleAuthorizationException catch (e) {
+      // Handle different Apple Sign-In errors
+      switch (e.code) {
+        case AuthorizationErrorCode.canceled:
+          // User canceled - don't show error
+          break;
+        case AuthorizationErrorCode.failed:
+        case AuthorizationErrorCode.invalidResponse:
+        case AuthorizationErrorCode.notHandled:
+        case AuthorizationErrorCode.notInteractive:
+        case AuthorizationErrorCode.unknown:
+        case AuthorizationErrorCode.credentialExport:
+        case AuthorizationErrorCode.credentialImport:
+        case AuthorizationErrorCode.matchedExcludedCredential:
+          _showCustomSnackBar(
+            context,
+            'Apple Sign-In error. Please try again.',
+          );
+          break;
+      }
+    } catch (e) {
+      _showCustomSnackBar(
+        context,
+        'An error occurred. Please try again later.',
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  String _generateNonce([int length = 32]) {
+    final charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(
+      length,
+      (_) => charset[random.nextInt(charset.length)],
+    ).join();
+  }
+
+  String _sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  void _showCustomSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: const Color(0xFFCC471B),
+      ),
+    );
+  }
+
+  Future<void> _saveFcmToken() async {
+    // Token is already saved in _signInWithApple
+  }
+
+  void _navigateBasedOnEmail(String? email) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const CustomerHomeScreen()),
+    );
+  }
 
   Future<void> signInWithGoogle() async {
     try {
@@ -367,10 +526,13 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                             ),
                             SizedBox(width: screen.width * 0.06),
-                            _SocialBtn(
-                              bg: socialBg,
-                              asset: 'assets/vectors/apple.png',
-                              size: screen.width * 0.16,
+                            GestureDetector(
+                              onTap: _signInWithApple,
+                              child: _SocialBtn(
+                                bg: socialBg,
+                                asset: 'assets/vectors/apple.png',
+                                size: screen.width * 0.16,
+                              ),
                             ),
                           ],
                         ),

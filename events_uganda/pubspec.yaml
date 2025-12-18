@@ -28,6 +28,15 @@ dependencies:
   firebase_auth: ^5.3.0
   # core
   firebase_core: ^3.6.0
+  crypto: 
+  # signing in with apple
+  sign_in_with_apple:
+  # messaging
+  firebase_messaging:
+  # share content
+  shared_preferences:
+  # cloud firestore
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:
