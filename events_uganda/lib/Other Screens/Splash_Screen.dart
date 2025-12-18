@@ -17,7 +17,7 @@ class DiagonalLogoText extends StatelessWidget {
       children: [
         Positioned(
           left: screenWidth * 0.01,
-          top: screenHeight * 0.39,
+          top: screenHeight * 0.44,
           child: Transform.rotate(
             angle: 0.95,
             child: Row(
@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 5000), () {
+    Timer(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const OnboardingScreen1()),
@@ -132,13 +132,13 @@ class _SplashScreenState extends State<SplashScreen>
             for (int i = 0; i < 4; i++)
               Positioned(
                 right: (i * 100.0) - 80,
-                top: -330,
+                top: -360,
                 child: Transform.rotate(
                   angle: -math.pi / 5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      for (int j = 0; j < 8; j++)
+                      for (int j = 0; j < 9; j++)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: SlideTransition(
@@ -204,8 +204,8 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                     Positioned(
-                      left: screenWidth * 0.42, // adjust as needed
-                      top: screenHeight * 0.02, // adjust as needed
+                      left: screenWidth * 0.30, // adjust as needed
+                      top: screenHeight * 0.0, // adjust as needed
                       child: Transform.rotate(
                         angle: math.pi / 0.1,
                         child: Image.asset(
@@ -217,7 +217,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                     Positioned(
-                      left: screenWidth * 0.72, // adjust as needed
+                      left: screenWidth * 0.52, // adjust as needed
                       top: screenHeight * 0.02, // adjust as needed
                       child: Transform.rotate(
                         angle: math.pi / 0.7,
@@ -230,7 +230,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                     Positioned(
-                      left: screenWidth * 0.99, // adjust as needed
+                      left: screenWidth * 0.79, // adjust as needed
                       top: screenHeight * 0.1, // adjust as needed
                       child: Transform.rotate(
                         angle: math.pi / 0.6,
