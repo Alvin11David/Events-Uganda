@@ -24,7 +24,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     // Reduced vector size
-    final double vectBaseWidth = screenWidth * 0.15;
+    final double vectBaseWidth = screenWidth * 0.10;
     final double vectWidth = vectBaseWidth;
     final double vectHeight = vectBaseWidth * (91 / 67);
 
@@ -252,9 +252,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   ),
                                 ),
                                 child: const Icon(
-                                  Icons.mail_outline,
+                                  Icons.mail,
                                   size: 50,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                               ),
 
