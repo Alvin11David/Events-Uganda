@@ -8,13 +8,18 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final FocusNode _emailFocus = FocusNode();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _confirmPasswordFocus = FocusNode();
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _emailFocus.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _passwordFocus.dispose();
+    _confirmPasswordFocus.dispose();
     super.dispose();
   }
 
@@ -109,7 +114,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
           // Title text
           Positioned(
-            top: screenHeight * 0.03 + screenWidth * 0.22 + screenHeight * 0.015,
+            top:
+                screenHeight * 0.03 + screenWidth * 0.22 + screenHeight * 0.015,
             left: 0,
             right: 0,
             child: const Center(
@@ -128,7 +134,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
           // White container at the bottom
           Positioned(
-            top: screenHeight * 0.15 +
+            top:
+                screenHeight * 0.15 +
                 screenWidth * 0.22 +
                 screenHeight * 0.015 +
                 screenWidth * 0.13,
@@ -153,8 +160,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     left: 0,
                     child: Image.asset(
                       'assets/vectors/resetpasswordstone.png',
-                      width: screenWidth * 0.35,
-                      height: screenWidth * 0.35,
+                      width: screenWidth * 0.15,
+                      height: screenWidth * 0.15,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -167,8 +174,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       flipX: true,
                       child: Image.asset(
                         'assets/vectors/resetpasswordstone.png',
-                        width: screenWidth * 0.40,
-                        height: screenWidth * 0.40,
+                        width: screenWidth * 0.15,
+                        height: screenWidth * 0.15,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -209,7 +216,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   width: 8,
                                   height: 8,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF1BCC94).withOpacity(0.6),
+                                    color: const Color(
+                                      0xFF1BCC94,
+                                    ).withOpacity(0.6),
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -218,7 +227,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   width: 8,
                                   height: 8,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF1BCC94).withOpacity(0.3),
+                                    color: const Color(
+                                      0xFF1BCC94,
+                                    ).withOpacity(0.3),
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -282,14 +293,27 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                             SizedBox(height: screenHeight * 0.04),
 
-                            // Email field
+                            // New password field
                             _ResponsiveTextField(
-                              controller: _emailController,
-                              label: 'Email',
-                              hint: 'Enter Your Email Address',
-                              icon: Icons.person,
-                              focusNode: _emailFocus,
-                              nextFocusNode: _emailFocus,
+                              controller: _passwordController,
+                              label: 'New Password',
+                              hint: 'Enter Your New Password',
+                              icon: Icons.lock,
+                              focusNode: _passwordFocus,
+                              nextFocusNode: _confirmPasswordFocus,
+                              textInputAction: TextInputAction.next,
+                              iconColor: const Color(0xFF0F3D2E),
+                            ),
+
+                            SizedBox(height: screenHeight * 0.04),
+
+                            // Confirm new password field
+                            _ResponsiveTextField(
+                              controller: _confirmPasswordController,
+                              label: 'Confirm Password',
+                              hint: 'Confirm Your Password',
+                              icon: Icons.lock,
+                              focusNode: _confirmPasswordFocus,
                               textInputAction: TextInputAction.done,
                               iconColor: const Color(0xFF0F3D2E),
                             ),
@@ -305,7 +329,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 gradient: const LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [Color(0xFFE0E7FF), Color(0xFF1BCC94)],
+                                  colors: [
+                                    Color(0xFFE0E7FF),
+                                    Color(0xFF1BCC94),
+                                  ],
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -391,8 +418,8 @@ class _ResponsiveTextField extends StatelessWidget {
   final String label;
   final String hint;
   final IconData icon;
-  final FocusNode focusNode;
-  final FocusNode nextFocusNode;
+  final FocusNode? focusNode;
+  final FocusNode? nextFocusNode;
   final TextInputAction textInputAction;
   final Color iconColor;
 
@@ -401,8 +428,8 @@ class _ResponsiveTextField extends StatelessWidget {
     required this.label,
     required this.hint,
     required this.icon,
-    required this.focusNode,
-    required this.nextFocusNode,
+    this.focusNode,
+    this.nextFocusNode,
     required this.textInputAction,
     required this.iconColor,
   });
@@ -419,20 +446,16 @@ class _ResponsiveTextField extends StatelessWidget {
         focusNode: focusNode,
         obscureText: true,
         textInputAction: textInputAction,
-        keyboardType: TextInputType.emailAddress,
-        style: TextStyle(
-          fontSize: screenWidth * 0.045,
-          color: Colors.black,
-        ),
+        keyboardType: TextInputType.visiblePassword,
+        style: TextStyle(fontSize: screenWidth * 0.045, color: Colors.black),
         decoration: InputDecoration(
           labelText: label,
           hintText: hint,
-          prefixIcon: Icon(
-            icon,
-            color: iconColor,
-            size: 30,
+          prefixIcon: Icon(icon, color: iconColor, size: 30),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 6,
+            horizontal: 10,
           ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
           filled: true,
           fillColor: Colors.grey[100],
           border: OutlineInputBorder(
@@ -449,7 +472,11 @@ class _ResponsiveTextField extends StatelessWidget {
           ),
         ),
         onSubmitted: (_) {
-          FocusScope.of(context).requestFocus(nextFocusNode);
+          if (nextFocusNode != null) {
+            FocusScope.of(context).requestFocus(nextFocusNode);
+          } else {
+            FocusScope.of(context).unfocus();
+          }
         },
       ),
     );
