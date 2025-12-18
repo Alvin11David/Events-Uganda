@@ -94,8 +94,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: GestureDetector(
                 onTap: () => Navigator.of(context).maybePop(),
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: MediaQuery.of(context).size.width * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.13,
+                  height: MediaQuery.of(context).size.width * 0.13,
                   decoration: BoxDecoration(
                     color: const Color(0xFFCB9FE4),
                     borderRadius: BorderRadius.circular(15),

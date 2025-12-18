@@ -128,8 +128,8 @@ class _SignInScreenState extends State<SignInScreen> {
               child: GestureDetector(
                 onTap: () => Navigator.of(context).maybePop(),
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: MediaQuery.of(context).size.width * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.13,
+                  height: MediaQuery.of(context).size.width * 0.13,
                   decoration: BoxDecoration(
                     color: const Color(0xFFF8C2B0),
                     borderRadius: BorderRadius.circular(15),
