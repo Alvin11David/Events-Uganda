@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:events_uganda/Bottom_Navbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AllCategoriesScreen extends StatefulWidget {
   const AllCategoriesScreen({super.key});
@@ -28,6 +29,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
   final Set<int> _likedImages = {};
   final Set<int> _cartedImages = {};
   int _currentNavIndex = 0;
+  String _userFullName = '';
   bool _canForwardReturn =
       false; // Controls the right-side inactive/active return button
 
@@ -89,6 +91,15 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
         _isSearchFocused = _searchFocus.hasFocus;
       });
     });
+    // Fetch user's display name if available
+    _userFullName = FirebaseAuth.instance.currentUser?.displayName ?? 'User';
+  }
+
+  String get _greetingText {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
   }
 
   void _onCircleScroll() {
@@ -724,6 +735,36 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                     fit: BoxFit.contain,
                   ),
                 ),
+              ),
+            ),
+            // Greeting and user name to the right of the menu circle
+            Positioned(
+              top: screenHeight * 0.03 + screenWidth * 0.015,
+              left:
+                  screenWidth * 0.04 + screenWidth * 0.128 + screenWidth * 0.03,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _greetingText,
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenWidth * 0.045,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: screenWidth * 0.005),
+                  Text(
+                    _userFullName,
+                    style: TextStyle(
+                      fontFamily: 'Abril Fatface',
+                      fontWeight: FontWeight.w600,
+                      fontSize: screenWidth * 0.038,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
             ),
             Positioned(
