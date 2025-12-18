@@ -675,9 +675,67 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
     final cardWidth = screenWidth * 0.82;
     return SizedBox(
       width: cardWidth,
-      child: Stack(clipBehavior: Clip.none, children: [
-          
-         
+      child: Stack(clipBehavior: Clip.none, children: []),
+    );
+  }
+
+  Widget _buildCategoryCard(
+    String imagePath,
+    String title,
+    double screenWidth,
+  ) {
+    return Container(
+      width: 184,
+      height: 218,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(
+              imagePath,
+              width: 184,
+              height: 218,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+                ),
+              ),
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: screenWidth * 0.04,
+                  fontFamily: 'Montserrat',
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -990,6 +1048,60 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                         ],
                       ),
                     ),
+                    SizedBox(height: screenWidth * 0.04),
+                    // Two-column grid of category images
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04,
+                      ),
+                      child: Wrap(
+                        spacing: screenWidth * 0.04,
+                        runSpacing: screenWidth * 0.04,
+                        children: [
+                          _buildCategoryCard(
+                            'assets/images/deco5.jpg',
+                            'Decoration',
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/catering.jpg',
+                            'Catering',
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/photography.jpg',
+                            'Photography',
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/carhire1.jpg',
+                            'Car Hire',
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/cake2.jpg',
+                            'Cakes',
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/cake4.jpg',
+                            'Wedding Cakes',
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/deco3.jpg',
+                            'Tent Decoration',
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/glassdeco.jpg',
+                            'Glass Decoration',
+                            screenWidth,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: screenWidth * 0.1),
                   ],
                 ),
               ),
