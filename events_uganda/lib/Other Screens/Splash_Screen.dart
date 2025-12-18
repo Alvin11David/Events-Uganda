@@ -125,137 +125,139 @@ class _SplashScreenState extends State<SplashScreen>
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          DiagonalLogoText(),
-          // Animated squares with staggered slide-in
-          for (int i = 0; i < 4; i++)
-            Positioned(
-              right: (i * 100.0) - 80,
-              top: -385,
-              child: Transform.rotate(
-                angle: -math.pi / 5,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    for (int j = 0; j < 8; j++)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: SlideTransition(
-                          position: _animations[squareIndex],
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  color: _colors[(i + j) % _colors.length],
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              Transform.rotate(
-                                angle: math.pi / 4,
-                                child: Container(
-                                  width: screenWidth * 0.045,
-                                  height: screenWidth * 0.045,
-                                  color: Colors.black.withOpacity(0.3),
-                                ),
-                              ),
-                              Positioned(
-                                top: 74,
-                                left: 32,
-                                bottom: -26,
-                                child: Transform.rotate(
-                                  angle: math.pi / 5,
-                                  child: Image.asset(
-                                    'assets/vectors/heart.png',
-                                    width: 30,
-                                    height: 30,
-                                    fit: BoxFit.contain,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            DiagonalLogoText(),
+            // Animated squares with staggered slide-in
+            for (int i = 0; i < 4; i++)
+              Positioned(
+                right: (i * 100.0) - 80,
+                top: -385,
+                child: Transform.rotate(
+                  angle: -math.pi / 5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (int j = 0; j < 8; j++)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: SlideTransition(
+                            position: _animations[squareIndex],
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: _colors[(i + j) % _colors.length],
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Transform.rotate(
+                                  angle: math.pi / 4,
+                                  child: Container(
+                                    width: screenWidth * 0.045,
+                                    height: screenWidth * 0.045,
+                                    color: Colors.black.withOpacity(0.3),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 74,
+                                  left: 32,
+                                  bottom: -26,
+                                  child: Transform.rotate(
+                                    angle: math.pi / 5,
+                                    child: Image.asset(
+                                      'assets/vectors/heart.png',
+                                      width: 30,
+                                      height: 30,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                        )..let((_) => squareIndex++),
+                    ],
+                  ),
+                ),
+              ),
+            Positioned(
+              right:
+                  screenWidth *
+                  0.50, // Adjust to position partially off-screen if needed
+              bottom: screenHeight * 0.00, // Adjust to position at the bottom
+              child: Transform.rotate(
+                angle: 55 * (math.pi / 180), // Convert 50 degrees to radians
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 420,
+                      height: 420,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF31373A), // Hex color #31373A
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    Positioned(
+                      left: screenWidth * 0.42, // adjust as needed
+                      top: screenHeight * 0.02, // adjust as needed
+                      child: Transform.rotate(
+                        angle: math.pi / 0.1,
+                        child: Image.asset(
+                          'assets/vectors/diamondrings.png',
+                          width: screenWidth * 0.32,
+                          height: screenHeight * 0.16,
+                          fit: BoxFit.contain,
                         ),
-                      )..let((_) => squareIndex++),
+                      ),
+                    ),
+                    Positioned(
+                      left: screenWidth * 0.72, // adjust as needed
+                      top: screenHeight * 0.02, // adjust as needed
+                      child: Transform.rotate(
+                        angle: math.pi / 0.7,
+                        child: Image.asset(
+                          'assets/vectors/diamondrings1.png',
+                          width: screenWidth * 0.36,
+                          height: screenHeight * 0.19,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: screenWidth * 0.99, // adjust as needed
+                      top: screenHeight * 0.1, // adjust as needed
+                      child: Transform.rotate(
+                        angle: math.pi / 0.6,
+                        child: Image.asset(
+                          'assets/vectors/goldenring.png',
+                          width: screenWidth * 0.55,
+                          height: screenHeight * 0.25,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-          Positioned(
-            right:
-                screenWidth *
-                0.50, // Adjust to position partially off-screen if needed
-            bottom: screenHeight * 0.00, // Adjust to position at the bottom
-            child: Transform.rotate(
-              angle: 55 * (math.pi / 180), // Convert 50 degrees to radians
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 420,
-                    height: 420,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF31373A), // Hex color #31373A
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  Positioned(
-                    left: screenWidth * 0.42, // adjust as needed
-                    top: screenHeight * 0.02, // adjust as needed
-                    child: Transform.rotate(
-                      angle: math.pi / 0.1,
-                      child: Image.asset(
-                        'assets/vectors/diamondrings.png',
-                        width: screenWidth * 0.32,
-                        height: screenHeight * 0.16,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: screenWidth * 0.72, // adjust as needed
-                    top: screenHeight * 0.02, // adjust as needed
-                    child: Transform.rotate(
-                      angle: math.pi / 0.7,
-                      child: Image.asset(
-                        'assets/vectors/diamondrings1.png',
-                        width: screenWidth * 0.36,
-                        height: screenHeight * 0.19,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: screenWidth * 0.99, // adjust as needed
-                    top: screenHeight * 0.1, // adjust as needed
-                    child: Transform.rotate(
-                      angle: math.pi / 0.6,
-                      child: Image.asset(
-                        'assets/vectors/goldenring.png',
-                        width: screenWidth * 0.55,
-                        height: screenHeight * 0.25,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.035,
+                ),
+                child: BouncingDotsLoader(),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.035,
-              ),
-              child: BouncingDotsLoader(),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

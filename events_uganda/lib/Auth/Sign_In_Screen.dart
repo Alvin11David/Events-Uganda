@@ -1,3 +1,4 @@
+import 'package:events_uganda/Auth/Forgot_Password_Screen.dart';
 import 'package:events_uganda/Auth/Sign_Up_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,6 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
     const accent = Color(0xFFCC471B);
-    const peach = Color(0xFFF7CBB8);
     const socialBg = Color(0xFFF4D7C7);
     const lightGrad = Color(0xFFE8C7B6);
 
@@ -247,19 +247,29 @@ class _SignInScreenState extends State<SignInScreen> {
                           textInputAction: TextInputAction.next,
                         ),
                         SizedBox(height: screen.height * 0.016),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              right: screen.width * 0.02,
-                            ),
-                            child: Text(
-                              'Forgot Password?',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: screen.width * 0.038,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w700,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ForgotPasswordScreen(),
+                              ),
+                            );
+                          },
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                right: screen.width * 0.02,
+                              ),
+                              child: Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: screen.width * 0.038,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
