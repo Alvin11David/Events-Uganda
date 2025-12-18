@@ -30,6 +30,9 @@ dependencies:
   firebase_core: ^3.6.0
   crypto: 
   sign_in_with_apple:
+  firebase_messaging:
+  shared_preferences:
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:
