@@ -58,14 +58,17 @@ class BottomNavbar extends StatelessWidget {
             right: width * 0.04,
             height: barHeight,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(_items.length, (index) {
                 final isActive = index == activeIndex;
+                final itemWidth = index == 3
+                    ? width * 0.20
+                    : width * 0.18; // Customize width per icon
                 return GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () => onItemSelected(index),
                   child: SizedBox(
-                    width: width * 0.18,
+                    width: itemWidth,
                     height: barHeight,
                     child: Stack(
                       alignment: Alignment.center,
@@ -74,10 +77,12 @@ class BottomNavbar extends StatelessWidget {
                         if (isActive)
                           Transform.translate(
                             offset: Offset(
-                              index >= 2
-                                  ? width * 0.01
-                                  : -width *
-                                        0.01, // Move right for chat & profile, left for home & calendar
+                              index == 3
+                                  ? width * 0.03
+                                  : index == 2
+                                  ? width *
+                                        0.02 // Move right for chat icon
+                                  : -width * 0.01,
                               -(activeLift + activeCircleSize / 2),
                             ),
                             child: Container(
