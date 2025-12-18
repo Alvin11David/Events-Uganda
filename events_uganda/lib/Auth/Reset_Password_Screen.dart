@@ -294,7 +294,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             SizedBox(height: screenHeight * 0.04),
 
                             // New password field
-                            _ResponsiveTextField(
+                            ResetPasswordTextField(
                               controller: _passwordController,
                               label: 'New Password',
                               hint: 'Enter Your New Password',
@@ -308,7 +308,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             SizedBox(height: screenHeight * 0.04),
 
                             // Confirm new password field
-                            _ResponsiveTextField(
+                            ResetPasswordTextField(
                               controller: _confirmPasswordController,
                               label: 'Confirm Password',
                               hint: 'Confirm Your Password',
@@ -413,7 +413,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 }
 
 // Reusable Responsive TextField with thin border
-class _ResponsiveTextField extends StatelessWidget {
+class ResetPasswordTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
@@ -423,7 +423,8 @@ class _ResponsiveTextField extends StatelessWidget {
   final TextInputAction textInputAction;
   final Color iconColor;
 
-  const _ResponsiveTextField({
+  const ResetPasswordTextField({
+    Key? key,
     required this.controller,
     required this.label,
     required this.hint,
@@ -432,7 +433,7 @@ class _ResponsiveTextField extends StatelessWidget {
     this.nextFocusNode,
     required this.textInputAction,
     required this.iconColor,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
