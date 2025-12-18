@@ -684,9 +684,13 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
     String title,
     double screenWidth,
   ) {
+    final cardWidth =
+        (screenWidth - (screenWidth * 0.04 * 2) - (screenWidth * 0.04)) / 2;
+    final cardHeight = cardWidth * 1.185;
+
     return Container(
-      width: 184,
-      height: 218,
+      width: cardWidth,
+      height: cardHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -703,8 +707,8 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
             borderRadius: BorderRadius.circular(20),
             child: Image.asset(
               imagePath,
-              width: 184,
-              height: 218,
+              width: cardWidth,
+              height: cardHeight,
               fit: BoxFit.cover,
             ),
           ),
