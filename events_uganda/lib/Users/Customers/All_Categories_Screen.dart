@@ -830,7 +830,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
-                        fontSize: screenWidth * 0.04,
+                        fontSize: screenWidth * 0.035,
                         fontFamily: 'Montserrat',
                       ),
                     ),
