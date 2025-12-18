@@ -260,7 +260,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
-                                  fontSize: screenWidth * 0.07,
+                                  fontSize: screenWidth * 0.06,
                                 ),
                               ),
 
@@ -268,7 +268,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                               // Description
                               Text(
-                                'Please enter your email address below to receive an OTP code.',
+                                'Please enter your email address\nbelow to receive an OTP code.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: 'Abril Fatface',
@@ -342,7 +342,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 ),
                               ),
 
-                              SizedBox(height: screenHeight * 0.03),
+                              SizedBox(height: screenHeight * 0.04),
 
                               // Sign In link
                               Row(
