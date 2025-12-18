@@ -675,7 +675,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final promoTop =
-        screenHeight * 0.13 + screenWidth * 0.12 + screenHeight * 0.02;
+        screenHeight * 0.20 + screenWidth * 0.12 + screenHeight * 0.02;
     final promoHeight = screenWidth * 0.46;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -870,6 +870,28 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
               ),
             ),
             Positioned(
+              top: screenHeight * 0.21,
+              left: screenWidth * 0.04,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).maybePop(),
+                child: Container(
+                  width: screenWidth * 0.12,
+                  height: screenWidth * 0.12,
+                  decoration: BoxDecoration(
+                    color: const Color(0XFFF3CA9B),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.chevron_left,
+                      color: Colors.black,
+                      size: screenWidth * 0.10,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
               top: promoTop,
               left: 0,
               right: 0,
@@ -886,21 +908,12 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Categories Quick Access',
+                            'All Categories',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w700,
                               fontSize: screenWidth * 0.045,
                               color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            'View All',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              fontSize: screenWidth * 0.030,
-                              color: const Color(0xFFB47A25),
                             ),
                           ),
                         ],
