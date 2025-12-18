@@ -227,17 +227,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                             SizedBox(height: screenHeight * 0.03),
 
-                            // Large mail icon
+                            // Large lock icon
                             Container(
                               padding: const EdgeInsets.all(20),
                               decoration: const BoxDecoration(
-                                color: Color(0xFF1BCC94),
+                                color: Color(0xFFEC2A8B),
                                 shape: BoxShape.circle,
                               ),
                               child: const Icon(
                                 Icons.lock,
                                 size: 50,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
 
@@ -259,7 +259,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                             // Description
                             Text(
-                              'Please enter your email address below to receive an OTP code.',
+                              'Create a new password for your',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Abril Fatface',
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                                fontSize: screenWidth * 0.04,
+                              ),
+                            ),
+
+                            Text(
+                              'account below.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Abril Fatface',
@@ -406,6 +417,7 @@ class _ResponsiveTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         focusNode: focusNode,
+        obscureText: true,
         textInputAction: textInputAction,
         keyboardType: TextInputType.emailAddress,
         style: TextStyle(
