@@ -241,7 +241,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 padding: const EdgeInsets.all(20),
                                 decoration: const BoxDecoration(
                                   color: Color(0xFF1BCC94),
-                                  shape: BoxShape.circle,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50),
+                                    bottomRight: Radius.circular(50),
+                                    bottomLeft: Radius.circular(0),
+                                  ),
                                 ),
                                 child: const Icon(
                                   Icons.mail_outline,
