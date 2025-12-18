@@ -28,6 +28,8 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
   final Set<int> _likedImages = {};
   final Set<int> _cartedImages = {};
   int _currentNavIndex = 0;
+  bool _canForwardReturn =
+      false; // Controls the right-side inactive/active return button
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -675,7 +677,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final promoTop =
-        screenHeight * 0.20 + screenWidth * 0.12 + screenHeight * 0.02;
+        screenHeight * 0.19 + screenWidth * 0.12 + screenHeight * 0.02;
     final promoHeight = screenWidth * 0.46;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -886,6 +888,34 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                       Icons.chevron_left,
                       color: Colors.black,
                       size: screenWidth * 0.10,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // Forward/inactive return button (mirrors back button)
+            Positioned(
+              top: screenHeight * 0.21,
+              left: screenWidth * 0.20,
+              child: GestureDetector(
+                onTap: _canForwardReturn
+                    ? () => Navigator.of(context).maybePop()
+                    : null,
+                child: Opacity(
+                  opacity: _canForwardReturn ? 1.0 : 0.35,
+                  child: Container(
+                    width: screenWidth * 0.12,
+                    height: screenWidth * 0.12,
+                    decoration: BoxDecoration(
+                      color: const Color(0XFFF3CA9B),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.chevron_right,
+                        color: Colors.black,
+                        size: screenWidth * 0.10,
+                      ),
                     ),
                   ),
                 ),
