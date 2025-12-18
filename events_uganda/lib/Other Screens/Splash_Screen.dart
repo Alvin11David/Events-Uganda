@@ -75,13 +75,13 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 5000), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const OnboardingScreen1()),
       );
     });
-    int totalSquares = 4 * 9; 
+    int totalSquares = 4 * 9;
     _controllers = List.generate(
       totalSquares,
       (index) => AnimationController(
@@ -132,7 +132,7 @@ class _SplashScreenState extends State<SplashScreen>
             for (int i = 0; i < 4; i++)
               Positioned(
                 right: (i * 100.0) - 80,
-                top: -385,
+                top: -330,
                 child: Transform.rotate(
                   angle: -math.pi / 5,
                   child: Column(
@@ -188,7 +188,7 @@ class _SplashScreenState extends State<SplashScreen>
             Positioned(
               right:
                   screenWidth *
-                  0.50, // Adjust to position partially off-screen if needed
+                  0.55, // Adjust to position partially off-screen if needed
               bottom: screenHeight * 0.00, // Adjust to position at the bottom
               child: Transform.rotate(
                 angle: 55 * (math.pi / 180), // Convert 50 degrees to radians
