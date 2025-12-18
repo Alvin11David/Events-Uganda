@@ -1,3 +1,4 @@
+import 'package:events_uganda/Auth/Reset_Password_Screen.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -333,8 +334,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(30),
                                     onTap: () {
-                                      // Handle submit
-                                    },
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ResetPasswordScreen(),
+                                  ),
+                                );
+                              },
                                     child: Center(
                                       child: Text(
                                         'Submit',

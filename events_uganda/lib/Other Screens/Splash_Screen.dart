@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:events_uganda/Auth/Sign_Up_Screen.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;

@@ -426,7 +426,7 @@ class ResetPasswordTextField extends StatefulWidget {
   final Color iconColor;
 
   const ResetPasswordTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.label,
     required this.hint,
@@ -435,7 +435,7 @@ class ResetPasswordTextField extends StatefulWidget {
     this.nextFocusNode,
     required this.textInputAction,
     required this.iconColor,
-  }) : super(key: key);
+  });
 
   @override
   State<ResetPasswordTextField> createState() => _ResetPasswordTextFieldState();

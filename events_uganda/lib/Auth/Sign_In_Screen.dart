@@ -604,7 +604,6 @@ class _RoundedField extends StatefulWidget {
     required this.nextFocusNode,
     required this.textInputAction,
     required this.accent,
-    this.isPassword = false,
   });
 
   @override
@@ -738,8 +737,6 @@ class _ResponsiveTextField extends StatelessWidget {
     required this.focusNode,
     required this.nextFocusNode,
     required this.textInputAction,
-    this.iconColor,
-    this.fontSize,
   });
 
   @override
