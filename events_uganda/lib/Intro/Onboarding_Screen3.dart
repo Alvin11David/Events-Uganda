@@ -40,7 +40,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.096,
+            top: screenHeight * 0.109,
             left: screenWidth * 0.143,
             child: ClipOval(
               child: Image.asset(
@@ -210,7 +210,9 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.90,
+            bottom:
+                screenHeight *
+                0.02, 
             left: screenWidth * 0.06,
             child: GestureDetector(
               onTap: () {
@@ -260,9 +262,9 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             top: screenHeight * 0.62, 
             left: -screenWidth * 0.09,
             child: Image.asset(
-              'vectors/onboardingscreen3vect.png',
-              width: screenWidth * (129 / 390),
-              height: screenWidth * (147 / 390),
+              'assets/vectors/onboardingscreen3vect.png',
+              width: screenWidth * (100 / 390),
+              height: screenWidth * (100 / 390),
               fit: BoxFit.cover,
             ),
           ),
@@ -270,14 +272,16 @@ class _OnboardingScreen3State extends State<OnboardingScreen3> {
             top: screenHeight * 0.82, 
             right: -screenWidth * 0.06,
             child: Image.asset(
-              'vectors/onboardingscreen3vect.png',
-              width: screenWidth * (129 / 390),
-              height: screenWidth * (147 / 390),
+              'assets/vectors/onboardingscreen3vect.png',
+              width: screenWidth * (100 / 390),
+              height: screenWidth * (100 / 390),
               fit: BoxFit.cover,
             ),
           ),
           Positioned(
-            top: screenHeight * 0.90,
+            bottom:
+                screenHeight *
+                0.02, 
             right: screenWidth * 0.06,
             child: GestureDetector(
               onTap: () {

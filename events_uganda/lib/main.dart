@@ -28,7 +28,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+<<<<<<< HEAD
       home: ForgotPasswordScreen(),
+=======
+      home: SplashScreen(),
+>>>>>>> 643bf459ce99aa43b1c7213523fc7135852cd633
     );
   }
 }
