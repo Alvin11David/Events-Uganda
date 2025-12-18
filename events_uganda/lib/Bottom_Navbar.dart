@@ -17,7 +17,7 @@ class BottomNavbar extends StatelessWidget {
   static const _items = <IconData>[
     Icons.home,
     Icons.calendar_month,
-    Icons.chat_bubble,
+    Icons.message,
     Icons.person_outline,
   ];
 
