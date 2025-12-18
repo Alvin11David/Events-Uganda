@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:events_uganda/Users/Customers/All_Categories_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:events_uganda/Bottom_Navbar.dart';
 
@@ -1089,13 +1090,23 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                               color: Colors.black,
                             ),
                           ),
-                          Text(
-                            'View All',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              fontSize: screenWidth * 0.030,
-                              color: const Color(0xFFB47A25),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AllCategoriesScreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'View All',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                fontSize: screenWidth * 0.030,
+                                color: const Color(0xFFB47A25),
+                              ),
                             ),
                           ),
                         ],
