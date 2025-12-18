@@ -23,6 +23,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     super.dispose();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -62,7 +64,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 width: screenWidth * 0.13,
                 height: screenWidth * 0.13,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF9EF6DA),
+                  color: const Color.fromARGB(255, 230, 96, 163),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Center(
@@ -331,7 +333,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   end: Alignment.centerRight,
                                   colors: [
                                     Color(0xFFE0E7FF),
-                                    Color(0xFF1BCC94),
+                                   Color(0xFFEC2A8B),
                                   ],
                                 ),
                                 boxShadow: [
@@ -351,7 +353,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   },
                                   child: Center(
                                     child: Text(
-                                      'Submit',
+                                      'Change Password',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: screenWidth * 0.045,
@@ -386,7 +388,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   child: Text(
                                     'Sign In',
                                     style: TextStyle(
-                                      color: const Color(0xFF1BCC94),
+                                      color: const Color(0xFFEC2A8B),
                                       fontSize: screenWidth * 0.040,
                                       fontFamily: 'Montserrat',
                                       fontWeight: FontWeight.bold,
