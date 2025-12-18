@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:events_uganda/Bottom_Navbar.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -26,6 +27,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   final Set<int> _cartedPopularNowImages = {};
   final Set<int> _likedImages = {};
   final Set<int> _cartedImages = {};
+  int _currentNavIndex = 0;
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -1324,6 +1326,24 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            // Bottom Navigation Bar - Floating
+            Positioned(
+              bottom: screenHeight * 0.02,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: BottomNavbar(
+                  activeIndex: _currentNavIndex,
+                  onItemSelected: (index) {
+                    setState(() {
+                      _currentNavIndex = index;
+                    });
+                    // Add navigation logic here if needed
+                    // if (index == 0) { Navigator.push(...) }
+                  },
                 ),
               ),
             ),

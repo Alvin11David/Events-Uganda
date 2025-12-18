@@ -26,7 +26,7 @@ class BottomNavbar extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final barHeight = width * 0.16;
     final iconSize = width * 0.07;
-    final activeLift = barHeight * 0.6;
+    final activeLift = barHeight * 0.4; // Adjust this multiplier: lower = closer to bar
     final activeCircleSize = width * 0.16;
     final indicatorSize = width * 0.02;
 
@@ -40,13 +40,13 @@ class BottomNavbar extends StatelessWidget {
           CustomPaint(
             size: Size(width - width * 0.08, barHeight),
             painter: _NavBarPainter(
-              barColor: const Color(0xFF1BCC94),
+              barColor: const Color(0xFF7EED27),
               activeIndex: activeIndex,
               itemCount: _items.length,
               cutoutRadius: activeCircleSize / 2 + width * 0.02,
             ),
           ),
-          
+
           // Icons row
           Positioned(
             bottom: 0,
@@ -77,7 +77,7 @@ class BottomNavbar extends StatelessWidget {
                                 color: Colors.white,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: const Color(0xFF1BCC94),
+                                  color: const Color(0xFF7EED27),
                                   width: 3,
                                 ),
                                 boxShadow: [
@@ -161,10 +161,7 @@ class _NavBarPainter extends CustomPainter {
     );
 
     // Draw bar
-    canvas.drawPath(
-      _createBarPath(size, activeCenter, cutoutRadius),
-      paint,
-    );
+    canvas.drawPath(_createBarPath(size, activeCenter, cutoutRadius), paint);
   }
 
   Path _createBarPath(Size size, double activeCenter, double radius) {
@@ -233,4 +230,3 @@ class _NavBarPainter extends CustomPainter {
         oldDelegate.barColor != barColor;
   }
 }
- 
