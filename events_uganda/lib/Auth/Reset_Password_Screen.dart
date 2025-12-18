@@ -207,9 +207,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 Container(
                                   width: 18,
                                   height: 10,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     color: Color(0xFF1BCC94),
-                                    shape: BoxShape.circle,
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
                                 const SizedBox(width: 12),
@@ -220,7 +221,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     color: const Color(
                                       0xFF1BCC94,
                                     ).withOpacity(0.6),
-                                    shape: BoxShape.circle,
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
                                 const SizedBox(width: 12),
@@ -231,7 +233,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     color: const Color(
                                       0xFF1BCC94,
                                     ).withOpacity(0.3),
-                                    shape: BoxShape.circle,
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
                               ],
@@ -242,10 +245,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             // Large lock icon
                             Container(
                               padding: const EdgeInsets.all(20),
-                              decoration: const BoxDecoration(
-                                color: Color(0xFFEC2A8B),
-                                shape: BoxShape.circle,
-                              ),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFF23598),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50),
+                                    bottomRight: Radius.circular(50),
+                                    bottomLeft: Radius.circular(0),
+                                  ),
+                                ),
                               child: const Icon(
                                 Icons.lock,
                                 size: 50,
