@@ -137,10 +137,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             // White container at the bottom
             Positioned(
               top:
-                  screenHeight * 0.15 +
-                  screenWidth * 0.22 +
-                  screenHeight * 0.015 +
-                  screenWidth * 0.13,
+                  MediaQuery.of(context).size.height * 0.10 +
+                  MediaQuery.of(context).size.width * 0.22 +
+                  MediaQuery.of(context).size.height * 0.015 +
+                  MediaQuery.of(context).size.width * 0.13,
               left: screenWidth * 0.03,
               right: screenWidth * 0.03,
               bottom: 0,
