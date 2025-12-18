@@ -26,7 +26,7 @@ class BottomNavbar extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final barHeight = width * 0.16;
     final iconSize = width * 0.07;
-    final activeLift = barHeight * 0.4; // Adjust this multiplier: lower = closer to bar
+    final activeLift = barHeight * 0.05; // Adjust this multiplier: lower = closer to bar
     final activeCircleSize = width * 0.16;
     final indicatorSize = width * 0.02;
 
