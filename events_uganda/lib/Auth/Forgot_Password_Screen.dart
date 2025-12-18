@@ -1,4 +1,5 @@
 import 'package:events_uganda/Auth/Reset_Password_Screen.dart';
+import 'package:events_uganda/Auth/Sign_In_Screen.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -208,7 +209,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     decoration: BoxDecoration(
                                       color: Color(0xFF1BCC94),
                                       shape: BoxShape.rectangle,
-                                      borderRadius:  BorderRadius.circular(5),
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -334,13 +335,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(30),
                                     onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ResetPasswordScreen(),
-                                  ),
-                                );
-                              },
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ResetPasswordScreen(),
+                                        ),
+                                      );
+                                    },
                                     child: Center(
                                       child: Text(
                                         'Submit',
@@ -373,7 +375,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SignInScreen(),
+                                        ),
+                                      );
                                     },
                                     child: Text(
                                       'Sign In',

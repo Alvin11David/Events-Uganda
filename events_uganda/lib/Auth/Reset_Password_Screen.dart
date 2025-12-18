@@ -1,3 +1,4 @@
+import 'package:events_uganda/Auth/Sign_In_Screen.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -383,8 +384,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);
-                                  },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignInScreen(),
+                                    ),
+                                  );
+                                },
                                   child: Text(
                                     'Sign In',
                                     style: TextStyle(
