@@ -1,3 +1,5 @@
+import 'package:events_uganda/Auth/Reset_Password_Screen.dart';
+import 'package:events_uganda/Auth/Sign_In_Screen.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -172,8 +174,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         flipX: true,
                         child: Image.asset(
                           'assets/vectors/forgotpasswordstone.png',
-                          width: screenWidth * 0.40,
-                          height: screenWidth * 0.40,
+                          width: screenWidth * 0.35,
+                          height: screenWidth * 0.35,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -202,18 +204,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: 19,
-                                    height: 8,
+                                    width: 18,
+                                    height: 10,
                                     decoration: BoxDecoration(
                                       color: Color(0xFF1BCC94),
                                       shape: BoxShape.rectangle,
-                                      borderRadius:  BorderRadius.circular(5),
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
                                   Container(
-                                    width: 10,
-                                    height: 8,
+                                    width: 15,
+                                    height: 10,
                                     decoration: BoxDecoration(
                                       color: const Color(
                                         0xFF1BCC94,
@@ -224,8 +226,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   ),
                                   const SizedBox(width: 12),
                                   Container(
-                                    width: 10,
-                                    height: 8,
+                                    width: 15,
+                                    height: 10,
                                     decoration: BoxDecoration(
                                       color: const Color(
                                         0xFF1BCC94,
@@ -333,7 +335,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(30),
                                     onTap: () {
-                                      // Handle submit
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ResetPasswordScreen(),
+                                        ),
+                                      );
                                     },
                                     child: Center(
                                       child: Text(
@@ -367,7 +375,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SignInScreen(),
+                                        ),
+                                      );
                                     },
                                     child: Text(
                                       'Sign In',

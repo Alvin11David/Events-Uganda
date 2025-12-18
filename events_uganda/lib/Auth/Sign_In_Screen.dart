@@ -213,6 +213,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
+    final screenWidth = MediaQuery.of(context).size.width;
     const accent = Color(0xFFCC471B);
     const socialBg = Color(0xFFF4D7C7);
     const lightGrad = Color(0xFFE8C7B6);
@@ -394,6 +395,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           focusNode: _emailFocus,
                           nextFocusNode: _passwordFocus,
                           textInputAction: TextInputAction.next,
+                          iconColor: Colors.black,
+                            fontSize: screenWidth * 0.045,
                         ),
                         SizedBox(height: screen.height * 0.03),
                         _ResponsiveTextField(
@@ -404,6 +407,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           focusNode: _passwordFocus,
                           nextFocusNode: _contactFocus,
                           textInputAction: TextInputAction.next,
+                          iconColor: Colors.black,
+                            fontSize: screenWidth * 0.045,
                         ),
                         SizedBox(height: screen.height * 0.016),
                         GestureDetector(
@@ -604,7 +609,7 @@ class _RoundedField extends StatefulWidget {
     required this.nextFocusNode,
     required this.textInputAction,
     required this.accent,
-    this.isPassword = false,
+    required this.isPassword
   });
 
   @override
@@ -738,8 +743,8 @@ class _ResponsiveTextField extends StatelessWidget {
     required this.focusNode,
     required this.nextFocusNode,
     required this.textInputAction,
-    this.iconColor,
-    this.fontSize,
+    required this.iconColor,
+    required this.fontSize,
   });
 
   @override
