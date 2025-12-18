@@ -18,7 +18,7 @@ class BottomNavbar extends StatelessWidget {
     Icons.home,
     Icons.calendar_month,
     Icons.message,
-    Icons.person_outline,
+    Icons.person,
   ];
 
   @override
