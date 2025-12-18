@@ -26,7 +26,8 @@ class BottomNavbar extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final barHeight = width * 0.16;
     final iconSize = width * 0.07;
-    final activeLift = barHeight * 0.05; // Adjust this multiplier: lower = closer to bar
+    final activeLift =
+        barHeight * 0.05; // Adjust this multiplier: lower = closer to bar
     final activeCircleSize = width * 0.16;
     final indicatorSize = width * 0.02;
 
@@ -38,7 +39,10 @@ class BottomNavbar extends StatelessWidget {
         children: [
           // Bar background with cutout
           CustomPaint(
-            size: Size(width - width * 0.08, barHeight),
+            size: Size(
+              width - width * 0.18,
+              barHeight,
+            ), // Reduce width: increase the multiplier
             painter: _NavBarPainter(
               barColor: const Color(0xFF7EED27),
               activeIndex: activeIndex,
@@ -68,8 +72,14 @@ class BottomNavbar extends StatelessWidget {
                       clipBehavior: Clip.none,
                       children: [
                         if (isActive)
-                          Positioned(
-                            top: -(activeLift + activeCircleSize / 2),
+                          Transform.translate(
+                            offset: Offset(
+                              index >= 2
+                                  ? width * 0.01
+                                  : -width *
+                                        0.01, // Move right for chat & profile, left for home & calendar
+                              -(activeLift + activeCircleSize / 2),
+                            ),
                             child: Container(
                               width: activeCircleSize,
                               height: activeCircleSize,
@@ -104,7 +114,7 @@ class BottomNavbar extends StatelessWidget {
                         // White dot indicator below active icon
                         if (isActive)
                           Positioned(
-                            bottom: barHeight * 0.25,
+                            bottom: barHeight * 0.19,
                             child: Container(
                               width: indicatorSize,
                               height: indicatorSize,
