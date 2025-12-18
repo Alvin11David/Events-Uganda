@@ -1,9 +1,17 @@
 import 'dart:ui';
+import 'dart:convert';
+import 'dart:math';
 
 import 'package:events_uganda/Auth/Sign_In_Screen.dart';
+import 'package:events_uganda/Users/Customers/Customer_Home_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:crypto/crypto.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -24,6 +32,151 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _contactFocus = FocusNode();
 
   final bool obscureText = true;
+  bool _isLoading = false;
+
+  // APPLE SIGN-UP
+  Future<void> _signUpWithApple() async {
+    setState(() => _isLoading = true);
+    try {
+      final rawNonce = _generateNonce();
+      final nonce = _sha256ofString(rawNonce);
+
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: credential.identityToken,
+        accessToken: credential.authorizationCode,
+        rawNonce: rawNonce,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        oauthCredential,
+      );
+      final user = userCredential.user;
+
+      if (user == null) {
+        _showCustomSnackBar(
+          context,
+          'An error occurred. Please try again later.',
+        );
+        return;
+      }
+
+      // Prepare user data to update
+      final Map<String, dynamic> userData = {
+        'email': user.email ?? 'hidden@privaterelay.appleid.com',
+        'profilePicUrl': user.photoURL,
+        'authProvider': 'apple',
+        'isAdmin': (user.email ?? '').toLowerCase() == 'adminuser@gmail.com',
+        'fcmToken': await FirebaseMessaging.instance.getToken(),
+        'lastActiveTimestamp': Timestamp.now(),
+      };
+
+      // Handle Name: Apple only sends this on the FIRST login.
+      if (credential.givenName != null || credential.familyName != null) {
+        final name =
+            "${credential.givenName ?? ''} ${credential.familyName ?? ''}"
+                .trim();
+        if (name.isNotEmpty) {
+          userData['fullName'] = name;
+        }
+      }
+
+      // Check if user exists to handle 'createdAt' and default name
+      final userDocRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid);
+      final docSnapshot = await userDocRef.get();
+
+      if (!docSnapshot.exists) {
+        userData['createdAt'] = FieldValue.serverTimestamp();
+        if (!userData.containsKey('fullName')) {
+          userData['fullName'] = "Apple User";
+        }
+      }
+
+      await userDocRef.set(userData, SetOptions(merge: true));
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+
+      _showCustomSnackBar(context, 'Signed up with Apple!', isSuccess: true);
+      await Future.delayed(const Duration(seconds: 2));
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const CustomerHomeScreen()),
+        );
+      }
+    } on FirebaseAuthException {
+      _showCustomSnackBar(
+        context,
+        'Authentication failed. Please try again later.',
+      );
+    } on SignInWithAppleAuthorizationException catch (e) {
+      // Handle different Apple Sign-In errors
+      switch (e.code) {
+        case AuthorizationErrorCode.canceled:
+          // User canceled - don't show error
+          break;
+        case AuthorizationErrorCode.failed:
+        case AuthorizationErrorCode.invalidResponse:
+        case AuthorizationErrorCode.notHandled:
+        case AuthorizationErrorCode.notInteractive:
+        case AuthorizationErrorCode.unknown:
+        case AuthorizationErrorCode.credentialExport:
+        case AuthorizationErrorCode.credentialImport:
+        case AuthorizationErrorCode.matchedExcludedCredential:
+          _showCustomSnackBar(
+            context,
+            'Apple Sign-In error. Please try again.',
+          );
+          break;
+      }
+    } catch (e) {
+      _showCustomSnackBar(
+        context,
+        'An error occurred. Please try again later.',
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  String _generateNonce([int length = 32]) {
+    final charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(
+      length,
+      (_) => charset[random.nextInt(charset.length)],
+    ).join();
+  }
+
+  String _sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  void _showCustomSnackBar(
+    BuildContext context,
+    String message, {
+    bool isSuccess = false,
+  }) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isSuccess ? Colors.green : const Color(0xFF8715C9),
+      ),
+    );
+  }
 
   Future<void> signInWithGoogle() async {
     try {
@@ -333,48 +486,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height:
-                                    MediaQuery.of(context).size.width * 0.15,
-                                decoration: BoxDecoration(
-                                  color: Color(0XFFCB9FE4),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Center(
-                                  child: Image.asset(
-                                    'assets/vectors/google.png',
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                        0.08,
-                                    height:
-                                        MediaQuery.of(context).size.width *
-                                        0.08,
-                                    fit: BoxFit.contain,
+                              GestureDetector(
+                                onTap: signInWithGoogle,
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.15,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.15,
+                                  decoration: BoxDecoration(
+                                    color: Color(0XFFCB9FE4),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Center(
+                                    child: Image.asset(
+                                      'assets/vectors/google.png',
+                                      width:
+                                          MediaQuery.of(context).size.width *
+                                          0.08,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                          0.08,
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
                               ),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.06,
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height:
-                                    MediaQuery.of(context).size.width * 0.15,
-                                decoration: BoxDecoration(
-                                  color: Color(0XFFCB9FE4),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Center(
-                                  child: Image.asset(
-                                    'assets/vectors/apple.png',
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                        0.08,
-                                    height:
-                                        MediaQuery.of(context).size.width *
-                                        0.08,
-                                    fit: BoxFit.contain,
+                              GestureDetector(
+                                onTap: _signUpWithApple,
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.15,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.15,
+                                  decoration: BoxDecoration(
+                                    color: Color(0XFFCB9FE4),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Center(
+                                    child: Image.asset(
+                                      'assets/vectors/apple.png',
+                                      width:
+                                          MediaQuery.of(context).size.width *
+                                          0.08,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                          0.08,
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
                               ),
