@@ -202,33 +202,36 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: 8,
-                                    height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xFF1BCC94),
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Container(
-                                    width: 8,
+                                    width: 19,
                                     height: 8,
                                     decoration: BoxDecoration(
-                                      color: const Color(
-                                        0xFF1BCC94,
-                                      ).withOpacity(0.6),
-                                      shape: BoxShape.circle,
+                                      color: Color(0xFF1BCC94),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius:  BorderRadius.circular(5),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
                                   Container(
-                                    width: 8,
+                                    width: 10,
                                     height: 8,
                                     decoration: BoxDecoration(
                                       color: const Color(
                                         0xFF1BCC94,
                                       ).withOpacity(0.3),
-                                      shape: BoxShape.circle,
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Container(
+                                    width: 10,
+                                    height: 8,
+                                    decoration: BoxDecoration(
+                                      color: const Color(
+                                        0xFF1BCC94,
+                                      ).withOpacity(0.3),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
                                   ),
                                 ],
