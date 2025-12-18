@@ -162,8 +162,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       left: -screenWidth * 0.12,
                       child: Image.asset(
                         'assets/vectors/resetpasswordstone.png',
-                        width: screenWidth * 0.35,
-                        height: screenWidth * 0.35,
+                        width: screenWidth * 0.33,
+                        height: screenWidth * 0.33,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -176,8 +176,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         flipX: true,
                         child: Image.asset(
                           'assets/vectors/resetpasswordstone.png',
-                          width: screenWidth * 0.35,
-                          height: screenWidth * 0.35,
+                          width: screenWidth * 0.33,
+                          height: screenWidth * 0.33,
                           fit: BoxFit.cover,
                         ),
                       ),
