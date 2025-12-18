@@ -412,8 +412,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 }
 
-// Reusable Responsive TextField with thin border
-class ResetPasswordTextField extends StatelessWidget {
+// Reusable Responsive TextField with thin border and password visibility toggle
+class ResetPasswordTextField extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
@@ -436,6 +436,13 @@ class ResetPasswordTextField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ResetPasswordTextField> createState() => _ResetPasswordTextFieldState();
+}
+
+class _ResetPasswordTextFieldState extends State<ResetPasswordTextField> {
+  bool _obscureText = true;
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -443,16 +450,28 @@ class ResetPasswordTextField extends StatelessWidget {
       width: screenWidth * 0.8,
       height: screenWidth * 0.13,
       child: TextField(
-        controller: controller,
-        focusNode: focusNode,
-        obscureText: true,
-        textInputAction: textInputAction,
+        controller: widget.controller,
+        focusNode: widget.focusNode,
+        obscureText: _obscureText,
+        textInputAction: widget.textInputAction,
         keyboardType: TextInputType.visiblePassword,
         style: TextStyle(fontSize: screenWidth * 0.045, color: Colors.black),
         decoration: InputDecoration(
-          labelText: label,
-          hintText: hint,
-          prefixIcon: Icon(icon, color: iconColor, size: 30),
+          labelText: widget.label,
+          hintText: widget.hint,
+          prefixIcon: Icon(widget.icon, color: widget.iconColor, size: 30),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscureText ? Icons.visibility_off : Icons.visibility,
+              color: widget.iconColor,
+              size: 24,
+            ),
+            onPressed: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+          ),
           contentPadding: const EdgeInsets.symmetric(
             vertical: 6,
             horizontal: 10,
@@ -473,8 +492,8 @@ class ResetPasswordTextField extends StatelessWidget {
           ),
         ),
         onSubmitted: (_) {
-          if (nextFocusNode != null) {
-            FocusScope.of(context).requestFocus(nextFocusNode);
+          if (widget.nextFocusNode != null) {
+            FocusScope.of(context).requestFocus(widget.nextFocusNode);
           } else {
             FocusScope.of(context).unfocus();
           }
