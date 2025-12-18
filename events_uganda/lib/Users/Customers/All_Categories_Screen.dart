@@ -1135,7 +1135,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
               ),
             ),
             Positioned(
-              top: screenHeight * 0.21,
+              top: screenHeight * 0.20,
               left: screenWidth * 0.04,
               child: GestureDetector(
                 onTap: () => Navigator.of(context).maybePop(),
@@ -1158,7 +1158,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
             ),
             // Forward/inactive return button (mirrors back button)
             Positioned(
-              top: screenHeight * 0.21,
+              top: screenHeight * 0.20,
               left: screenWidth * 0.20,
               child: GestureDetector(
                 onTap: _canForwardReturn
