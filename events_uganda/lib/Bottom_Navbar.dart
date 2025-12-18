@@ -15,7 +15,7 @@ class BottomNavbar extends StatelessWidget {
   final ValueChanged<int> onItemSelected;
 
   static const _items = <IconData>[
-    Icons.home_outlined,
+    Icons.home,
     Icons.calendar_today_outlined,
     Icons.chat_bubble_outline,
     Icons.person_outline,
