@@ -159,26 +159,26 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 children: [
                   // Top-left stone
                   Positioned(
-                    top: 0,
-                    left: 0,
+                    top: screenHeight * 0.0,
+                      left: -screenWidth * 0.12,
                     child: Image.asset(
                       'assets/vectors/resetpasswordstone.png',
-                      width: screenWidth * 0.15,
-                      height: screenWidth * 0.15,
+                      width: screenWidth * 0.35,
+                      height: screenWidth * 0.35,
                       fit: BoxFit.cover,
                     ),
                   ),
 
                   // Bottom-right stone (flipped)
                   Positioned(
-                    bottom: 0,
-                    right: 0,
+                    bottom: -screenHeight * 0.05,
+                      right: -screenWidth * 0.12,
                     child: Transform.flip(
                       flipX: true,
                       child: Image.asset(
                         'assets/vectors/resetpasswordstone.png',
-                        width: screenWidth * 0.15,
-                        height: screenWidth * 0.15,
+                        width: screenWidth * 0.35,
+                        height: screenWidth * 0.35,
                         fit: BoxFit.cover,
                       ),
                     ),

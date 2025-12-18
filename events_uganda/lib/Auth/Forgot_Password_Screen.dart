@@ -174,8 +174,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         flipX: true,
                         child: Image.asset(
                           'assets/vectors/forgotpasswordstone.png',
-                          width: screenWidth * 0.40,
-                          height: screenWidth * 0.40,
+                          width: screenWidth * 0.35,
+                          height: screenWidth * 0.35,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -204,38 +204,35 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: 19,
+                                    width: 8,
                                     height: 8,
                                     decoration: BoxDecoration(
-                                      color: Color(0xFF1BCC94),
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(5),
+                                      color: const Color(
+                                        0xFFF23598,
+                                      ).withOpacity(0.6),
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
                                   const SizedBox(width: 12),
                                   Container(
-                                    width: 10,
+                                    width: 8,
                                     height: 8,
                                     decoration: BoxDecoration(
                                       color: const Color(
-                                        0xFF1BCC94,
+                                        0xFFF23598,
                                       ).withOpacity(0.3),
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(5),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 18,
+                                    height: 10,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFF23598),
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
                                   const SizedBox(width: 12),
-                                  Container(
-                                    width: 10,
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: const Color(
-                                        0xFF1BCC94,
-                                      ).withOpacity(0.3),
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
                                 ],
                               ),
 
