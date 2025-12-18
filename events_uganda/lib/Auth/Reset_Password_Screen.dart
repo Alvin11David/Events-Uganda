@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailFocus = FocusNode();
 
@@ -40,7 +40,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/backgroundcolors/ResetPasswordScreen.png',
+              'assets/backgroundcolors/resetpasswordscreen.png',
               width: screenWidth,
               height: screenHeight * 0.9,
               fit: BoxFit.cover,
@@ -88,7 +88,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             top: screenHeight * 0.15,
             left: leftVectPadding,
             child: Image.asset(
-              'assets/vectors/forgotpasswordvect.png',
+              'assets/vectors/resetpasswordvect.png',
               width: vectWidth,
               height: vectHeight,
               fit: BoxFit.contain,
@@ -100,7 +100,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             top: screenHeight * 0.20,
             right: screenWidth * 0.08,
             child: Image.asset(
-              'assets/vectors/forgotpasswordvect.png',
+              'assets/vectors/resetpasswordvect.png',
               width: vectWidth,
               height: vectHeight,
               fit: BoxFit.contain,
@@ -152,7 +152,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     top: 0,
                     left: 0,
                     child: Image.asset(
-                      'assets/vectors/forgotpasswordstone.png',
+                      'assets/vectors/resetpasswordstone.png',
                       width: screenWidth * 0.35,
                       height: screenWidth * 0.35,
                       fit: BoxFit.cover,
@@ -166,7 +166,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     child: Transform.flip(
                       flipX: true,
                       child: Image.asset(
-                        'assets/vectors/forgotpasswordstone.png',
+                        'assets/vectors/resetpasswordstone.png',
                         width: screenWidth * 0.40,
                         height: screenWidth * 0.40,
                         fit: BoxFit.cover,
@@ -245,7 +245,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                             // Title
                             Text(
-                              "Forgot Your Password?",
+                              " Reset Your Password ",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Montserrat',

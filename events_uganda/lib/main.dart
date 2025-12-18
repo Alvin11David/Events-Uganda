@@ -1,4 +1,5 @@
 import 'package:events_uganda/Auth/Auth_Screen.dart';
+import 'package:events_uganda/Auth/Reset_Password_Screen.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen1.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen2.dart';
 import 'package:events_uganda/Intro/Onboarding_Screen3.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: SplashScreen(),
+      home: ResetPasswordScreen(),
     );
   }
 }
