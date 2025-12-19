@@ -12,6 +12,7 @@
 .swiftpm/
 migrate_working_dir/
 
+gmail-password.txt
 # IntelliJ related
 *.iml
 *.ipr
