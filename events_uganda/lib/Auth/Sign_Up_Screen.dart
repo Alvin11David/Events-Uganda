@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'dart:convert';
 import 'dart:math';
 
@@ -247,8 +246,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: GestureDetector(
                 onTap: () => Navigator.of(context).maybePop(),
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: MediaQuery.of(context).size.width * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.13,
+                  height: MediaQuery.of(context).size.width * 0.13,
                   decoration: BoxDecoration(
                     color: const Color(0xFFCB9FE4),
                     borderRadius: BorderRadius.circular(15),
@@ -393,6 +392,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusNode: _fullNameFocus,
                             nextFocusNode: _emailFocus,
                             textInputAction: TextInputAction.next,
+                            iconColor: Colors.black,
+                            fontSize: screenWidth * 0.045,
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.03,
@@ -405,6 +406,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusNode: _emailFocus,
                             nextFocusNode: _passwordFocus,
                             textInputAction: TextInputAction.next,
+                            iconColor: Colors.black,
+                            fontSize: screenWidth * 0.045,
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.03,
@@ -417,6 +420,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusNode: _passwordFocus,
                             nextFocusNode: _contactFocus,
                             textInputAction: TextInputAction.next,
+                            iconColor: Colors.black,
+                            fontSize: screenWidth * 0.045,
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.03,
@@ -429,7 +434,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusNode: _contactFocus,
                             nextFocusNode: _contactFocus,
                             textInputAction: TextInputAction.next,
-                          ),
+                            iconColor: Colors.black,
+                            fontSize: screenWidth * 0.045,
+                            ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.03,
                           ),
@@ -646,8 +653,8 @@ class _ResponsiveTextField extends StatelessWidget {
     required this.focusNode,
     required this.nextFocusNode,
     required this.textInputAction,
-    this.iconColor,
-    this.fontSize,
+    required this.iconColor,
+    required this.fontSize
   });
 
   @override

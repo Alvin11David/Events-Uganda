@@ -1,6 +1,8 @@
 import 'dart:async';
-import 'dart:ui';
+import 'package:events_uganda/Users/Customers/All_Categories_Screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:events_uganda/Bottom_Navbar.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -27,6 +29,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   final Set<int> _cartedPopularNowImages = {};
   final Set<int> _likedImages = {};
   final Set<int> _cartedImages = {};
+  int _currentNavIndex = 0;
+  String _userFullName = '';
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -86,6 +90,15 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
         _isSearchFocused = _searchFocus.hasFocus;
       });
     });
+    // Fetch user's display name if available
+    _userFullName = FirebaseAuth.instance.currentUser?.displayName ?? 'User';
+  }
+
+  String get _greetingText {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
   }
 
   void _onCircleScroll() {
@@ -211,37 +224,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     String price,
   ) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isCentered = index == _activePopularNowIndex;
-    final relativePosition = index - _activePopularNowIndex;
-    final angle = relativePosition == -1
-        ? -11 *
-              3.14159 /
-              180 // Left position
-        : (relativePosition == 1
-              ? 11 *
-                    3.14159 /
-                    180 // Right position
-              : 0.0);
-
-    // Adjust these values to move left/right images
-    final offsetX = relativePosition == -1
-        ? -28.0 // Left position
-        : (relativePosition == 1
-              ? 31.0 // Right position
-              : 0.0); // Center or other positions
-
-    final offsetY = relativePosition == -1
-        ? 35.0 // Left position
-        : (relativePosition == 1
-              ? -1.0 // Right position
-              : 0.0);
-
+    
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
-      transform: Matrix4.identity()
-        ..translate(offsetX, isCentered ? 0.0 : offsetY)
-        ..rotateZ(isCentered ? 0.0 : angle),
       child: Stack(
         children: [
           Container(
@@ -837,6 +823,36 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                 ),
               ),
             ),
+            // Greeting and user name to the right of the menu circle
+            Positioned(
+              top: screenHeight * 0.03 + screenWidth * 0.015,
+              left:
+                  screenWidth * 0.04 + screenWidth * 0.128 + screenWidth * 0.03,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _greetingText,
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenWidth * 0.045,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: screenWidth * 0.005),
+                  Text(
+                    _userFullName,
+                    style: TextStyle(
+                      fontFamily: 'Abril Fatface',
+                      fontWeight: FontWeight.w600,
+                      fontSize: screenWidth * 0.038,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Positioned(
               top: screenHeight * 0.03,
               right: screenWidth * 0.2,
@@ -1088,13 +1104,23 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                               color: Colors.black,
                             ),
                           ),
-                          Text(
-                            'View All',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              fontSize: screenWidth * 0.030,
-                              color: const Color(0xFFB47A25),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AllCategoriesScreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'View All',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                fontSize: screenWidth * 0.030,
+                                color: const Color(0xFFB47A25),
+                              ),
                             ),
                           ),
                         ],
@@ -1325,6 +1351,24 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            // Bottom Navigation Bar - Floating
+            Positioned(
+              bottom: screenHeight * 0.02,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: BottomNavbar(
+                  activeIndex: _currentNavIndex,
+                  onItemSelected: (index) {
+                    setState(() {
+                      _currentNavIndex = index;
+                    });
+                    // Add navigation logic here if needed
+                    // if (index == 0) { Navigator.push(...) }
+                  },
                 ),
               ),
             ),
