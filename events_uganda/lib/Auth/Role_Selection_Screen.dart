@@ -1,0 +1,553 @@
+import 'package:events_uganda/Auth/Otp_Code_Screen.dart';
+import 'package:events_uganda/Auth/Reset_Password_Screen.dart';
+import 'package:events_uganda/Auth/Sign_In_Screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
+
+class RoleSelectionScreen extends StatefulWidget {
+  const RoleSelectionScreen({super.key});
+
+  @override
+  State<RoleSelectionScreen> createState() => _RoleSelectionScreenState();
+}
+
+class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  String? _selectedRole; // Track selected role: 'customer' or 'vendor'
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Reduced vector size
+    final double vectBaseWidth = screenWidth * 0.10;
+    final double vectWidth = vectBaseWidth;
+    final double vectHeight = vectBaseWidth * (91 / 67);
+
+    final double leftVectPadding = screenWidth * 0.04;
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Background PNG image
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Image.asset(
+                'assets/backgroundcolors/roleselectionscreen.png',
+                width: screenWidth,
+                height: screenHeight * 0.9,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            // Back arrow button
+            Positioned(
+              top: screenHeight * 0.04,
+              left: screenWidth * 0.04,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).maybePop(),
+                child: Container(
+                  width: screenWidth * 0.13,
+                  height: screenWidth * 0.13,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFF6C8C),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.chevron_left,
+                      color: Colors.black,
+                      size: screenWidth * 0.10,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Logo
+            Positioned(
+              top: screenHeight * 0.0,
+              left: (screenWidth - screenWidth * 0.25) / 2,
+              child: Image.asset(
+                'assets/vectors/logo.png',
+                width: screenWidth * 0.30,
+                height: screenWidth * 0.30,
+                fit: BoxFit.contain,
+              ),
+            ),
+
+            // Left decorative vector
+            Positioned(
+              top: screenHeight * 0.15,
+              left: leftVectPadding,
+              child: Image.asset(
+                'assets/vectors/roleselectionvect.png',
+                width: vectWidth,
+                height: vectHeight,
+                fit: BoxFit.contain,
+              ),
+            ),
+
+            // Right decorative vector
+            Positioned(
+              top: screenHeight * 0.20,
+              right: screenWidth * 0.08,
+              child: Image.asset(
+                'assets/vectors/roleselectionvect.png',
+                width: vectWidth,
+                height: vectHeight,
+                fit: BoxFit.contain,
+              ),
+            ),
+
+            // Title text
+            Positioned(
+              top:
+                  screenHeight * 0.03 +
+                  screenWidth * 0.22 +
+                  screenHeight * 0.015,
+              left: 0,
+              right: 0,
+              child: const Center(
+                child: Text(
+                  "Who Are You\n?!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Montserrat',
+                    fontSize: 30,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ),
+
+            // White container at the bottom
+            Positioned(
+              top:
+                  MediaQuery.of(context).size.height * 0.10 +
+                  MediaQuery.of(context).size.width * 0.22 +
+                  MediaQuery.of(context).size.height * 0.015 +
+                  MediaQuery.of(context).size.width * 0.13,
+              left: screenWidth * 0.03,
+              right: screenWidth * 0.03,
+              bottom: 0,
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(36),
+                    topRight: Radius.circular(36),
+                  ),
+                ),
+                child: Stack(
+                  clipBehavior: Clip.hardEdge,
+                  children: [
+                    // Top-left stone
+                    Positioned(
+                      top: screenHeight * 0.0,
+                      left: -screenWidth * 0.25,
+                      child: Image.asset(
+                        'assets/vectors/roleselectstone.png',
+                        width: screenWidth * 0.35,
+                        height: screenWidth * 0.35,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+
+                    // Bottom-right stone (flipped)
+                    Positioned(
+                      bottom: -screenHeight * 0.05,
+                      right: -screenWidth * 0.12,
+                      child: Transform.flip(
+                        flipX: true,
+                        child: Image.asset(
+                          'assets/vectors/roleselectstone.png',
+                          width: screenWidth * 0.35,
+                          height: screenWidth * 0.35,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+
+                    // Form content
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: screenHeight * 0.015,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                      ),
+                      child: SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: screenHeight * 1.2,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 20),
+
+                              // Title
+                              Text(
+                                "Please tell us a little bit about\nyourself",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: screenWidth * 0.06,
+                                ),
+                              ),
+
+                              SizedBox(height: screenHeight * 0.01),
+
+                              // Description
+                              Text(
+                                'Kindly Select Your Role',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Abril Fatface',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                  fontSize: screenWidth * 0.04,
+                                ),
+                              ),
+
+                              SizedBox(height: screenHeight * 0.04),
+
+                              // Two white rectangles in a row
+                              Builder(
+                                builder: (context) {
+                                  final double rectWidth = 170;
+                                  final double rectHeight = 270;
+
+                                  // If screen is very small, scale down proportionally
+                                  double scaledWidth = rectWidth;
+                                  double scaledHeight = rectHeight;
+                                  if (screenWidth < 380) {
+                                    scaledWidth = screenWidth * 0.42;
+                                    scaledHeight =
+                                        rectHeight * (scaledWidth / rectWidth);
+                                  }
+
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedRole = 'customer';
+                                          });
+                                        },
+                                        child: Container(
+                                          width: scaledWidth,
+                                          height: scaledHeight,
+                                          decoration: BoxDecoration(
+                                            color: const Color.fromARGB(
+                                              255,
+                                              220,
+                                              218,
+                                              218,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              20,
+                                            ),
+                                            boxShadow:
+                                                _selectedRole == 'customer'
+                                                ? [
+                                                    BoxShadow(
+                                                      color: const Color(
+                                                        0xFFF2355E,
+                                                      ).withOpacity(0.6),
+                                                      blurRadius: 20,
+                                                      spreadRadius: 3,
+                                                    ),
+                                                  ]
+                                                : [],
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: scaledWidth * 0.08,
+                                              vertical: scaledHeight * 0.08,
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  height: scaledHeight * 0.43,
+                                                  child: Image.asset(
+                                                    'assets/images/customer.png',
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: scaledHeight * 0.02,
+                                                ),
+                                                Text(
+                                                  'CUSTOMER',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Montserrat',
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize:
+                                                        screenWidth * 0.042,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: scaledHeight * 0.01,
+                                                ),
+                                                Text(
+                                                  'Looking for decorators, photographers & other services for my event',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontFamily: 'Abril Fatface',
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize:
+                                                        screenWidth * 0.032,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: screenWidth * 0.04),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _selectedRole = 'vendor';
+                                            });
+                                          },
+                                          child: Container(
+                                            width: scaledWidth,
+                                            height: scaledHeight,
+                                            decoration: BoxDecoration(
+                                              color: const Color.fromARGB(
+                                                255,
+                                                231,
+                                                229,
+                                                229,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              boxShadow:
+                                                  _selectedRole == 'vendor'
+                                                  ? [
+                                                      BoxShadow(
+                                                        color: const Color(
+                                                          0xFFF2355E,
+                                                        ).withOpacity(0.6),
+                                                        blurRadius: 20,
+                                                        spreadRadius: 3,
+                                                      ),
+                                                    ]
+                                                  : [],
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: scaledWidth * 0.08,
+                                                vertical: scaledHeight * 0.08,
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                    height: scaledHeight * 0.43,
+                                                    child: Image.asset(
+                                                      'assets/images/serviceprovider.png',
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: scaledHeight * 0.02,
+                                                  ),
+                                                  Text(
+                                                    'SERVICE PROVIDER',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: 'Montserrat',
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize:
+                                                          screenWidth * 0.040,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: scaledHeight * 0.01,
+                                                  ),
+                                                  Text(
+                                                    'You Offer photography, catering, decoration,or other event services',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontFamily:
+                                                          'Abril Fatface',
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize:
+                                                          screenWidth * 0.031,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ),
+                              SizedBox(height: screenHeight * 0.04),
+
+                              // Submit Button
+                              Container(
+                                width: screenWidth * 0.8,
+                                height: screenWidth * 0.13,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(
+                                    color: const Color(0xFFF2355E),
+                                    width: 1,
+                                  ),
+                                  gradient: const LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: [
+                                      Color(0xFFE0E7FF),
+                                      Color(0xFFF2355E),
+                                    ],
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(30),
+                                    onTap: () {
+                                      // Handle submit
+                                    },
+                                    child: Center(
+                                      child: Text(
+                                        'Continue',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: screenWidth * 0.045,
+                                          fontWeight: FontWeight.w800,
+                                          fontFamily: 'Montserrat',
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Reusable Responsive TextField with thin border
+class _ResponsiveTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final String hint;
+  final IconData icon;
+  final FocusNode focusNode;
+  final FocusNode nextFocusNode;
+  final TextInputAction textInputAction;
+  final Color iconColor;
+
+  const _ResponsiveTextField({
+    required this.controller,
+    required this.label,
+    required this.hint,
+    required this.icon,
+    required this.focusNode,
+    required this.nextFocusNode,
+    required this.textInputAction,
+    required this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return SizedBox(
+      width: screenWidth * 0.8,
+      height: screenWidth * 0.13,
+      child: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        textInputAction: textInputAction,
+        keyboardType: TextInputType.emailAddress,
+        style: TextStyle(fontSize: screenWidth * 0.045, color: Colors.black),
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          prefixIcon: Icon(icon, color: iconColor, size: 30),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 6,
+            horizontal: 10,
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(color: Color(0xFF1BCC94), width: 0.8),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(color: Color(0xFF1BCC94), width: 0.8),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(color: Color(0xFF1BCC94), width: 1.8),
+          ),
+        ),
+        onSubmitted: (_) {
+          FocusScope.of(context).requestFocus(nextFocusNode);
+        },
+      ),
+    );
+  }
+}
