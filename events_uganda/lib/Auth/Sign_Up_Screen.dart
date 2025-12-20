@@ -25,7 +25,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  // Focus nodes for field navigation
   final FocusNode _fullNameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
@@ -34,7 +33,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final bool obscureText = true;
   bool _isLoading = false;
 
-  // APPLE SIGN-UP
   Future<void> _signUpWithApple() async {
     setState(() => _isLoading = true);
     try {
@@ -67,8 +65,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         );
         return;
       }
-
-      // Prepare user data to update
       final Map<String, dynamic> userData = {
         'email': user.email ?? 'hidden@privaterelay.appleid.com',
         'profilePicUrl': user.photoURL,
@@ -78,7 +74,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'lastActiveTimestamp': Timestamp.now(),
       };
 
-      // Handle Name: Apple only sends this on the FIRST login.
       if (credential.givenName != null || credential.familyName != null) {
         final name =
             "${credential.givenName ?? ''} ${credential.familyName ?? ''}"
@@ -88,7 +83,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       }
 
-      // Check if user exists to handle 'createdAt' and default name
       final userDocRef = FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid);
@@ -120,10 +114,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'Authentication failed. Please try again later.',
       );
     } on SignInWithAppleAuthorizationException catch (e) {
-      // Handle different Apple Sign-In errors
       switch (e.code) {
         case AuthorizationErrorCode.canceled:
-          // User canceled - don't show error
           break;
         case AuthorizationErrorCode.failed:
         case AuthorizationErrorCode.invalidResponse:
@@ -217,15 +209,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final diameter = screenWidth * 0.9; // Responsive, nearly full width
+    final diameter = screenWidth * 0.9;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
-            // Top center image
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.0, // adjust as needed
+              top: MediaQuery.of(context).size.height * 0.0, 
               right:
                   (MediaQuery.of(context).size.width +
                       MediaQuery.of(context).size.width * 1) /
@@ -234,10 +225,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 'assets/backgroundcolors/signupscreen.png',
                 width:
                     MediaQuery.of(context).size.width *
-                    1.08, // responsive width
+                    1.08, 
                 height:
                     MediaQuery.of(context).size.height *
-                    0.9, // responsive height
+                    0.9, 
                 fit: BoxFit.contain,
               ),
             ),
@@ -352,7 +343,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       constraints: BoxConstraints(
                         minHeight:
                             MediaQuery.of(context).size.height *
-                            1.2, // 120% of screen height
+                            1.2, 
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,

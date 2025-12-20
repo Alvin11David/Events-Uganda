@@ -363,8 +363,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const SizedBox(height: 20),
-
-                              // Three horizontal dots
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -405,8 +403,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               ),
 
                               SizedBox(height: screenHeight * 0.03),
-
-                              // Large mail icon
                               Container(
                                 padding: const EdgeInsets.all(20),
                                 decoration: const BoxDecoration(
@@ -426,8 +422,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               ),
 
                               SizedBox(height: screenHeight * 0.03),
-
-                              // Title
                               Text(
                                 "Forgot Your Password?",
                                 textAlign: TextAlign.center,
@@ -441,7 +435,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                               SizedBox(height: screenHeight * 0.01),
 
-                              // Description
                               Text(
                                 'Please enter your email address or\nPhone Number below to receive an OTP code.',
                                 textAlign: TextAlign.center,
@@ -455,7 +448,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                               SizedBox(height: screenHeight * 0.04),
 
-                              // Email field
                               _ResponsiveTextField(
                                 controller: _emailController,
                                 label: 'Email/Phone Number',
@@ -469,7 +461,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                               SizedBox(height: screenHeight * 0.04),
 
-                              // Submit Button
                               Container(
                                 width: screenWidth * 0.8,
                                 height: screenWidth * 0.13,
@@ -529,7 +520,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                               SizedBox(height: screenHeight * 0.04),
 
-                              // Sign In link
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -581,7 +571,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 }
 
-// Reusable Responsive TextField with thin border
 class _ResponsiveTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;

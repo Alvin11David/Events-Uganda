@@ -435,7 +435,6 @@ class _OTPCodeScreenState extends State<OTPCodeScreen> {
 
                               SizedBox(height: screenHeight * 0.03),
 
-                              // Title - Email/Phone confirmation
                               SizedBox(
                                 width: screenWidth * 0.8,
                                 child: RichText(
@@ -474,7 +473,6 @@ class _OTPCodeScreenState extends State<OTPCodeScreen> {
 
                               SizedBox(height: screenHeight * 0.04),
 
-                              // OTP input boxes
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: List.generate(_otpLength, (index) {
@@ -568,7 +566,6 @@ class _OTPCodeScreenState extends State<OTPCodeScreen> {
 
                               SizedBox(height: screenHeight * 0.05),
 
-                              // Resend OTP Button
                               GestureDetector(
                                 onTap: (_isButtonEnabled && !_isLoading)
                                     ? _resendOTP
@@ -624,7 +621,6 @@ class _OTPCodeScreenState extends State<OTPCodeScreen> {
 
                               SizedBox(height: screenHeight * 0.04),
 
-                              // Sign In link
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -675,8 +671,6 @@ class _OTPCodeScreenState extends State<OTPCodeScreen> {
     );
   }
 }
-
-// Reusable Responsive TextField with thin border
 class _ResponsiveTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
