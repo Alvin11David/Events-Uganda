@@ -111,11 +111,10 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             ),
           ),
           Positioned(
-            // Adjust 'top' to place it below cake1.jpg
-            top: screenHeight * 0.52, // Example value, tweak as needed
+            top: screenHeight * 0.52, 
             left:
                 (screenWidth - (screenWidth * (600 / 390))) /
-                2, // Center horizontally
+                2, 
             child: Image.asset(
               'assets/backgroundcolors/whitebg.png',
               width: screenWidth * (600 / 390),
@@ -192,8 +191,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             ),
           ),
           Positioned(
-            // Adjust 'top' to place it below cake1.jpg
-            top: screenHeight * 0.62, // Example value, tweak as needed
+            top: screenHeight * 0.62, 
             left: -screenWidth * 0.09,
             child: Image.asset(
               'assets/vectors/onboardingscreen1vect.png',
@@ -203,8 +201,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             ),
           ),
           Positioned(
-            // Adjust 'top' to place it below cake1.jpg
-            top: screenHeight * 0.82, // Example value, tweak as needed
+            top: screenHeight * 0.82, 
             right: -screenWidth * 0.06,
             child: Image.asset(
               'assets/vectors/onboardingscreen1vect.png',
@@ -214,11 +211,11 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             ),
           ),
           Positioned(
-            left: screenWidth * 0.15, // Add margin from left
+            left: screenWidth * 0.15, 
             right: screenWidth * 0.15,
             bottom:
                 screenHeight *
-                0.02, // Adjust as needed for spacing from the bottom
+                0.02, 
             child: Center(
               child: GestureDetector(
                 onTap: () {
@@ -250,7 +247,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
                       children: [
                         Image.asset(
                           'assets/vectors/heart.png',
-                          width: screenWidth * 0.07, // Responsive width
+                          width: screenWidth * 0.07, 
                           height: screenWidth * 0.07,
                         ),
                         Expanded(
@@ -270,7 +267,6 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
                             ),
                           ),
                         ),
-                        // keyboard_double_arrow_right icon on the far right
                         Icon(
                           Icons.keyboard_double_arrow_right,
                           color: Colors.white,
@@ -284,12 +280,9 @@ class _OnboardingScreen1State extends State<OnboardingScreen1>
             ),
           ),
           
-          // Place this inside your widget tree (e.g., in the body of your Scaffold)
-          // In your build method, replace your Stack's card section with this:
           Stack(
             alignment: Alignment.topCenter,
             children: [
-              // 4th card (bottom)
               Positioned(
                 top: screenHeight * 0.04,
                 child: Transform.rotate(
