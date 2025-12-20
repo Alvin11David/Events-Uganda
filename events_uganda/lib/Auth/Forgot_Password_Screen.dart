@@ -97,7 +97,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             _resendToken = resendToken;
             _isLoading = false;
           });
-
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: Color(0xFF1BCC94),
@@ -107,7 +106,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
             ),
           );
-
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -131,23 +129,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ).showSnackBar(SnackBar(content: Text('Error: $e')));
     }
   }
-
-  // Send OTP via email (stored in Firestore)
   Future<void> _sendEmailOTP(String email) async {
     try {
       final otp = _generateOTP();
       final expiryTime = DateTime.now().add(const Duration(minutes: 10));
-
-      // Store OTP in Firestore
       await _firestore.collection('otp_codes').doc(email).set({
         'otp': otp,
         'email': email,
         'expiryTime': expiryTime,
         'createdAt': FieldValue.serverTimestamp(),
       });
-
-      // Trigger Firebase Extension "Trigger Email" (or custom function) by writing to 'mail'
-      // Install extension from Firebase Console and configure SMTP provider (Gmail/SendGrid/Mailgun)
       await _firestore.collection('mail').add({
         'to': email,
         'message': {
@@ -166,9 +157,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ''',
         },
       });
-
-      // Dev-only: log OTP locally (remove in production)
-      // print('OTP for $email: $otp');
 
       setState(() => _isLoading = false);
 
@@ -190,8 +178,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ).showSnackBar(SnackBar(content: Text('Error sending OTP: $e')));
     }
   }
-
-  // Send OTP based on input type
   Future<void> _sendOTP() async {
     final input = _emailController.text.trim();
 
@@ -223,7 +209,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // Reduced vector size
     final double vectBaseWidth = screenWidth * 0.10;
     final double vectWidth = vectBaseWidth;
     final double vectHeight = vectBaseWidth * (91 / 67);
@@ -235,7 +220,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            // Background PNG image
             Positioned(
               top: 0,
               left: 0,
@@ -247,8 +231,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-
-            // Back arrow button
             Positioned(
               top: screenHeight * 0.04,
               left: screenWidth * 0.04,
@@ -271,8 +253,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
               ),
             ),
-
-            // Logo
             Positioned(
               top: screenHeight * 0.0,
               left: (screenWidth - screenWidth * 0.25) / 2,
@@ -283,8 +263,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 fit: BoxFit.contain,
               ),
             ),
-
-            // Left decorative vector
             Positioned(
               top: screenHeight * 0.15,
               left: leftVectPadding,
@@ -295,8 +273,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 fit: BoxFit.contain,
               ),
             ),
-
-            // Right decorative vector
             Positioned(
               top: screenHeight * 0.20,
               right: screenWidth * 0.08,
@@ -307,8 +283,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 fit: BoxFit.contain,
               ),
             ),
-
-            // Title text
             Positioned(
               top:
                   screenHeight * 0.03 +
@@ -329,8 +303,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
               ),
             ),
-
-            // White container at the bottom
             Positioned(
               top:
                   MediaQuery.of(context).size.height * 0.10 +
@@ -352,7 +324,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 child: Stack(
                   clipBehavior: Clip.hardEdge,
                   children: [
-                    // Top-left stone
                     Positioned(
                       top: screenHeight * 0.0,
                       left: -screenWidth * 0.12,
@@ -363,8 +334,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         fit: BoxFit.cover,
                       ),
                     ),
-
-                    // Bottom-right stone (flipped)
                     Positioned(
                       bottom: -screenHeight * 0.05,
                       right: -screenWidth * 0.12,
@@ -378,8 +347,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       ),
                     ),
-
-                    // Form content
                     Padding(
                       padding: EdgeInsets.only(
                         top: screenHeight * 0.015,
