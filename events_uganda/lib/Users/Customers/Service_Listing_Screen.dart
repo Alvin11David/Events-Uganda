@@ -1,17 +1,16 @@
 import 'dart:async';
-import 'package:events_uganda/Users/Customers/All_Categories_Screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:events_uganda/Bottom_Navbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class CustomerHomeScreen extends StatefulWidget {
-  const CustomerHomeScreen({super.key});
+class AllCategoriesScreen extends StatefulWidget {
+  const AllCategoriesScreen({super.key});
 
   @override
-  State<CustomerHomeScreen> createState() => _CustomerHomeScreenState();
+  State<AllCategoriesScreen> createState() => _AllCategoriesScreenState();
 }
 
-class _CustomerHomeScreenState extends State<CustomerHomeScreen>
+class _AllCategoriesScreenState extends State<AllCategoriesScreen>
     with SingleTickerProviderStateMixin {
   final FocusNode _searchFocus = FocusNode();
   bool _isSearchFocused = false;
@@ -29,8 +28,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   final Set<int> _cartedPopularNowImages = {};
   final Set<int> _likedImages = {};
   final Set<int> _cartedImages = {};
+  final Set<int> _likedCategoryImages = {};
+  final Set<int> _cartedCategoryImages = {};
   int _currentNavIndex = 0;
   String _userFullName = '';
+  bool _canForwardReturn =
+      false; // Controls the right-side inactive/active return button
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -83,6 +86,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     _circleScrollController.addListener(_onCircleScroll);
     _popularNowScrollController.addListener(_onPopularNowScroll);
     _forYouScrollController.addListener(_onForYouScroll);
+    _popularNowScrollController.addListener(_onPopularNowScroll);
     _startCountdown();
     _searchFocus.addListener(() {
       setState(() {
@@ -291,7 +295,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                   Text(
                     rating,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: screenWidth * 0.028,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Montserrat',
@@ -673,121 +677,227 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     final cardWidth = screenWidth * 0.82;
     return SizedBox(
       width: cardWidth,
+      child: Stack(clipBehavior: Clip.none, children: []),
+    );
+  }
+
+  Widget _buildCategoryCard(
+    String imagePath,
+    String title,
+    String rating,
+    int index,
+    int providersCount,
+    double screenWidth,
+  ) {
+    final cardWidth =
+        (screenWidth - (screenWidth * 0.04 * 2) - (screenWidth * 0.04)) / 2;
+    final cardHeight = cardWidth * 1.185;
+
+    return Container(
+      width: cardWidth,
+      height: cardHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Stack(
-        clipBehavior: Clip.none,
         children: [
-          Container(
-            height: promoHeight,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(25),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0),
-                  blurRadius: 12,
-                  spreadRadius: 2,
-                  offset: const Offset(2, 7),
-                ),
-              ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(
+              imagePath,
+              width: cardWidth,
+              height: cardHeight,
+              fit: BoxFit.cover,
             ),
-            child: Padding(
-              padding: EdgeInsets.all(screenWidth * 0.04),
+          ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: Container(
+              width: 50,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(15),
+              ),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenWidth * 0.035,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Montserrat',
-                            ),
-                            children: [
-                              TextSpan(text: mainText),
-                              TextSpan(text: prefixText),
-                              TextSpan(
-                                text: percentageText,
-                                style: TextStyle(
-                                  color: const Color(0xFFB47A25),
-                                  fontSize: screenWidth * 0.06,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.02),
-                        Text(
-                          'Time Left',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: screenWidth * 0.036,
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'Abril Fatface',
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.007),
-                        Row(
-                          children: [
-                            Text(
-                              countdownText,
-                              style: TextStyle(
-                                color: const Color.fromARGB(255, 210, 141, 38),
-                                fontSize: screenWidth * 0.033,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Montserrat',
-                                letterSpacing: 1.2,
-                              ),
-                            ),
-                            SizedBox(width: screenWidth * 0.01),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.028,
-                                vertical: screenHeight * 0.006,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFB47A25),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'BOOK NOW',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  fontSize: screenWidth * 0.026,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: screenWidth * 0.05,
                   ),
-                  SizedBox(width: screenWidth * 0.0),
-                  Image.asset(
-                    'assets/backgroundcolors/booking.png',
-                    width: screenWidth * 0.30,
-                    height: screenWidth * 0.30,
-                    fit: BoxFit.cover,
+                  SizedBox(width: screenWidth * 0.01),
+                  Text(
+                    rating,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.028,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Montserrat',
+                    ),
                   ),
                 ],
               ),
             ),
           ),
           Positioned(
-            bottom: -screenWidth * 0.02,
-            right: -screenWidth * 0.04,
-            child: Image.asset(
-              imagePath,
-              width: screenWidth * 0.35,
-              fit: BoxFit.contain,
+            top: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (_likedCategoryImages.contains(index)) {
+                    _likedCategoryImages.remove(index);
+                  } else {
+                    _likedCategoryImages.add(index);
+                  }
+                });
+              },
+              child: AnimatedScale(
+                scale: _likedCategoryImages.contains(index) ? 1.0 : 1.0,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOutBack,
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(
+                    begin: 1.0,
+                    end: _likedCategoryImages.contains(index) ? 1.2 : 1.0,
+                  ),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.elasticOut,
+                  builder: (context, scale, child) {
+                    return Transform.scale(
+                      scale: scale,
+                      child: Container(
+                        width: screenWidth * 0.1,
+                        height: screenWidth * 0.1,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            _likedCategoryImages.contains(index)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: _likedCategoryImages.contains(index)
+                                ? Colors.red
+                                : Colors.white,
+                            size: screenWidth * 0.07,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: IgnorePointer(
+              child: Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: screenWidth * 0.035,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                    SizedBox(height: screenWidth * 0.008),
+                    Text(
+                      '$providersCount Providers',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: screenWidth * 0.025,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (_cartedCategoryImages.contains(index)) {
+                    _cartedCategoryImages.remove(index);
+                  } else {
+                    _cartedCategoryImages.add(index);
+                  }
+                });
+              },
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(
+                  begin: 1.0,
+                  end: _cartedCategoryImages.contains(index) ? 1.2 : 1.0,
+                ),
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutBack,
+                builder: (context, scale, child) {
+                  return Transform.scale(
+                    scale: scale,
+                    child: Container(
+                      width: screenWidth * 0.1,
+                      height: screenWidth * 0.1,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: _cartedCategoryImages.contains(index)
+                              ? Colors.yellow
+                              : Colors.white,
+                          width: 2,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: _cartedCategoryImages.contains(index)
+                              ? Colors.yellow
+                              : Colors.white,
+                          size: screenWidth * 0.07,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -800,7 +910,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final promoTop =
-        screenHeight * 0.13 + screenWidth * 0.12 + screenHeight * 0.02;
+        screenHeight * 0.19 + screenWidth * 0.12 + screenHeight * 0.02;
     final promoHeight = screenWidth * 0.46;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -1025,6 +1135,56 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               ),
             ),
             Positioned(
+              top: screenHeight * 0.20,
+              left: screenWidth * 0.04,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).maybePop(),
+                child: Container(
+                  width: screenWidth * 0.12,
+                  height: screenWidth * 0.12,
+                  decoration: BoxDecoration(
+                    color: const Color(0XFFF3CA9B),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.chevron_left,
+                      color: Colors.black,
+                      size: screenWidth * 0.10,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // Forward/inactive return button (mirrors back button)
+            Positioned(
+              top: screenHeight * 0.20,
+              left: screenWidth * 0.20,
+              child: GestureDetector(
+                onTap: _canForwardReturn
+                    ? () => Navigator.of(context).maybePop()
+                    : null,
+                child: Opacity(
+                  opacity: _canForwardReturn ? 1.0 : 0.35,
+                  child: Container(
+                    width: screenWidth * 0.12,
+                    height: screenWidth * 0.12,
+                    decoration: BoxDecoration(
+                      color: const Color(0XFFF3CA9B),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.chevron_right,
+                        color: Colors.black,
+                        size: screenWidth * 0.10,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
               top: promoTop,
               left: 0,
               right: 0,
@@ -1032,87 +1192,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: promoHeight + screenWidth * 0.05,
-                      child: SingleChildScrollView(
-                        controller: _promoScrollController,
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.04,
-                        ),
-                        child: Row(
-                          children: List.generate(3, (index) {
-                            final isLast = index == 2;
-                            final images = [
-                              'assets/images/nobgcar.png',
-                              'assets/images/nobgcake.png',
-                              'assets/images/bgcake1.png',
-                            ];
-                            final promoData = [
-                              {
-                                'main': 'GET YOUR SPECIAL CAR BOOKING\n',
-                                'prefix': 'UP TO ',
-                                'percent': '30%',
-                              },
-                              {
-                                'main': 'GET YOUR INTRODUCTION CAKE\n',
-                                'prefix': 'SAVE ',
-                                'percent': '25%',
-                              },
-                              {
-                                'main': 'LUXURY CAKES AVAILABLE\n',
-                                'prefix': 'GET ',
-                                'percent': '40%',
-                              },
-                            ];
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                right: isLast ? 0 : screenWidth * 0.04,
-                              ),
-                              child: _buildPromoCard(
-                                screenWidth,
-                                screenHeight,
-                                promoHeight,
-                                imagePath: images[index],
-                                mainText: promoData[index]['main'] as String,
-                                prefixText:
-                                    promoData[index]['prefix'] as String,
-                                percentageText:
-                                    promoData[index]['percent'] as String,
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: screenWidth * 0.03),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(3, (index) {
-                        final isActive = index == _activeCardIndex;
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.015,
-                          ),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeOut,
-                            width: isActive
-                                ? screenWidth * 0.035
-                                : screenWidth * 0.025,
-                            height: isActive
-                                ? screenWidth * 0.035
-                                : screenWidth * 0.025,
-                            decoration: BoxDecoration(
-                              color: isActive
-                                  ? const Color(0xFFB47A25)
-                                  : Colors.grey,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
                     SizedBox(height: screenWidth * 0.02),
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -1122,7 +1201,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Categories Quick Access',
+                            'All Categories',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w700,
@@ -1130,252 +1209,87 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                               color: Colors.black,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AllCategoriesScreen(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'View All',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                fontSize: screenWidth * 0.030,
-                                color: const Color(0xFFB47A25),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
-                    SizedBox(height: screenWidth * 0.03),
-                    SingleChildScrollView(
-                      controller: _circleScrollController,
-                      scrollDirection: Axis.horizontal,
+                    SizedBox(height: screenWidth * 0.04),
+                    // Two-column grid of category images
+                    Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: screenWidth * 0.04,
                       ),
-                      child: Row(
+                      child: Wrap(
+                        spacing: screenWidth * 0.04,
+                        runSpacing: screenWidth * 0.04,
                         children: [
-                          _buildCircleItem(
-                            screenWidth,
-                            screenHeight,
+                          _buildCategoryCard(
                             'assets/images/deco5.jpg',
                             'Decoration',
-                          ),
-                          SizedBox(width: screenWidth * 0.03),
-                          _buildCircleItem(
+                            '4.8',
+                            0,
+                            43,
                             screenWidth,
-                            screenHeight,
+                          ),
+                          _buildCategoryCard(
                             'assets/images/catering.jpg',
                             'Catering',
-                          ),
-                          SizedBox(width: screenWidth * 0.03),
-                          _buildCircleItem(
+                            '4.6',
+                            1,
+                            28,
                             screenWidth,
-                            screenHeight,
+                          ),
+                          _buildCategoryCard(
                             'assets/images/photography.jpg',
-                            'Photography\n& Videography',
-                          ),
-                          SizedBox(width: screenWidth * 0.03),
-                          _buildCircleItem(
+                            'Photography',
+                            '4.9',
+                            2,
+                            56,
                             screenWidth,
-                            screenHeight,
+                          ),
+                          _buildCategoryCard(
                             'assets/images/carhire1.jpg',
                             'Car Hire',
-                          ),
-                          SizedBox(width: screenWidth * 0.03),
-                          _buildCircleItem(
+                            '4.7',
+                            3,
+                            35,
                             screenWidth,
-                            screenHeight,
+                          ),
+                          _buildCategoryCard(
                             'assets/images/cake2.jpg',
                             'Cakes',
+                            '4.5',
+                            4,
+                            21,
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/cake4.jpg',
+                            'Wedding Cakes',
+                            '4.9',
+                            5,
+                            18,
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/deco3.jpg',
+                            'Tent Decoration',
+                            '4.4',
+                            6,
+                            32,
+                            screenWidth,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/glassdeco.jpg',
+                            'Glass Decoration',
+                            '4.7',
+                            7,
+                            24,
+                            screenWidth,
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: screenWidth * 0.03),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(5, (index) {
-                        final isActive = index == _activeCircleIndex;
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.015,
-                          ),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeOut,
-                            width: isActive
-                                ? screenWidth * 0.035
-                                : screenWidth * 0.025,
-                            height: isActive
-                                ? screenWidth * 0.035
-                                : screenWidth * 0.025,
-                            decoration: BoxDecoration(
-                              color: isActive
-                                  ? const Color(0xFFB47A25)
-                                  : Colors.grey,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                    SizedBox(height: screenWidth * 0.02),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.04,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'For You',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w700,
-                              fontSize: screenWidth * 0.045,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            'View All',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              fontSize: screenWidth * 0.030,
-                              color: const Color(0xFFB47A25),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: screenWidth * 0.03),
-                    SizedBox(
-                      height: 240,
-                      child: SingleChildScrollView(
-                        controller: _forYouScrollController,
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.04,
-                        ),
-                        child: Row(
-                          children: [
-                            _buildForYouImage(
-                              'assets/images/cake4.jpg',
-                              0,
-                              '4.8',
-                              'Cake Design',
-                              '1,500,000 UGX',
-                            ),
-                            SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage(
-                              'assets/images/deco3.jpg',
-                              1,
-                              '4.5',
-                              'Tent Decoration',
-                              '2,000,000 UGX',
-                            ),
-                            SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage(
-                              'assets/images/blacknwhitemen.jpg',
-                              2,
-                              '4.9',
-                              'Photography',
-                              '3,100,000 UGX',
-                            ),
-                            SizedBox(width: screenWidth * 0.04),
-                            _buildForYouImage(
-                              'assets/images/glassdeco.jpg',
-                              3,
-                              '4.7',
-                              'Decoration',
-                              '6,000,000 UGX',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: screenWidth * 0.02),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.04,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Popular Now',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w700,
-                              fontSize: screenWidth * 0.045,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            'View All',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              fontSize: screenWidth * 0.030,
-                              color: const Color(0xFFB47A25),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: screenWidth * 0.03),
-                    SizedBox(
-                      height: 240,
-                      child: SingleChildScrollView(
-                        controller: _popularNowScrollController,
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.04,
-                        ),
-                        child: Row(
-                          children: [
-                            _buildPopularNowImage(
-                              'assets/images/cake4.jpg',
-                              0,
-                              '4.8',
-                              'Cake Design',
-                              '1,500,000 UGX',
-                            ),
-                            SizedBox(width: screenWidth * 0.04),
-                            _buildPopularNowImage(
-                              'assets/images/deco3.jpg',
-                              1,
-                              '4.5',
-                              'Tent Decoration',
-                              '2,000,000 UGX',
-                            ),
-                            SizedBox(width: screenWidth * 0.04),
-                            _buildPopularNowImage(
-                              'assets/images/blacknwhitemen.jpg',
-                              2,
-                              '4.9',
-                              'Photography',
-                              '3,100,000 UGX',
-                            ),
-                            SizedBox(width: screenWidth * 0.04),
-                            _buildPopularNowImage(
-                              'assets/images/glassdeco.jpg',
-                              3,
-                              '4.7',
-                              'Decoration',
-                              '6,000,000 UGX',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: screenWidth * 0.1),
                   ],
                 ),
               ),
