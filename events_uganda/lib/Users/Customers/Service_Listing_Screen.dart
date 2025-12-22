@@ -1,16 +1,17 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:events_uganda/Bottom_Navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AllCategoriesScreen extends StatefulWidget {
-  const AllCategoriesScreen({super.key});
+class ServiceListingScreen extends StatefulWidget {
+  const ServiceListingScreen({super.key});
 
   @override
-  State<AllCategoriesScreen> createState() => _AllCategoriesScreenState();
+  State<ServiceListingScreen> createState() => _ServiceListingScreenState();
 }
 
-class _AllCategoriesScreenState extends State<AllCategoriesScreen>
+class _ServiceListingScreenState extends State<ServiceListingScreen>
     with SingleTickerProviderStateMixin {
   final FocusNode _searchFocus = FocusNode();
   bool _isSearchFocused = false;
@@ -336,18 +337,14 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                         width: screenWidth * 0.1,
                         height: screenWidth * 0.1,
                         decoration: BoxDecoration(
-                          color: Colors.transparent,
+                          color: Colors.white,
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 2),
                         ),
                         child: Center(
                           child: Icon(
-                            _likedPopularNowImages.contains(index)
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: _likedPopularNowImages.contains(index)
-                                ? Colors.red
-                                : Colors.white,
+                            Icons.verified,
+                            color: Colors.blue,
                             size: screenWidth * 0.07,
                           ),
                         ),
@@ -565,12 +562,8 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                         ),
                         child: Center(
                           child: Icon(
-                            _likedImages.contains(index)
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: _likedImages.contains(index)
-                                ? Colors.red
-                                : Colors.white,
+                            Icons.verified,
+                            color: Colors.blue,
                             size: screenWidth * 0.07,
                           ),
                         ),
@@ -686,114 +679,228 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
     String title,
     String rating,
     int index,
-    int providersCount,
+    String priceRange,
     double screenWidth,
   ) {
     final cardWidth =
         (screenWidth - (screenWidth * 0.04 * 2) - (screenWidth * 0.04)) / 2;
     final cardHeight = cardWidth * 1.185;
 
-    return Container(
-      width: cardWidth,
-      height: cardHeight,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              imagePath,
-              width: cardWidth,
-              height: cardHeight,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        width: cardWidth,
+        height: cardHeight,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
             ),
-          ),
-          Positioned(
-            top: 10,
-            left: 10,
-            child: Container(
-              width: 50,
-              height: 25,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(color: Colors.white, width: 2),
-                borderRadius: BorderRadius.circular(15),
+          ],
+        ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                imagePath,
+                width: cardWidth,
+                height: cardHeight,
+                fit: BoxFit.cover,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellow,
-                    size: screenWidth * 0.05,
+            ),
+            Positioned(
+              top: 10,
+              left: 10,
+              child: Container(
+                width: 50,
+                height: 25,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(color: Colors.white, width: 2),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                      size: screenWidth * 0.05,
+                    ),
+                    SizedBox(width: screenWidth * 0.01),
+                    Text(
+                      rating,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.028,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 10,
+              right: 10,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (_likedCategoryImages.contains(index)) {
+                      _likedCategoryImages.remove(index);
+                    } else {
+                      _likedCategoryImages.add(index);
+                    }
+                  });
+                },
+                child: AnimatedScale(
+                  scale: _likedCategoryImages.contains(index) ? 1.0 : 1.0,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeOutBack,
+                  child: TweenAnimationBuilder<double>(
+                    tween: Tween(
+                      begin: 1.0,
+                      end: _likedCategoryImages.contains(index) ? 1.2 : 1.0,
+                    ),
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.elasticOut,
+                    builder: (context, scale, child) {
+                      return Transform.scale(
+                        scale: scale,
+                        child: Container(
+                          width: screenWidth * 0.1,
+                          height: screenWidth * 0.1,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.verified,
+                              color: Colors.blue,
+                              size: screenWidth * 0.07,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  SizedBox(width: screenWidth * 0.01),
-                  Text(
-                    rating,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: screenWidth * 0.028,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Montserrat',
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: IgnorePointer(
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black.withOpacity(0.7),
+                        Colors.transparent,
+                      ],
                     ),
                   ),
-                ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: screenWidth * 0.035,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                      SizedBox(height: screenWidth * 0.008),
+                      Text(
+                        priceRange,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: screenWidth * 0.025,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                      SizedBox(height: screenWidth * 0.008),
+                      Text(
+                        'Location',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: screenWidth * 0.025,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  if (_likedCategoryImages.contains(index)) {
-                    _likedCategoryImages.remove(index);
-                  } else {
-                    _likedCategoryImages.add(index);
-                  }
-                });
-              },
-              child: AnimatedScale(
-                scale: _likedCategoryImages.contains(index) ? 1.0 : 1.0,
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeOutBack,
+            Positioned(
+              bottom: 10,
+              right: 8,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (_cartedCategoryImages.contains(index)) {
+                      _cartedCategoryImages.remove(index);
+                    } else {
+                      _cartedCategoryImages.add(index);
+                    }
+                  });
+                },
                 child: TweenAnimationBuilder<double>(
                   tween: Tween(
                     begin: 1.0,
-                    end: _likedCategoryImages.contains(index) ? 1.2 : 1.0,
+                    end: _cartedCategoryImages.contains(index) ? 1.2 : 1.0,
                   ),
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.elasticOut,
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeOutBack,
                   builder: (context, scale, child) {
                     return Transform.scale(
                       scale: scale,
-                      child: Container(
-                        width: screenWidth * 0.1,
-                        height: screenWidth * 0.1,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            _likedCategoryImages.contains(index)
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: _likedCategoryImages.contains(index)
-                                ? Colors.red
-                                : Colors.white,
-                            size: screenWidth * 0.07,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 2),
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.white.withOpacity(0.1),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.03,
+                              vertical: screenWidth * 0.01,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Book',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: screenWidth * 0.028,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -802,105 +909,8 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: IgnorePointer(
-              child: Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [Colors.black.withOpacity(0.7), Colors.transparent],
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: screenWidth * 0.035,
-                        fontFamily: 'Montserrat',
-                      ),
-                    ),
-                    SizedBox(height: screenWidth * 0.008),
-                    Text(
-                      '$providersCount Providers',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: screenWidth * 0.025,
-                        fontFamily: 'Montserrat',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 10,
-            right: 10,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  if (_cartedCategoryImages.contains(index)) {
-                    _cartedCategoryImages.remove(index);
-                  } else {
-                    _cartedCategoryImages.add(index);
-                  }
-                });
-              },
-              child: TweenAnimationBuilder<double>(
-                tween: Tween(
-                  begin: 1.0,
-                  end: _cartedCategoryImages.contains(index) ? 1.2 : 1.0,
-                ),
-                duration: const Duration(milliseconds: 220),
-                curve: Curves.easeOutBack,
-                builder: (context, scale, child) {
-                  return Transform.scale(
-                    scale: scale,
-                    child: Container(
-                      width: screenWidth * 0.1,
-                      height: screenWidth * 0.1,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: _cartedCategoryImages.contains(index)
-                              ? Colors.yellow
-                              : Colors.white,
-                          width: 2,
-                        ),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: _cartedCategoryImages.contains(index)
-                              ? Colors.yellow
-                              : Colors.white,
-                          size: screenWidth * 0.07,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -909,8 +919,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final promoTop =
-        screenHeight * 0.19 + screenWidth * 0.12 + screenHeight * 0.02;
+    final promoTop = screenHeight * 0.33;
     final promoHeight = screenWidth * 0.46;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -928,6 +937,26 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                 'assets/backgroundcolors/normalscreen.png',
                 width: MediaQuery.of(context).size.width * 1.08,
                 height: MediaQuery.of(context).size.height * 0.9,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.001,
+              left: -screenWidth * 0.1,
+              child: Image.asset(
+                'assets/images/chicken.png',
+                width: screenWidth * 0.4,
+                height: screenWidth * 0.4,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.1,
+              right: -screenWidth * 0.1,
+              child: Image.asset(
+                'assets/images/chicken.png',
+                width: screenWidth * 0.4,
+                height: screenWidth * 0.4,
                 fit: BoxFit.contain,
               ),
             ),
@@ -1156,32 +1185,88 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                 ),
               ),
             ),
-            // Forward/inactive return button (mirrors back button)
+            // White rectangle with circle inside it
             Positioned(
-              top: screenHeight * 0.20,
-              left: screenWidth * 0.20,
-              child: GestureDetector(
-                onTap: _canForwardReturn
-                    ? () => Navigator.of(context).maybePop()
-                    : null,
-                child: Opacity(
-                  opacity: _canForwardReturn ? 1.0 : 0.35,
-                  child: Container(
-                    width: screenWidth * 0.12,
-                    height: screenWidth * 0.12,
-                    decoration: BoxDecoration(
-                      color: const Color(0XFFF3CA9B),
-                      borderRadius: BorderRadius.circular(15),
+              top: screenHeight * 0.268,
+              left: screenWidth * 0.04,
+              child: Container(
+                width: screenWidth * 0.34,
+                height: screenHeight * 0.046,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
                     ),
-                    child: Center(
-                      child: Icon(
-                        Icons.chevron_right,
-                        color: Colors.black,
-                        size: screenWidth * 0.10,
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: screenWidth * 0.01),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      width: screenWidth * 0.07,
+                      height: screenWidth * 0.07,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFAF0F0),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
+              ),
+            ),
+            // Forward/inactive return button (mirrors back button)
+            Positioned(
+              top: screenHeight * 0.20,
+              left: screenWidth * 0.27,
+              right: screenWidth * 0.04,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Catering & Food',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenWidth * 0.045,
+                      color: Colors.black,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: _canForwardReturn
+                        ? () => Navigator.of(context).maybePop()
+                        : null,
+                    child: Opacity(
+                      opacity: _canForwardReturn ? 1.0 : 0.35,
+                      child: Container(
+                        width: screenWidth * 0.12,
+                        height: screenWidth * 0.12,
+                        decoration: BoxDecoration(
+                          color: const Color(0XFFF3CA9B),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.chevron_right,
+                            color: Colors.black,
+                            size: screenWidth * 0.10,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Positioned(
@@ -1200,14 +1285,24 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'All Categories',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w700,
-                              fontSize: screenWidth * 0.045,
-                              color: Colors.black,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                'Featured Providers',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: screenWidth * 0.045,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(width: screenWidth * 0.02),
+                              Icon(
+                                Icons.verified,
+                                color: Colors.blue,
+                                size: screenWidth * 0.045,
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -1224,66 +1319,66 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen>
                         children: [
                           _buildCategoryCard(
                             'assets/images/deco5.jpg',
-                            'Decoration',
+                            'Provider\'s Name',
                             '4.8',
                             0,
-                            43,
+                            'UGX 500K - 2M',
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/catering.jpg',
-                            'Catering',
+                            'Provider\'s Name',
                             '4.6',
                             1,
-                            28,
+                            'UGX 400K - 1.5M',
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/photography.jpg',
-                            'Photography',
+                            'Provider\'s Name',
                             '4.9',
                             2,
-                            56,
+                            'UGX 600K - 3M',
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/carhire1.jpg',
-                            'Car Hire',
+                            'Provider\'s Name',
                             '4.7',
                             3,
-                            35,
+                            'UGX 300K - 1.2M',
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/cake2.jpg',
-                            'Cakes',
+                            'Provider\'s Name',
                             '4.5',
                             4,
-                            21,
+                            'UGX 200K - 800K',
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/cake4.jpg',
-                            'Wedding Cakes',
+                            'Provider\'s Name',
                             '4.9',
                             5,
-                            18,
+                            'UGX 800K - 2.5M',
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/deco3.jpg',
-                            'Tent Decoration',
+                            'Provider\'s Name',
                             '4.4',
                             6,
-                            32,
+                            'UGX 400K - 1.8M',
                             screenWidth,
                           ),
                           _buildCategoryCard(
                             'assets/images/glassdeco.jpg',
-                            'Glass Decoration',
+                            'Provider\'s Name',
                             '4.7',
                             7,
-                            24,
+                            'UGX 350K - 1.5M',
                             screenWidth,
                           ),
                         ],
