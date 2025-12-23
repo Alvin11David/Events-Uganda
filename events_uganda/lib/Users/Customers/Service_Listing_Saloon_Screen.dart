@@ -8,9 +8,14 @@ class ServiceListingSaloonScreen extends StatefulWidget {
   final String? category;
   final int? categoryIndex;
 
-  const ServiceListingSaloonScreen({super.key, this.category, this.categoryIndex});
+  const ServiceListingSaloonScreen({
+    super.key,
+    this.category,
+    this.categoryIndex,
+  });
   @override
-  State<ServiceListingSaloonScreen> createState() => _ServiceListingSaloonScreenState();
+  State<ServiceListingSaloonScreen> createState() =>
+      _ServiceListingSaloonScreenState();
 }
 
 class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
@@ -1538,7 +1543,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                         runSpacing: screenWidth * 0.04,
                         children: [
                           _buildCategoryCard(
-                            'assets/images/deco5.jpg',
+                            'assets/images/saloo4.jpg',
                             'Provider\'s Name',
                             '4.8',
                             0,
@@ -1546,7 +1551,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             screenWidth,
                           ),
                           _buildCategoryCard(
-                            'assets/images/catering.jpg',
+                            'assets/images/saloonvect.png',
                             'Provider\'s Name',
                             '4.6',
                             1,
@@ -1554,7 +1559,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             screenWidth,
                           ),
                           _buildCategoryCard(
-                            'assets/images/photography.jpg',
+                            'assets/images/saloon5.jpg',
                             'Provider\'s Name',
                             '4.9',
                             2,
@@ -1562,7 +1567,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             screenWidth,
                           ),
                           _buildCategoryCard(
-                            'assets/images/carhire1.jpg',
+                            'assets/images/saloon4.jpg',
                             'Provider\'s Name',
                             '4.7',
                             3,
@@ -1570,7 +1575,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             screenWidth,
                           ),
                           _buildCategoryCard(
-                            'assets/images/cake2.jpg',
+                            'assets/images/saloon2.jpg',
                             'Provider\'s Name',
                             '4.5',
                             4,
@@ -1578,7 +1583,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             screenWidth,
                           ),
                           _buildCategoryCard(
-                            'assets/images/cake4.jpg',
+                            'assets/images/saloon3.jpg',
                             'Provider\'s Name',
                             '4.9',
                             5,
@@ -1586,7 +1591,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             screenWidth,
                           ),
                           _buildCategoryCard(
-                            'assets/images/deco3.jpg',
+                            'assets/images/saloon.jpg',
                             'Provider\'s Name',
                             '4.4',
                             6,
@@ -1594,7 +1599,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             screenWidth,
                           ),
                           _buildCategoryCard(
-                            'assets/images/glassdeco.jpg',
+                            'assets/images/saloon3.jpg',
                             'Provider\'s Name',
                             '4.7',
                             7,
@@ -1635,7 +1640,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                         runSpacing: screenWidth * 0.04,
                         children: [
                           _buildCategoryCard(
-                            'assets/images/deco5.jpg',
+                            'assets/images/saloon1.jpg',
                             'Provider\'s Name',
                             '4.8',
                             8,
@@ -1644,7 +1649,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             showVerified: false,
                           ),
                           _buildCategoryCard(
-                            'assets/images/catering.jpg',
+                            'assets/images/saloon.jpg',
                             'Provider\'s Name',
                             '4.6',
                             9,
@@ -1653,7 +1658,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             showVerified: false,
                           ),
                           _buildCategoryCard(
-                            'assets/images/photography.jpg',
+                            'assets/images/saloon2.jpg',
                             'Provider\'s Name',
                             '4.9',
                             10,
@@ -1662,7 +1667,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             showVerified: false,
                           ),
                           _buildCategoryCard(
-                            'assets/images/carhire1.jpg',
+                            'assets/images/saloon3.jpg',
                             'Provider\'s Name',
                             '4.7',
                             11,
@@ -1671,7 +1676,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             showVerified: false,
                           ),
                           _buildCategoryCard(
-                            'assets/images/cake2.jpg',
+                            'assets/images/saloon4.jpg',
                             'Provider\'s Name',
                             '4.5',
                             12,
@@ -1680,7 +1685,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             showVerified: false,
                           ),
                           _buildCategoryCard(
-                            'assets/images/cake4.jpg',
+                            'assets/images/saloon5.jpg',
                             'Provider\'s Name',
                             '4.9',
                             13,
@@ -1689,7 +1694,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             showVerified: false,
                           ),
                           _buildCategoryCard(
-                            'assets/images/deco3.jpg',
+                            'assets/images/saloonvect.png',
                             'Provider\'s Name',
                             '4.4',
                             14,
@@ -1698,7 +1703,7 @@ class _ServiceListingSaloonScreenState extends State<ServiceListingSaloonScreen>
                             showVerified: false,
                           ),
                           _buildCategoryCard(
-                            'assets/images/glassdeco.jpg',
+                            'assets/images/saloon2.jpg',
                             'Provider\'s Name',
                             '4.7',
                             15,

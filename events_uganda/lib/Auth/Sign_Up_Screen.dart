@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _contactFocus = FocusNode();
 
-  final bool obscureText = true;
+  bool _obscurePassword = true;
   bool _isLoading = false;
 
   Future<void> _signUpWithApple() async {
@@ -170,6 +170,122 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Future<void> _signUpUser() async {
+    // Validate inputs
+    if (_fullNameController.text.trim().isEmpty) {
+      _showCustomSnackBar(context, 'Please enter your full name');
+      return;
+    }
+    if (_emailController.text.trim().isEmpty) {
+      _showCustomSnackBar(context, 'Please enter your email');
+      return;
+    }
+    if (!_emailController.text.trim().contains('@')) {
+      _showCustomSnackBar(context, 'Please enter a valid email address');
+      return;
+    }
+    if (_passwordController.text.trim().isEmpty) {
+      _showCustomSnackBar(context, 'Please enter your password');
+      return;
+    }
+    if (_passwordController.text.trim().length < 6) {
+      _showCustomSnackBar(context, 'Password must be at least 6 characters');
+      return;
+    }
+    if (_phoneController.text.trim().isEmpty) {
+      _showCustomSnackBar(context, 'Please enter your phone number');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Create user in Firebase Auth
+      final userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
+
+      final user = userCredential.user;
+      if (user == null) {
+        _showCustomSnackBar(context, 'Failed to create user account');
+        return;
+      }
+
+      // Update user display name
+      await user.updateDisplayName(_fullNameController.text.trim());
+
+      // Get FCM token (optional, won't fail if unavailable)
+      String? fcmToken;
+      try {
+        fcmToken = await FirebaseMessaging.instance.getToken();
+      } catch (e) {
+        debugPrint('Failed to get FCM token: $e');
+      }
+
+      // Save user data to Firestore
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'fullName': _fullNameController.text.trim(),
+        'email': _emailController.text.trim(),
+        'password': _passwordController.text.trim(),
+        'phone': _phoneController.text.trim(),
+        'authProvider': 'email',
+        'createdAt': FieldValue.serverTimestamp(),
+        'fcmToken': fcmToken,
+        'lastActiveTimestamp': Timestamp.now(),
+        'isAdmin': false,
+      });
+
+      // Save login state
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+
+      _showCustomSnackBar(
+        context,
+        'Account created successfully!',
+        isSuccess: true,
+      );
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => RoleSelectionScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = 'An error occurred. Please try again.';
+
+      debugPrint('FirebaseAuthException code: ${e.code}');
+      debugPrint('FirebaseAuthException message: ${e.message}');
+
+      if (e.code == 'weak-password') {
+        errorMessage = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        errorMessage = 'An account already exists for this email.';
+      } else if (e.code == 'invalid-email') {
+        errorMessage = 'The email address is not valid.';
+      } else if (e.code == 'operation-not-allowed') {
+        errorMessage =
+            'Email/password accounts are not enabled. Please contact support.';
+      } else {
+        errorMessage = e.message ?? 'An error occurred. Please try again.';
+      }
+
+      _showCustomSnackBar(context, errorMessage);
+    } catch (e) {
+      _showCustomSnackBar(
+        context,
+        'An error occurred. Please try again later.',
+      );
+      debugPrint('Sign up error: $e');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   Future<void> signInWithGoogle() async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -216,19 +332,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Stack(
           children: [
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.0, 
+              top: MediaQuery.of(context).size.height * 0.0,
               right:
                   (MediaQuery.of(context).size.width +
                       MediaQuery.of(context).size.width * 1) /
                   300,
               child: Image.asset(
                 'assets/backgroundcolors/signupscreen.png',
-                width:
-                    MediaQuery.of(context).size.width *
-                    1.08, 
-                height:
-                    MediaQuery.of(context).size.height *
-                    0.9, 
+                width: MediaQuery.of(context).size.width * 1.08,
+                height: MediaQuery.of(context).size.height * 0.9,
                 fit: BoxFit.contain,
               ),
             ),
@@ -341,9 +453,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: SingleChildScrollView(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        minHeight:
-                            MediaQuery.of(context).size.height *
-                            1.2, 
+                        minHeight: MediaQuery.of(context).size.height * 1.2,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -414,6 +524,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             textInputAction: TextInputAction.next,
                             iconColor: Colors.black,
                             fontSize: screenWidth * 0.045,
+                            obscureText: _obscurePassword,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.03,
@@ -428,7 +552,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             textInputAction: TextInputAction.next,
                             iconColor: Colors.black,
                             fontSize: screenWidth * 0.045,
-                            ),
+                          ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.03,
                           ),
@@ -452,24 +576,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.transparent,
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(30),
-                                onTap: () {
-                                  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RoleSelectionScreen(),
-                                  ),
-                                );
-                                },
+                                onTap: _isLoading ? null : _signUpUser,
                                 child: Center(
-                                  child: Text(
-                                    'Sign Up',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenWidth * 0.045,
-                                      fontWeight: FontWeight.w800,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                  ),
+                                  child: _isLoading
+                                      ? SizedBox(
+                                          width: screenWidth * 0.06,
+                                          height: screenWidth * 0.06,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.black,
+                                            strokeWidth: 2,
+                                          ),
+                                        )
+                                      : Text(
+                                          'Sign Up',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: screenWidth * 0.045,
+                                            fontWeight: FontWeight.w800,
+                                            fontFamily: 'Montserrat',
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),
@@ -643,6 +769,8 @@ class _ResponsiveTextField extends StatelessWidget {
   final TextInputAction textInputAction;
   final Color? iconColor;
   final double? fontSize;
+  final bool? obscureText;
+  final Widget? suffixIcon;
 
   const _ResponsiveTextField({
     required this.controller,
@@ -653,7 +781,9 @@ class _ResponsiveTextField extends StatelessWidget {
     required this.nextFocusNode,
     required this.textInputAction,
     required this.iconColor,
-    required this.fontSize
+    required this.fontSize,
+    this.obscureText,
+    this.suffixIcon,
   });
 
   @override
@@ -666,6 +796,7 @@ class _ResponsiveTextField extends StatelessWidget {
         controller: controller,
         focusNode: focusNode,
         textInputAction: textInputAction,
+        obscureText: obscureText ?? false,
         style: TextStyle(
           fontSize: fontSize ?? screenWidth * 0.045,
           color: Colors.black,
@@ -677,6 +808,7 @@ class _ResponsiveTextField extends StatelessWidget {
             icon,
             color: iconColor ?? const Color.fromARGB(255, 0, 0, 0),
           ),
+          suffixIcon: suffixIcon,
           contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
