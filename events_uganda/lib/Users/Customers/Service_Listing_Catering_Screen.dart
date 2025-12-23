@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:events_uganda/Bottom_Navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class ServiceListingScreen extends StatefulWidget {
-  const ServiceListingScreen({super.key});
+class ServiceListingCateringScreen extends StatefulWidget {
+  final String? category;
+  final int? categoryIndex;
 
+  const ServiceListingCateringScreen({super.key, this.category, this.categoryIndex});
   @override
-  State<ServiceListingScreen> createState() => _ServiceListingScreenState();
+  State<ServiceListingCateringScreen> createState() => _ServiceListingCateringScreenState();
 }
 
-class _ServiceListingScreenState extends State<ServiceListingScreen>
+class _ServiceListingCateringScreenState extends State<ServiceListingCateringScreen>
     with SingleTickerProviderStateMixin {
   final FocusNode _searchFocus = FocusNode();
   bool _isSearchFocused = false;
@@ -680,8 +682,9 @@ class _ServiceListingScreenState extends State<ServiceListingScreen>
     String rating,
     int index,
     String priceRange,
-    double screenWidth,
-  ) {
+    double screenWidth, {
+    bool showVerified = true,
+  }) {
     final cardWidth =
         (screenWidth - (screenWidth * 0.04 * 2) - (screenWidth * 0.04)) / 2;
     final cardHeight = cardWidth * 1.185;
@@ -781,11 +784,21 @@ class _ServiceListingScreenState extends State<ServiceListingScreen>
                             border: Border.all(color: Colors.white, width: 2),
                           ),
                           child: Center(
-                            child: Icon(
-                              Icons.verified,
-                              color: Colors.blue,
-                              size: screenWidth * 0.07,
-                            ),
+                            child: showVerified
+                                ? Icon(
+                                    Icons.verified,
+                                    color: Colors.blue,
+                                    size: screenWidth * 0.07,
+                                  )
+                                : Icon(
+                                    _likedCategoryImages.contains(index)
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: _likedCategoryImages.contains(index)
+                                        ? Colors.red
+                                        : Colors.white,
+                                    size: screenWidth * 0.07,
+                                  ),
                           ),
                         ),
                       );
@@ -1587,6 +1600,111 @@ class _ServiceListingScreenState extends State<ServiceListingScreen>
                             7,
                             'UGX 350K - 1.5M',
                             screenWidth,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: screenWidth * 0.04),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'All Providers',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w700,
+                              fontSize: screenWidth * 0.045,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: screenWidth * 0.04),
+                    // Two-column grid of all provider images (without verified badge)
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04,
+                      ),
+                      child: Wrap(
+                        spacing: screenWidth * 0.04,
+                        runSpacing: screenWidth * 0.04,
+                        children: [
+                          _buildCategoryCard(
+                            'assets/images/deco5.jpg',
+                            'Provider\'s Name',
+                            '4.8',
+                            8,
+                            'UGX 500K - 2M',
+                            screenWidth,
+                            showVerified: false,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/catering.jpg',
+                            'Provider\'s Name',
+                            '4.6',
+                            9,
+                            'UGX 400K - 1.5M',
+                            screenWidth,
+                            showVerified: false,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/photography.jpg',
+                            'Provider\'s Name',
+                            '4.9',
+                            10,
+                            'UGX 600K - 3M',
+                            screenWidth,
+                            showVerified: false,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/carhire1.jpg',
+                            'Provider\'s Name',
+                            '4.7',
+                            11,
+                            'UGX 300K - 1.2M',
+                            screenWidth,
+                            showVerified: false,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/cake2.jpg',
+                            'Provider\'s Name',
+                            '4.5',
+                            12,
+                            'UGX 200K - 800K',
+                            screenWidth,
+                            showVerified: false,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/cake4.jpg',
+                            'Provider\'s Name',
+                            '4.9',
+                            13,
+                            'UGX 800K - 2.5M',
+                            screenWidth,
+                            showVerified: false,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/deco3.jpg',
+                            'Provider\'s Name',
+                            '4.4',
+                            14,
+                            'UGX 400K - 1.8M',
+                            screenWidth,
+                            showVerified: false,
+                          ),
+                          _buildCategoryCard(
+                            'assets/images/glassdeco.jpg',
+                            'Provider\'s Name',
+                            '4.7',
+                            15,
+                            'UGX 350K - 1.5M',
+                            screenWidth,
+                            showVerified: false,
                           ),
                         ],
                       ),
