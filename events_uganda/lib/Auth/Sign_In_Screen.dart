@@ -29,6 +29,181 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final bool obscureText = true;
   bool _isLoading = false;
+  bool _obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedCredentials();
+  }
+
+  Future<void> _loadSavedCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedEmailOrPhone = prefs.getString('savedEmailOrPhone') ?? '';
+    final savedPassword = prefs.getString('savedPassword') ?? '';
+
+    setState(() {
+      _emailController.text = savedEmailOrPhone;
+      _passwordController.text = savedPassword;
+    });
+  }
+
+  Future<void> _saveCredentials(String emailOrPhone, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('savedEmailOrPhone', emailOrPhone);
+    await prefs.setString('savedPassword', password);
+  }
+
+  // EMAIL/PHONE + PASSWORD SIGN-IN
+  Future<void> _signInUser() async {
+    final emailOrPhone = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    // Validation
+    if (emailOrPhone.isEmpty) {
+      _showCustomSnackBar(context, 'Please enter your email or phone number');
+      return;
+    }
+    if (password.isEmpty) {
+      _showCustomSnackBar(context, 'Please enter your password');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Check if input is a phone number (contains only digits and optional +)
+      final isPhone = RegExp(r'^[\d+]+$').hasMatch(emailOrPhone);
+
+      if (isPhone) {
+        // Query Firestore to find user by phone number
+        final querySnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('phone', isEqualTo: emailOrPhone)
+            .limit(1)
+            .get();
+
+        if (querySnapshot.docs.isEmpty) {
+          _showCustomSnackBar(
+            context,
+            'No account found with this phone number',
+          );
+          setState(() => _isLoading = false);
+          return;
+        }
+
+        final userData = querySnapshot.docs.first.data();
+        final storedPassword = userData['password'] as String?;
+
+        // Verify password matches Firestore record
+        if (storedPassword != password) {
+          _showCustomSnackBar(context, 'Incorrect password');
+          setState(() => _isLoading = false);
+          return;
+        }
+
+        // Update last active timestamp
+        String? fcmToken;
+        try {
+          fcmToken = await FirebaseMessaging.instance.getToken();
+        } catch (e) {
+          debugPrint('Failed to get FCM token: $e');
+        }
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(querySnapshot.docs.first.id)
+            .update({
+              'lastActiveTimestamp': Timestamp.now(),
+              if (fcmToken != null) 'fcmToken': fcmToken,
+            });
+
+        // Save login state
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+        await prefs.setString('userId', querySnapshot.docs.first.id);
+        await prefs.setString('userEmail', userData['email'] ?? '');
+        await prefs.setString('userName', userData['fullName'] ?? '');
+
+        // Save credentials for next time
+        await _saveCredentials(emailOrPhone, password);
+
+        _showCustomSnackBar(context, 'Sign in successful!');
+        await Future.delayed(const Duration(seconds: 1));
+
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const CustomerHomeScreen()),
+          );
+        }
+      } else {
+        // Email-based sign in - query Firestore
+        final querySnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: emailOrPhone)
+            .limit(1)
+            .get();
+
+        if (querySnapshot.docs.isEmpty) {
+          _showCustomSnackBar(context, 'No account found with this email');
+          setState(() => _isLoading = false);
+          return;
+        }
+
+        final userData = querySnapshot.docs.first.data();
+        final storedPassword = userData['password'] as String?;
+
+        // Verify password matches Firestore record
+        if (storedPassword != password) {
+          _showCustomSnackBar(context, 'Incorrect password');
+          setState(() => _isLoading = false);
+          return;
+        }
+
+        // Update last active timestamp
+        String? fcmToken;
+        try {
+          fcmToken = await FirebaseMessaging.instance.getToken();
+        } catch (e) {
+          debugPrint('Failed to get FCM token: $e');
+        }
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(querySnapshot.docs.first.id)
+            .update({
+              'lastActiveTimestamp': Timestamp.now(),
+              if (fcmToken != null) 'fcmToken': fcmToken,
+            });
+
+        // Save login state
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+        await prefs.setString('userId', querySnapshot.docs.first.id);
+        await prefs.setString('userEmail', userData['email'] ?? '');
+        await prefs.setString('userName', userData['fullName'] ?? '');
+
+        // Save credentials for next time
+        await _saveCredentials(emailOrPhone, password);
+
+        _showCustomSnackBar(context, 'Sign in successful!');
+        await Future.delayed(const Duration(seconds: 1));
+
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const CustomerHomeScreen()),
+          );
+        }
+      }
+    } catch (e) {
+      _showCustomSnackBar(context, 'Sign in failed. Please try again.');
+      debugPrint('Sign in error: $e');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   // APPLE SIGN-IN (NEW!)
   Future<void> _signInWithApple() async {
@@ -472,23 +647,28 @@ class _SignInScreenState extends State<SignInScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RoleSelectionScreen(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Sign In',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: screen.width * 0.045,
-                                  fontWeight: FontWeight.w800,
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
+                              onPressed: _isLoading ? null : _signInUser,
+                              child: _isLoading
+                                  ? SizedBox(
+                                      height: screen.width * 0.05,
+                                      width: screen.width * 0.05,
+                                      child: const CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.black,
+                                            ),
+                                      ),
+                                    )
+                                  : Text(
+                                      'Sign In',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screen.width * 0.045,
+                                        fontWeight: FontWeight.w800,
+                                        fontFamily: 'Montserrat',
+                                      ),
+                                    ),
                             ),
                           ),
                         ),

@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 import 'package:events_uganda/Users/Customers/All_Categories_Screen.dart';
+import 'package:events_uganda/components/Bottom_Navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:events_uganda/Bottom_Navbar.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -16,7 +22,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   final FocusNode _searchFocus = FocusNode();
   bool _isSearchFocused = false;
   Timer? _countdownTimer;
-  Duration _remaining = const Duration(hours: 0, minutes: 0, seconds: 0);
+  Duration _remaining = Duration(
+    hours: Random().nextInt(24),
+    minutes: Random().nextInt(60),
+    seconds: Random().nextInt(60),
+  );
   final ScrollController _promoScrollController = ScrollController();
   int _activeCardIndex = 0;
   final ScrollController _circleScrollController = ScrollController();
@@ -31,6 +41,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
   final Set<int> _cartedImages = {};
   int _currentNavIndex = 0;
   String _userFullName = '';
+  String? _profilePicUrl;
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -91,6 +102,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     });
     // Fetch user's display name if available
     _userFullName = FirebaseAuth.instance.currentUser?.displayName ?? 'User';
+    _loadUserProfile();
   }
 
   String get _greetingText {
@@ -98,6 +110,85 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
     if (hour < 12) return 'Good Morning';
     if (hour < 17) return 'Good Afternoon';
     return 'Good Evening';
+  }
+
+  Future<void> _loadUserProfile() async {
+    try {
+      // First try to get from Firebase Auth
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null && currentUser.photoURL != null) {
+        setState(() {
+          _profilePicUrl = currentUser.photoURL;
+        });
+        return;
+      }
+
+      // If not available, get from Firestore using saved userId
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString('userId');
+
+      if (userId != null) {
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .get();
+
+        if (userDoc.exists) {
+          final data = userDoc.data();
+          if (data != null && data['profilePicUrl'] != null) {
+            setState(() {
+              _profilePicUrl = data['profilePicUrl'] as String?;
+            });
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Error loading user profile: $e');
+    }
+  }
+
+  Future<void> _uploadProfileImage() async {
+    try {
+      // Pick image from gallery
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+      if (image == null) return;
+
+      // Get current user ID
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString('userId');
+
+      if (userId == null) {
+        debugPrint('User ID not found');
+        return;
+      }
+
+      // Upload image to Firebase Storage
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('profile_pictures')
+          .child('$userId.jpg');
+
+      await storageRef.putFile(File(image.path));
+
+      // Get download URL
+      final downloadURL = await storageRef.getDownloadURL();
+
+      // Save URL to Firestore
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'profilePicUrl': downloadURL,
+      });
+
+      // Update local state
+      setState(() {
+        _profilePicUrl = downloadURL;
+      });
+
+      debugPrint('Profile picture uploaded successfully: $downloadURL');
+    } catch (e) {
+      debugPrint('Error uploading profile image: $e');
+    }
   }
 
   void _onCircleScroll() {
@@ -898,13 +989,31 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen>
                     ),
                   ],
                 ),
-                child: Center(
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.black,
-                    size: screenWidth * 0.07,
-                  ),
-                ),
+                child: _profilePicUrl != null && _profilePicUrl!.isNotEmpty
+                    ? ClipOval(
+                        child: Image.network(
+                          _profilePicUrl!,
+                          width: screenWidth * 0.128,
+                          height: screenWidth * 0.128,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Center(
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.black,
+                                size: screenWidth * 0.07,
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Center(
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.black,
+                          size: screenWidth * 0.07,
+                        ),
+                      ),
               ),
             ),
             Positioned(
