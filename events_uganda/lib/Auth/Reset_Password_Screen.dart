@@ -1,5 +1,9 @@
 import 'package:events_uganda/Auth/Sign_In_Screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -14,6 +18,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       TextEditingController();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -22,6 +29,97 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     _passwordFocus.dispose();
     _confirmPasswordFocus.dispose();
     super.dispose();
+  }
+
+  // Hash password using SHA-256
+  String _hashPassword(String password) {
+    final bytes = utf8.encode(password);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  // Update password in Firestore
+  Future<void> _changePassword() async {
+    final newPassword = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    // Validation
+    if (newPassword.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+
+    if (newPassword != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Passwords do not match!'),
+        ),
+      );
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Password must be at least 6 characters'),
+        ),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw 'User not authenticated';
+      }
+
+      // Hash the new password
+      final hashedPassword = _hashPassword(newPassword);
+
+      // Update password in Firestore users collection
+      await _firestore.collection('users').doc(user.uid).update({
+        'password': hashedPassword,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      // Also update Firebase Auth password
+      await user.updatePassword(newPassword);
+
+      setState(() => _isLoading = false);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Color(0xFFF23598),
+            content: Text(
+              'Password changed successfully!',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+
+        // Navigate to sign in screen
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => SignInScreen()),
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Error changing password: $e'),
+        ),
+      );
+    }
   }
 
   @override
@@ -53,7 +151,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-        
+
             // Back arrow button
             Positioned(
               top: screenHeight * 0.04,
@@ -77,7 +175,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
               ),
             ),
-        
+
             // Logo
             Positioned(
               top: screenHeight * 0.0,
@@ -89,7 +187,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 fit: BoxFit.contain,
               ),
             ),
-        
+
             // Left decorative vector
             Positioned(
               top: screenHeight * 0.15,
@@ -101,7 +199,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 fit: BoxFit.contain,
               ),
             ),
-        
+
             // Right decorative vector
             Positioned(
               top: screenHeight * 0.20,
@@ -113,11 +211,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 fit: BoxFit.contain,
               ),
             ),
-        
+
             // Title text
             Positioned(
               top:
-                  screenHeight * 0.03 + screenWidth * 0.22 + screenHeight * 0.015,
+                  screenHeight * 0.03 +
+                  screenWidth * 0.22 +
+                  screenHeight * 0.015,
               left: 0,
               right: 0,
               child: const Center(
@@ -133,7 +233,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
               ),
             ),
-        
+
             // White container at the bottom
             Positioned(
               top:
@@ -167,7 +267,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         fit: BoxFit.cover,
                       ),
                     ),
-        
+
                     // Bottom-right stone (flipped)
                     Positioned(
                       bottom: -screenHeight * 0.05,
@@ -182,7 +282,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         ),
                       ),
                     ),
-        
+
                     // Form content
                     Padding(
                       padding: EdgeInsets.only(
@@ -200,7 +300,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const SizedBox(height: 20),
-        
+
                               // Three horizontal dots
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -240,30 +340,30 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   ),
                                 ],
                               ),
-        
+
                               SizedBox(height: screenHeight * 0.03),
-        
+
                               // Large lock icon
                               Container(
                                 padding: const EdgeInsets.all(20),
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFFF23598),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(50),
-                                      topRight: Radius.circular(50),
-                                      bottomRight: Radius.circular(50),
-                                      bottomLeft: Radius.circular(0),
-                                    ),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFF23598),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50),
+                                    bottomRight: Radius.circular(50),
+                                    bottomLeft: Radius.circular(0),
                                   ),
+                                ),
                                 child: const Icon(
                                   Icons.lock,
                                   size: 50,
                                   color: Colors.black,
                                 ),
                               ),
-        
+
                               SizedBox(height: screenHeight * 0.03),
-        
+
                               // Title
                               Text(
                                 " Reset Your Password ",
@@ -275,9 +375,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   fontSize: screenWidth * 0.07,
                                 ),
                               ),
-        
+
                               SizedBox(height: screenHeight * 0.01),
-        
+
                               // Description
                               Text(
                                 'Create a new password for your',
@@ -289,7 +389,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   fontSize: screenWidth * 0.04,
                                 ),
                               ),
-        
+
                               Text(
                                 'account below.',
                                 textAlign: TextAlign.center,
@@ -300,9 +400,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   fontSize: screenWidth * 0.04,
                                 ),
                               ),
-        
+
                               SizedBox(height: screenHeight * 0.04),
-        
+
                               // New password field
                               ResetPasswordTextField(
                                 controller: _passwordController,
@@ -312,11 +412,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 focusNode: _passwordFocus,
                                 nextFocusNode: _confirmPasswordFocus,
                                 textInputAction: TextInputAction.next,
-                                iconColor:  Colors.black,
+                                iconColor: Colors.black,
                               ),
-        
+
                               SizedBox(height: screenHeight * 0.04),
-        
+
                               // Confirm new password field
                               ResetPasswordTextField(
                                 controller: _confirmPasswordController,
@@ -325,11 +425,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 icon: Icons.lock,
                                 focusNode: _confirmPasswordFocus,
                                 textInputAction: TextInputAction.done,
-                                iconColor:  Colors.black,
+                                iconColor: Colors.black,
                               ),
-        
+
                               SizedBox(height: screenHeight * 0.04),
-        
+
                               // Submit Button
                               Container(
                                 width: screenWidth * 0.8,
@@ -337,9 +437,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
                                   border: Border.all(
-                                  color: const Color(0xFFF23598),
-                                  width: 1,
-                                ),
+                                    color: const Color(0xFFF23598),
+                                    width: 1,
+                                  ),
                                   gradient: const LinearGradient(
                                     begin: Alignment.centerLeft,
                                     end: Alignment.centerRight,
@@ -360,25 +460,35 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(30),
-                                    onTap: () {
-                                      // Handle submit
-                                    },
+                                    onTap: _isLoading ? null : _changePassword,
                                     child: Center(
-                                      child: Text(
-                                        'Change Password',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenWidth * 0.045,
-                                          fontWeight: FontWeight.w800,
-                                          fontFamily: 'Montserrat',
-                                        ),
-                                      ),
+                                      child: _isLoading
+                                          ? const SizedBox(
+                                              width: 24,
+                                              height: 24,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                      Color
+                                                    >(Colors.black),
+                                              ),
+                                            )
+                                          : Text(
+                                              'Change Password',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: screenWidth * 0.045,
+                                                fontWeight: FontWeight.w800,
+                                                fontFamily: 'Montserrat',
+                                              ),
+                                            ),
                                     ),
                                   ),
                                 ),
                               ),
                               SizedBox(height: screenHeight * 0.03),
-        
+
                               // Sign In link
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -413,7 +523,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   ),
                                 ],
                               ),
-        
+
                               SizedBox(height: screenHeight * 0.05),
                             ],
                           ),
