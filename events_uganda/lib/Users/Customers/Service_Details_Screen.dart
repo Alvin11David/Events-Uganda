@@ -1,15 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:events_uganda/components/Bottom_Navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:events_uganda/Users/Customers/Service_Listing_Catering_Screen.dart';
-import 'package:events_uganda/Users/Customers/Service_Listing_Saloon_Screen.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
   const ServiceDetailsScreen({super.key});
@@ -38,9 +30,12 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
   int _selectedGalleryIndex = 0;
   final FocusNode _searchFocus = FocusNode();
   Timer? _countdownTimer;
+  bool _isFavorite = false;
   Duration _remaining = const Duration(hours: 0, minutes: 0, seconds: 0);
   String _userFullName = '';
   String? _profilePicUrl;
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -89,6 +84,14 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.2,
+    ).animate(_animationController);
     _startCountdown();
     _searchFocus.addListener(() {});
     // Fetch user's display name if available
@@ -104,6 +107,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
 
   @override
   void dispose() {
+    _animationController.dispose();
+    _countdownTimer?.cancel();
     _galleryScrollController.dispose();
     super.dispose();
   }
@@ -226,18 +231,63 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.012),
+                  SizedBox(height: screenHeight * 0.021),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Provider's Name",
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w900,
-                          fontSize: screenWidth * 0.048,
-                          color: Colors.black,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Provider's Name",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w900,
+                              fontSize: screenWidth * 0.048,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.020),
+                          Padding(
+                            padding: EdgeInsets.only(left: screenWidth * 0.02),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "4.8",
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenWidth * 0.04,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(width: screenWidth * 0.01),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.black,
+                                  fill: 1.0,
+                                  size: screenWidth * 0.035,
+                                ),
+                                SizedBox(width: screenWidth * 0.005),
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                  size: screenWidth * 0.06,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.005),
+                          Text(
+                            "(120 reviews)",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              fontSize: screenWidth * 0.03,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(width: screenWidth * 0.018),
                       Icon(
@@ -248,6 +298,82 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                     ],
                   ),
                 ],
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.61,
+              right: (screenWidth - screenWidth * 0.28) / 1,
+              child: Container(
+                width: 5,
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.61,
+              left: screenWidth * 0.35,
+              child: Text(
+                "Kampala",
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w900,
+                  fontSize: screenWidth * 0.035,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.64,
+              left: screenWidth * 0.33,
+              child: Text(
+                "2.8 km away",
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w500,
+                  fontSize: screenWidth * 0.03,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.61,
+              right: (screenWidth - screenWidth * 0.60) / 1,
+              child: Container(
+                width: 5,
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.61,
+              left: screenWidth * 0.78,
+              child: Text(
+                "5+",
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w900,
+                  fontSize: screenWidth * 0.04,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.64,
+              left: screenWidth * 0.63,
+              child: Text(
+                "Years of Experience",
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w500,
+                  fontSize: screenWidth * 0.03,
+                  color: Colors.black,
+                ),
               ),
             ),
             // Glassy UI Rectangle at bottom of image
@@ -383,6 +509,54 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                 ),
               ),
             ),
+            // Heart circle as a separate Positioned below the image on the right
+            Positioned(
+              top:
+                  screenHeight * 0.12 +
+                  screenWidth * 0.95 * (336 / 350) +
+                  16, // 16px below image
+              left:
+                  (screenWidth - screenWidth * 0.95) / 2 +
+                  screenWidth * 0.95 -
+                  110, // right edge of image minus circle size
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isFavorite = !_isFavorite;
+                  });
+                  _animationController.forward().then(
+                    (_) => _animationController.reverse(),
+                  );
+                },
+                child: Container(
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: ScaleTransition(
+                      scale: _scaleAnimation,
+                      child: Icon(
+                        _isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: _isFavorite
+                            ? Colors.red
+                            : const Color.fromARGB(255, 182, 113, 34),
+                        size: 31,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Positioned(
               top: screenHeight * 0.03,
               right: screenWidth * 0.2,
@@ -427,6 +601,43 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                           size: screenWidth * 0.07,
                         ),
                       ),
+              ),
+            ),
+            Positioned(
+              top:
+                  screenHeight * 0.12 +
+                  screenWidth * 0.95 * (336 / 350) +
+                  16, // 16px below image
+              left:
+                  (screenWidth - screenWidth * 0.95) / 2 +
+                  screenWidth * 0.95 -
+                  45,
+              child: GestureDetector(
+                onTap: () {
+                  // Add share functionality here
+                },
+                child: Container(
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      Icons.share,
+                      color: Color.fromARGB(255, 182, 113, 34),
+                      size: 31,
+                    ),
+                  ),
+                ),
               ),
             ),
             Positioned(
