@@ -667,6 +667,42 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                 ),
               ),
             ),
+            Positioned(
+              top: screenHeight * 0.69,
+              left: screenWidth * 0.02,
+              child: Text(
+                "Starting Price",
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w900,
+                  fontSize: screenWidth * 0.048,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Positioned(
+              top: screenHeight * 0.69 + 40,
+              left: screenWidth * 0.02,
+              child: Container(
+                width: 178,
+                height: 35,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3CA9B),
+                  borderRadius: BorderRadius.circular(13),
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 182, 122, 53),
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
