@@ -36,6 +36,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
   String? _profilePicUrl;
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
+  int _rating = 0;
+  bool _showReviewSection = false;
 
   Widget _buildCircleItem(
     double screenWidth,
@@ -344,7 +346,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                                           Text(
                                             "4.8",
                                             style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Abril Fatface',
                                               fontWeight: FontWeight.bold,
                                               fontSize: screenWidth * 0.04,
                                               color: Colors.black,
@@ -370,7 +372,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                                     Text(
                                       "(120 reviews)",
                                       style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Abril Fatface',
                                         fontWeight: FontWeight.w500,
                                         fontSize: screenWidth * 0.03,
                                         color: Colors.black,
@@ -387,6 +389,32 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                               ],
                             ),
                           ],
+                        ),
+                      ),
+
+                      // Available badge
+                      Positioned(
+                        top: screenHeight * 0.14 - offset,
+                        left: screenWidth * 0.35,
+                        right: screenWidth * 0.35,
+                        child: Container(
+                          width: 80,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Available',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenWidth * 0.03,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Abril Fatface',
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       Positioned(
@@ -407,7 +435,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                         child: Text(
                           "Kampala",
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Abril Fatface',
                             fontWeight: FontWeight.w900,
                             fontSize: screenWidth * 0.035,
                             color: Colors.black,
@@ -420,7 +448,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                         child: Text(
                           "2.8 km away",
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Abril Fatface',
                             fontWeight: FontWeight.w500,
                             fontSize: screenWidth * 0.03,
                             color: Colors.black,
@@ -445,7 +473,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                         child: Text(
                           "5+",
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Abril Fatface',
                             fontWeight: FontWeight.w900,
                             fontSize: screenWidth * 0.04,
                             color: Colors.black,
@@ -458,7 +486,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                         child: Text(
                           "Years of Experience",
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Abril Fatface',
                             fontWeight: FontWeight.w500,
                             fontSize: screenWidth * 0.03,
                             color: Colors.black,
@@ -733,7 +761,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                             borderRadius: BorderRadius.circular(13),
                             border: Border.all(
                               color: const Color.fromARGB(255, 182, 122, 53),
-                              width: 1,
+                              width: 0.5,
                             ),
                             boxShadow: [
                               BoxShadow(
@@ -755,7 +783,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                               Text(
                                 'UGX 800,000',
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Abril Fatface',
                                   fontWeight: FontWeight.w600,
                                   fontSize: 13,
                                   color: Colors.black,
@@ -789,7 +817,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                             borderRadius: BorderRadius.circular(13),
                             border: Border.all(
                               color: const Color.fromARGB(255, 182, 122, 53),
-                              width: 1,
+                              width: 0.5,
                             ),
                             boxShadow: [
                               BoxShadow(
@@ -812,7 +840,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                               Text(
                                 'DD/MM/YYYY',
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Abril Fatface',
                                   fontWeight: FontWeight.w600,
                                   fontSize: 13,
                                   color: Colors.black,
@@ -849,9 +877,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                             Text(
                               'Catering for weddings',
                               style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 11,
+                                fontFamily: 'Abril Fatface',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
                                 color: Colors.black,
                               ),
                             ),
@@ -868,9 +896,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                             Text(
                               'Corporate Catering',
                               style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 11,
+                                fontFamily: 'Abril Fatface',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
                                 color: Colors.black,
                               ),
                             ),
@@ -891,9 +919,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                             Text(
                               'Outside Catering',
                               style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 11,
+                                fontFamily: 'Abril Fatface',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
                                 color: Colors.black,
                               ),
                             ),
@@ -928,9 +956,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                               Text(
                                 'Buffet Setup',
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 11,
+                                  fontFamily: 'Abril Fatface',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
                                   color: Colors.black,
                                 ),
                               ),
@@ -954,9 +982,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                               Text(
                                 'Traditional Food',
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 11,
+                                  fontFamily: 'Abril Fatface',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
                                   color: Colors.black,
                                 ),
                               ),
@@ -991,7 +1019,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                         ),
                       ),
                       Positioned(
-                        top: screenHeight * 1.12 - offset,
+                        top: screenHeight * 1.13 - offset,
                         left: screenWidth * 0.02,
                         child: Text(
                           "Reviews and Ratings",
@@ -1003,6 +1031,136 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen>
                           ),
                         ),
                       ),
+                      Positioned(
+                        top: screenHeight * 1.17 - offset,
+                        left: screenWidth * 0.02,
+                        child: Text(
+                          'Rate these services',
+                          style: TextStyle(
+                            fontFamily: 'Abril Fatface',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: screenHeight * 1.21 - offset,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(
+                              5,
+                              (index) => GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _rating = index + 1;
+                                  });
+                                  _animationController.forward().then(
+                                    (_) => _animationController.reverse(),
+                                  );
+                                },
+                                child: ScaleTransition(
+                                  scale: _scaleAnimation,
+                                  child: Icon(
+                                    index < _rating
+                                        ? Icons.star
+                                        : Icons.star_border,
+                                    color: Colors.amber,
+                                    size: screenWidth * 0.15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: screenHeight * 1.29 - offset,
+                        left: screenWidth * 0.02,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _showReviewSection = !_showReviewSection;
+                            });
+                          },
+                          child: Center(
+                            child: Text(
+                              'Write a review',
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 228, 172, 1),
+                                fontSize: screenWidth * 0.045,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Abril Fatface',
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.amber,
+                                    blurRadius: 10,
+                                    offset: Offset(0, 0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: _showReviewSection
+                            ? screenHeight * 1.33 - offset + 130
+                            : screenHeight * 1.32 - offset,
+                        left: screenWidth * 0.022,
+                        child: Text(
+                          'Rating and some reviews are verified and are from\npeople who use the same type of device that you use.',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: _showReviewSection
+                                ? screenWidth * 0.035
+                                : screenWidth * 0.035,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Abril Fatface',
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: _showReviewSection
+                            ? screenHeight * 1.33 - offset + 180
+                            : screenHeight * 1.32 - offset + 50,
+                        left: screenWidth * 0.022,
+                        child: Text(
+                          '4.8',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: screenWidth * 0.15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Abril Fatface',
+                          ),
+                        ),
+                      ),
+                      if (_showReviewSection)
+                        Positioned(
+                          top: screenHeight * 1.33 - offset,
+                          left: screenWidth * 0.05,
+                          right: screenWidth * 0.05,
+                          child: Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: Colors.amber, width: 1),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: 'Write your review here...',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: 3,
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
